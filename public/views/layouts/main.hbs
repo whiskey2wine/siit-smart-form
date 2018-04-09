@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="/css/style.css">
+
+  <link rel="icon" href="/img/icon-tu.gif">
+
+  <title>Online Form UI
+    {{#if title}} - {{title}} {{/if}}
+  </title>
+
+  {{#if loginPage}}
+    <style>
+      body {
+        background: #4ecdc52f;
+      }
+    </style>
+  {{/if}}
+</head>
+
+{{#if specialPage}}
+
+  <body class="bg">
+{{else}}
+
+  <body>
+{{/if}}
+{{> _navbar}}
+
+<main>
+  <div class="container">
+    {{> _msg}} {{> _errors}} {{{body}}}
+  </div>
+</main>
+
+{{> _footer}}
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+<script src="/js/script.js"></script>
+{{#if loginPage}}
+  <script>
+    $(document).ready(function () {
+      // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+      $('.modal').modal();
+
+      // $(document).on('keypress', (e) => {
+      //   if (e.keyCode === 13) {
+      //     e.preventDefault();
+      //     login();
+      //   }
+
+      // });
+
+      // prevent form from refresh page after submit
+      $('#login-form').on('submit', (e) => {
+        e.preventDefault();
+      });
+
+      $('#btnSubmit').on('click', (e) => {
+        login();
+      });
+
+      $('#btnRegister').on('click', () => {
+        register();
+      });
+
+      $('#btnSubmitForget').on('click', () => {
+        forget();
+      });
+
+      const login = () => {
+        $.post('server/loginHandler.php', $('#login-form').serialize() + '&btnSubmit=btnSubmit', (res) => {
+          if (res === 'wrong_credential') {
+            $('#modal1').modal('open');
+            setTimeout(() => {
+              $('#modal1').modal('close');
+            }, 3000);
+          } else {
+            document.location.href = 'main.php';
+          }
+        });
+      }
+
+      const register = () => {
+        $.post('server/loginHandler.php', $('#login-form').serialize(), (res) => {
+          $('#modal-msg').empty();
+          if (res === 'reg_success') {
+            $('#modal-msg').append('Registration Successful.');
+            $('#modal2').modal('open');
+            setTimeout(() => {
+              $('#modal2').modal('close');
+            }, 3000);
+          } else {
+            $('#modal-msg').append('Username has already been taken.');
+            $('#modal2').modal('open');
+            setTimeout(() => {
+              $('#modal2').modal('close');
+            }, 3000);
+          }
+        });
+      }
+
+      const forget = () => {
+        $('#modal-msg').empty();
+        $.post('server/forgetHandler.php', {
+          username: $('#forget-username').val(),
+          newPass: $('#forget-password').val()
+        }, (res) => {
+          // console.log(res);
+          if (res === 'not_found') {
+            $('#modal-msg').append("We couldn't find an account with that username.");
+            $('#modal2').modal('open');
+            setTimeout(() => {
+              $('#modal2').modal('close');
+            }, 3000);
+          } else {
+            $('#modal-msg').append('Your password has been reset.');
+            $('#modal2').modal('open');
+            setTimeout(() => {
+              $('#modal2').modal('close');
+            }, 3000);
+          }
+        });
+      }
+    });
+  </script>
+{{/if}}
+</body>
+
+</html>

@@ -1,5 +1,56 @@
-<div id="homePage" name="homePage">
-  <!-- Preloader wrapper -->
+{{> _modal}}
+<div id="homepage" name="homepage">
+  <div class="row">
+    {{#each docs}}
+      <div class="col s12 m4">
+        <div class="card">
+          <div class="card-image">
+            <img class="mx-auto item-img" src="{{subData.iPicLink}}">
+          </div>
+          <div class="card-content blue-grey darken-1 white-text">
+            <span class="card-title">${subData.iName}</span>
+            <div class="fixed-action-btn" style="position: absolute; bottom: 17px;">
+              <a class="btn-floating btn-large red">
+                <i class="large material-icons">mode_edit</i>
+              </a>
+              <ul>
+                <li title="Delete">
+                  <a class="btn-floating red">
+                    <i class="material-icons">delete</i>
+                  </a>
+                </li>
+                <li title="Download">
+                  <a class="btn-floating yellow darken-1">
+                    <i class="material-icons">file_download</i>
+                  </a>
+                </li>
+                <li title="Share">
+                  <a class="btn-floating green">
+                    <i class="material-icons">person_add</i>
+                  </a>
+                </li>
+                <li title="Preview">
+                  <a id="enter${nowHaveItemCount}" class="btn-floating blue">
+                    <i class="material-icons">visibility</i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{else}}
+        <div class="col s12 center-align">
+          <h5>No document created.</h5>
+        </div>
+    {{/each}}
+  </div>
+
+</div>
+
+
+
+{{!-- <!-- Preloader wrapper -->
   <div id="preloader" class="col s12 center" style="margin: 10vh;">
     <div class="preloader-wrapper active">
       <div class="spinner-layer spinner-blue">
@@ -54,6 +105,4 @@
 
   <div id="holdItem" class="row">
 
-  </div>
-
-</div>
+  </div> --}}

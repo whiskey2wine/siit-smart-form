@@ -34,6 +34,7 @@ router.post('/login', (req, res, next) => {
 
 // Register Form POST
 router.post('/register', (req, res) => {
+  console.log(req.body);
   const errors = [];
 
   if (req.body.inputPassword !== req.body.inputPassword2) {

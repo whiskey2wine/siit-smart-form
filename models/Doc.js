@@ -9,13 +9,23 @@ const DocSchema = new Schema({
     required: true,
   },
   creator: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
   file: {
-    // type: String, // if Buffer doesn't work then put img url here
-    type: Buffer, // try to save picture in MongoDB
-    required: true,
+    path: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    originalname: {
+      type: String,
+      required: true,
+    },
+    filename: {
+      type: String,
+      required: true,
+    },
   },
   date: {
     type: Date,

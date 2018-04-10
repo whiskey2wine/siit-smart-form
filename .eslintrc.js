@@ -5,7 +5,7 @@ module.exports = {
     node: true,
     browser: true,
     es6: true,
-    jquery: true
+    jquery: true,
   },
   rules: {
     'comma-dangle': 1,
@@ -13,18 +13,19 @@ module.exports = {
       1,
       {
         vars: 'local',
-        args: 'none'
-      }
+        args: 'none',
+      },
     ],
     'no-param-reassign': [
       2,
       {
-        props: false
-      }
+        props: false,
+      },
     ],
     'no-console': 0,
     'consistent-return': 0,
     'func-names': 0,
-    'no-underscore-dangle': 0
-  }
+    'no-underscore-dangle': 0,
+    radix: [2, 'as-needed'],
+  },
 };

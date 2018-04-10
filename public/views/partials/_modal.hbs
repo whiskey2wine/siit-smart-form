@@ -1,0 +1,46 @@
+<!-- All modal -->
+<div id="create-form" class="modal modal-fixed-footer">
+  <form action="/docs/add" method="post" enctype="multipart/form-data">
+    <div class="modal-content">
+      <h4>Create new form</h4>
+      <div class="create-form-container">
+        <div class="create-form-left">
+          <div class="file-field input-field">
+            <div class="btn">
+              <span>File</span>
+              <input id="file-picker" name="file-picker" type="file" accept="image/*">
+            </div>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text">
+            </div>
+          </div>
+          <div id="drop-zone">
+            <i class="material-icons" style="font-size: 48px; color: #b0bec5;">file_upload</i>
+            <span>
+              <strong>Choose a file </strong>or drag it here.</span>
+          </div>
+          <div id="upload-preview" style="display: block;">
+            <!-- Preview image and info will be inserted here! -->
+          </div>
+        </div>
+        <div class="create-form-right">
+          <div class="input-field">
+            <input type="text" name="formname" id="formname">
+            <label for="formname">Form name</label>
+          </div>
+          <div id="approver-holder1" class="approver-holder input-field">
+            <input type="text" name="appr1" id="appr1">
+            <label for="appr1">Approver 1</label>
+          </div>
+          <a id="add-approver" href="#!" class="btn-floating waves-effect waves-block" style="margin: 0 auto;">
+            <i class="material-icons">add</i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" id="btn-submit-form" disabled class="modal-action modal-close waves-effect waves-green btn-flat">Submit</button>
+      <button type="reset" id="btn-reset-form" class="waves-effect waves-green btn-flat">Reset</button>
+    </div>
+  </form>
+</div>

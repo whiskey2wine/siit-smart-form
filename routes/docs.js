@@ -91,8 +91,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/add', (req, res) => {
-  console.log(req);
+router.post('/upload', (req, res) => {
   upload(req, res, (err) => {
     if (err) {
       console.log(err);
@@ -105,6 +104,10 @@ router.post('/add', (req, res) => {
       // res.render('docs/index');
     }
   });
+});
+
+router.post('/add', (req, res) => {
+  console.log(req);
   const newDoc = {};
 });
 

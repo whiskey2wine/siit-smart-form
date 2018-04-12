@@ -91,6 +91,10 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/edit', (req, res) => {
+  res.render('docs/edit');
+});
+
 router.post('/upload', (req, res) => {
   upload(req, res, (err) => {
     if (err) {

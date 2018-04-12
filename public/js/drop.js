@@ -3,6 +3,14 @@ previewNode.id = '';
 const previewTemplate = previewNode.parentNode.innerHTML;
 previewNode.parentNode.removeChild(previewNode);
 
+let myDropzone;
+
+// Bind removeAllFiles function to reset button in modal
+const resetBtn = document.querySelector('#btn-reset-form');
+resetBtn.addEventListener('click', () => {
+  myDropzone.removeAllFiles(true);
+});
+
 Dropzone.options.filePickers = {
   paramName: 'file-picker', // The name that will be used to transfer the file
   maxFilesize: 5, // MB
@@ -18,7 +26,7 @@ Dropzone.options.filePickers = {
   acceptedFiles: 'image/*',
   dictFileTooBig: 'File is too big ({{filesize}} MB). Max filesize: {{maxFilesize}} MB.',
   init() {
-    const myDropzone = this;
+    myDropzone = this;
     const dropzone = document.querySelector('.dropzone');
     const defaultMsg = document.querySelector('.dz-default.dz-message');
     const inputId = document.querySelector('input[name="id"]');
@@ -72,6 +80,10 @@ Dropzone.options.filePickers = {
       inputId.setAttribute('value', res.id);
       inputFilename.setAttribute('value', res.filename);
       inputOriginalname.setAttribute('value', res.originalname);
+      const formnameVal = document.querySelector('input[name="formname"]').value;
+      if (formnameVal.trim() !== '') {
+        document.querySelector('#btn-submit-form').removeAttribute('disabled');
+      }
     });
   },
 };

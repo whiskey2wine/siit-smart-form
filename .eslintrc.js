@@ -27,5 +27,6 @@ module.exports = {
     'func-names': 0,
     'no-underscore-dangle': 0,
     radix: [2, 'as-needed'],
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
   },
 };

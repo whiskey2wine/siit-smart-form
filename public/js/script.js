@@ -6,14 +6,116 @@ const instModal = M.Modal.init(elemModal, {
   startingTop: '5%',
 });
 
-const formname = document.querySelector('#formname');
-
-formname.onchange = (e) => {
-  console.log(e.target.value.trim());
-  if (e.target.value.trim() !== '') {
-    document.querySelector('#btn-submit-form').removeAttribute('disabled');
+// Remove container class to increase spacing in smaller devices
+const responsiveContainer = () => {
+  const width = window.innerWidth;
+  const container = document.querySelector('main > div');
+  if (width <= 768) {
+    container.classList.remove('container');
+    // $('#container').removeClass('container');
+  } else {
+    container.classList.add('container');
+    // $('#container').addClass('container');
   }
 };
+
+/**
+ * Separate docs/edit from other function since some element might not appear on other page
+ */
+if (window.location.pathname === '/docs/edit') {
+  const stickyToolbar = () => {
+    // const sticky = document.getElementById('toolbar').offsetTop;
+    const toolbar = document.querySelector('#toolbar');
+    const edit = document.querySelector('#edit');
+    // const sticky = toolbar.offsetTop;
+
+    if (window.pageYOffset >= 65) {
+      toolbar.classList.add('sticky');
+      edit.classList.add('sticky-offset');
+    } else if (window.pageYOffset < 72) {
+      toolbar.classList.remove('sticky');
+      edit.classList.remove('sticky-offset');
+    }
+  };
+  window.onscroll = () => stickyToolbar();
+}
+
+const randomString = (length) => {
+  let text = '';
+  const possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+};
+
+window.onresize = () => responsiveContainer();
+
+/**
+ * Separate all modal function from other page for now
+ * Remove if after implements form's data handling function
+ */
+
+/* ------- /docs/ functions -------- */
+if (window.location.pathname === '/docs/') {
+  const formname = document.querySelector('#formname');
+  formname.onchange = (e) => {
+    const inputIdVal = document.querySelector('input[name="id"]').value;
+    const inputFilenameVal = document.querySelector('input[name="filename"]').value;
+    const inputOriginalnameVal = document.querySelector('input[name="originalname"]').value;
+    console.log(inputIdVal);
+    console.log(inputFilenameVal);
+    console.log(inputOriginalnameVal);
+    if (
+      e.target.value.trim() !== '' &&
+      inputIdVal.trim() !== '' &&
+      inputFilenameVal.trim() !== '' &&
+      inputOriginalnameVal.trim() !== ''
+    ) {
+      document.querySelector('#btn-submit-form').removeAttribute('disabled');
+    }
+  };
+
+  /* ------- Start Create Form Modal -------- */
+  const elemAddApprover = document.querySelector('#add-approver');
+
+  // Delete approver function
+  const del = function (e) {
+    e.preventDefault();
+    const id = parseInt(e.currentTarget.id.substr(12));
+    const last = parseInt(elemAddApprover.previousElementSibling.getAttribute('id').substr(15));
+    for (let i = id; i < last; i++) {
+      const nextId = i + 1;
+      const nextVal = document.querySelector(`#appr${nextId}`).value;
+      document.querySelector(`#appr${i}`).value = nextVal;
+    }
+    const removeElem = document.querySelector(`#approver-holder${last}`);
+    elemAddApprover.parentElement.removeChild(removeElem);
+  };
+
+  // Init add approver button
+  (function addApprover() {
+    elemAddApprover.addEventListener('click', function () {
+      const i = parseInt(this.previousElementSibling.getAttribute('id').substr(15)) + 1;
+      const newNode = document.createElement('div');
+      newNode.setAttribute('id', `approver-holder${i}`);
+      newNode.setAttribute('class', 'approver-holder input-field');
+      newNode.innerHTML = `
+    <input type="text" name="appr${i}" id="appr${i}">
+    <label for="appr${i}">Approver ${i}</label>
+    <a id="del-approver${i}" href="#!" class="btn-flat waves-effect waves-light center del-approver"><i class="material-icons">close</i></a>
+    `;
+      this.parentNode.insertBefore(newNode, this);
+
+      // Bind delete function to button
+      document.querySelectorAll('.del-approver').forEach((el) => {
+        el.addEventListener('click', del);
+      });
+    });
+  }());
+
+  /* ------- End Create Form Modal -------- */
+}
 
 // $('.sidenav').sidenav();
 // $('select').formSelect();
@@ -110,195 +212,5 @@ formname.onchange = (e) => {
 //     console.log("Error: file not found (invalid user's json), [fetching items]");
 //   });
 // };
-
-const stickyToolbar = () => {
-  const sticky = document.getElementById('toolbar').offsetTop;
-
-  if (window.pageYOffset >= 65) {
-    $('#toolbar').addClass('sticky');
-    $('#edit').addClass('sticky-offset');
-  } else if (window.pageYOffset < 72) {
-    $('#toolbar').removeClass('sticky');
-    $('#edit').removeClass('sticky-offset');
-  }
-};
-
-// Remove container class to increase spacing in smaller devices
-const responsiveContainer = () => {
-  const width = window.innerWidth;
-  if (width <= 768) {
-    $('#container').removeClass('container');
-  } else {
-    $('#container').addClass('container');
-  }
-};
-
-/* ------- Start Create Form Modal -------- */
-const addApprover = () => {
-  $(document).on('click', '#add-approver', () => {
-    const i =
-      parseInt($('#add-approver')
-        .prev()
-        .attr('id')
-        .substr(15)) + 1;
-    const template = `
-        <div id="approver-holder${i}" class="approver-holder input-field">
-          <input type="text" name="appr" id="appr${i}">
-          <label for="appr${i}">Approver ${i}</label>
-          <a id="del-approver${i}" href="#!" class="btn-flat waves-effect waves-light center del-approver"><i class="material-icons">close</i></a>
-        </div>
-      `;
-    // const template = `
-    //     <div id="approver-holder${i}" class="approver-holder input-field">
-    //       <input type="text" name="appr${i}" id="appr${i}">
-    //       <label for="appr${i}">Approver ${i}</label>
-    //       <a id="del-approver${i}" href="#!" class="btn-flat waves-effect waves-light center del-approver"><i class="material-icons">close</i></a>
-    //     </div>
-    //   `;
-    $(template).insertBefore('#add-approver');
-  });
-};
-
-const delApprover = () => {
-  $(document).on('click', '.del-approver', (e) => {
-    let id = e.currentTarget.id;
-    id = parseInt(id.substr(12));
-    const last = parseInt($('#add-approver')
-      .prev()
-      .attr('id')
-      .substr(15));
-    for (let i = id; i < last; i++) {
-      const next_id = i + 1;
-      const next_val = $(`#appr${next_id}`).val();
-      $(`#appr${i}`).val(next_val);
-    }
-    $(`#approver-holder${last}`).remove();
-  });
-};
-
-// File upload and preview img
-const humanFileSize = (bytes, si) => {
-  $('#confirmNew').show();
-
-  const thresh = si ? 1000 : 1024;
-
-  if (bytes < thresh) return `${bytes} B`;
-  const units = si
-    ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-    : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
-  let u = -1;
-  do {
-    bytes /= thresh;
-    ++u;
-  } while (bytes >= thresh);
-  return `${bytes.toFixed(1)} ${units[u]}`;
-};
-
-const randomString = (length) => {
-  let text = '';
-  const possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
-
-// Handle submit btn
-// $(document).on('click', '#btn-submit-form', () => {
-//   const apprs = [];
-//   const last = parseInt($('#add-approver')
-//     .prev()
-//     .attr('id')
-//     .substr(15));
-//   for (let i = 1; i <= last; i++) {
-//     apprs.push($(`#appr${i}`).val());
-//   }
-//   CREATED_FORM = {
-//     name: $('#form-name')
-//       .val()
-//       .trim(),
-//     apprs,
-//     img_info: UPLOADED_FILE,
-//     created_date: Date.now(),
-//   };
-//   console.log(CREATED_FORM);
-
-//   $('#homePage').css('display', 'none');
-//   $('#edit').css('display', 'block');
-//   $('#edit').append(`<img class="preview-img" src="${CREATED_FORM.img_info.path}">`);
-//   $('#apprList').empty();
-//   $('#apprList').append('<option value="" disabled selected>Choose approvers</option>');
-
-//   for (let i = 0; i < CREATED_FORM.apprs.length; i++) {
-//     const appr = CREATED_FORM.apprs[i];
-//     $('#apprList').append(`<option value="${appr}">${appr}</option>`);
-//   }
-//   $('#apprList').material_select();
-// });
-
-// // Handle create form reset
-// const resetForm = () => {
-//   UPLOAD_STAT = false;
-//   FORM_NAME_STAT = false;
-//   $('#drop-zone').show();
-//   const content = `
-//       <div class="modal-content">
-//         <h4>Create new form</h4>
-//         <div class="create-form-container">
-//           <div class="create-form-left">
-//             <div class="file-field input-field">
-//               <div class="btn">
-//                 <span>File</span>
-//                 <input id="file-picker" type="file" accept="image/*">
-//               </div>
-//               <div class="file-path-wrapper">
-//                 <input class="file-path validate" type="text">
-//               </div>
-//             </div>
-//             <div id="drop-zone">
-//               <i class="material-icons" style="font-size: 48px; color: #b0bec5;">file_upload</i>
-//               <span><strong>Choose a file </strong>or drag it here.</span>
-//             </div>
-//             <div id="upload-preview" style="display: block;">
-//               <!-- Preview image and info will be inserted here! -->
-//             </div>
-//           </div>
-//           <div class="create-form-right">
-//             <div class="input-field">
-//               <input type="text" name="form-name" id="form-name">
-//               <label for="form-name">Form name</label>
-//             </div>
-//             <div id="approver-holder1" class="approver-holder input-field">
-//               <input type="text" name="appr1" id="appr1">
-//               <label class="active" for="appr1">Approver 1</label>
-//             </div>
-//             <a id="add-approver" href="#!" class="btn-floating waves-effect waves-block" style="margin: 0 auto;"><i class="material-icons">add</i></a>
-//           </div>
-//         </div>
-//       </div>
-//       <div class="modal-footer">
-//         <a id="btn-submit-form" disabled class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
-//         <a id="btn-reset-form" class="waves-effect waves-green btn-flat">Reset</a>
-//       </div>
-//     `;
-//   $('#create-form').html(content);
-// };
-
-// Reset button - create form modal
-// $(document).on('click', '#btn-reset-form', () => {
-//   resetForm();
-//   dragNdrop();
-// });
-
-// $('#create-form').modal({
-//   complete: () => {
-//     resetForm();
-//     dragNdrop();
-//   },
-// });
-/* ------- End Create Form Modal -------- */
-
-window.onscroll = () => stickyToolbar();
-window.onresize = () => responsiveContainer();
 
 // IDEA: click on form's name on homepage to rename directly

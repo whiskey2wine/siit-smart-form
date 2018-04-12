@@ -1,7 +1,7 @@
 /* ------- Initialize function -------- */
 responsiveContainer();
 // initiate();
-addApprover();
-delApprover();
+// addApprover();
+// delApprover();
 // dragNdrop()();
 // filePicker();

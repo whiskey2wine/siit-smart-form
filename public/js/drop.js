@@ -5,52 +5,73 @@ previewNode.parentNode.removeChild(previewNode);
 
 Dropzone.options.filePickers = {
   paramName: 'file-picker', // The name that will be used to transfer the file
-  maxFilesize: 0.1, // MB
+  maxFilesize: 5, // MB
   maxFiles: 1,
   dictDefaultMessage:
     '<i class="material-icons" style="font-size: 48px; color: #b0bec5;">file_upload</i>\nDrag an image here to upload, or click to select one',
-  thumbnailWidth: 80,
-  thumbnailHeight: 80,
+  thumbnailWidth: 1000,
+  thumbnailHeight: 1000,
+  thumbnailMethod: 'contain',
   previewTemplate,
   previewsContainer: '#previews',
   autoQueue: false,
   acceptedFiles: 'image/*',
   dictFileTooBig: 'File is too big ({{filesize}} MB). Max filesize: {{maxFilesize}} MB.',
-  accept(file, done) {
-    console.log(file);
-    if (file.name == 'justinbieber.jpg') {
-      done("Naha, you don't.");
-    } else {
-      console.log('hello');
-      done();
-    }
-  },
   init() {
     const myDropzone = this;
     const dropzone = document.querySelector('.dropzone');
-    let defaultMsg;
+    const defaultMsg = document.querySelector('.dz-default.dz-message');
+    const inputId = document.querySelector('input[name="id"]');
+    const inputFilename = document.querySelector('input[name="filename"]');
+    const inputOriginalname = document.querySelector('input[name="originalname"]');
+    let delBtn;
 
-    this.on('addedfile', (file) => {
+    this.on('addedfile', function (file) {
+      const elemMatBox = document.querySelector('.materialboxed');
+      const instMatBox = M.Materialbox.init(elemMatBox);
+
+      // Allow only 1 file
+      if (this.files.length > 1) {
+        this.removeFile(this.files[0]);
+      }
+      // Remove message if file exists
+      if (this.files.length > 0) {
+        dropzone.removeChild(defaultMsg);
+      }
+      // Add file type
       const typeNode = document.querySelector('[data-dz-type]');
-      defaultMsg = document.querySelector('.dz-default.dz-message');
-      console.log(file);
       typeNode.innerHTML = file.type;
+      // Bind enqueueFile() event to start button
       file.previewElement.querySelector('.start').onclick = function (e) {
         e.preventDefault();
         myDropzone.enqueueFile(file);
       };
-      dropzone.removeChild(defaultMsg);
     });
     this.on('sending', (file) => {
       // And disable the start button
       file.previewElement.querySelector('.start').setAttribute('disabled', 'disabled');
     });
     this.on('removedfile', (file) => {
+      // Add message when there is no file
       dropzone.appendChild(defaultMsg);
+      if (delBtn !== undefined) {
+        console.log(delBtn.getAttribute('del-id'));
+        const id = delBtn.getAttribute('del-id');
+        fetch(`/docs/image/${id}`, { method: 'DELETE' });
+        delBtn.setAttribute('del-id', '');
+        inputId.setAttribute('value', '');
+        inputFilename.setAttribute('value', '');
+        inputOriginalname.setAttribute('value', '');
+      }
     });
 
-    this.on('maxfilesreached', (file) => {
-      console.log(file);
+    this.on('success', (file, res) => {
+      console.log(res);
+      delBtn = document.querySelector('.delete');
+      delBtn.setAttribute('del-id', res.id);
+      inputId.setAttribute('value', res.id);
+      inputFilename.setAttribute('value', res.filename);
+      inputOriginalname.setAttribute('value', res.originalname);
     });
   },
 };

@@ -100,18 +100,33 @@ router.post('/upload', (req, res) => {
       res.redirect('/docs');
     } else {
       console.log(req.file);
-      res.redirect('/docs');
-      // res.render('docs/index');
+      res.json({
+        id: req.file.id,
+        filename: req.file.filename,
+        type: req.file.mimetype,
+        originalname: req.file.originalname,
+        size: req.file.size,
+      });
     }
   });
 });
 
 router.post('/add', (req, res) => {
-  console.log(req);
+  console.log(req.body);
+  res.redirect('/docs');
   const newDoc = {};
 });
 
-router.get('/images/:filename', (req, res) => {
+router.delete('/image/:id', (req, res) => {
+  gfs.remove({ _id: req.params.id, root: 'uploads' }, (err, gridStore) => {
+    if (err) {
+      return res.status(404).json({ err });
+    }
+    res.send();
+  });
+});
+
+router.get('/image/:filename', (req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
     // Check if file
     if (!file || file.length === 0) {

@@ -13,10 +13,9 @@ const DocSchema = new Schema({
     required: true,
   },
   file: {
-    path: {
-      type: String,
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
-      trim: true,
     },
     originalname: {
       type: String,

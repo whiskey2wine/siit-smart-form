@@ -2,17 +2,17 @@
 <div id="create-form" class="modal modal-fixed-footer">
   <div class="modal-content">
     <h4>Create new form</h4>
-    <div class="create-form-container">
-      <div class="create-form-left">
+    <div class="create-form-container row">
+      <div class="create-form-left col m6">
         <form action="/docs/upload" method="post" class="dropzone" id="file-pickers">
           <div class="striped" id="previews">
             <div id="template">
               <!-- This is used as the file preview template -->
               <div class="row">
-                <div class="col s3">
-                  <img data-dz-thumbnail />
+                <div class="col s12">
+                  <img class="mx-auto materialboxed" style="display: block;max-width: 100%;" data-dz-thumbnail />
                 </div>
-                <div class="col s9">
+                <div class="col s12">
                   <span class="truncate">Filename: <strong data-dz-name></strong></span>
                   <span class="truncate">Size: <strong data-dz-size></strong></span>
                   <span class="truncate">Type: <strong data-dz-type></strong></span>
@@ -27,38 +27,21 @@
                 </div>
               </div>
               <div>
-                <button class="btn blue start">
+                <button class="btn waves-effect waves-light alert-info start">
                   <i class="material-icons right">file_upload</i>
                   <span>Start</span>
                 </button>
-                <button data-dz-remove class="btn alert-warning cancel">
+                <button data-dz-remove class="btn waves-effect waves-light alert-warning cancel">
                   <i class="material-icons right">cancel</i>
                   <span>Cancel</span>
                 </button>
-                <button data-dz-remove class="btn red delete">
+                <button data-dz-remove class="btn waves-effect waves-light alert-danger delete">
                   <i class="material-icons right">delete_forever</i>
                   <span>Delete</span>
                 </button>
               </div>
             </div>
           </div>
-          {{!-- <div class="file-field input-field">
-            <div class="btn">
-              <span>File</span>
-              <input id="file-picker" name="file-picker" type="file" accept="image/*">
-            </div>
-            <div class="file-path-wrapper">
-              <input class="file-path validate" type="text">
-            </div>
-          </div>
-          <div id="drop-zone">
-            <i class="material-icons" style="font-size: 48px; color: #b0bec5;">file_upload</i>
-            <span>
-              <strong>Choose a file </strong>or drag it here.</span>
-          </div>
-          <div id="upload-preview" style="display: block;">
-            <!-- Preview image and info will be inserted here! -->
-          </div> --}}
           <div class="fallback">
             <div class="file-field input-field">
               <div class="btn">
@@ -72,7 +55,7 @@
           </div>
       </div>
       </form>
-      <form action="/docs/add" method="post">
+      <form action="/docs/add" method="post" class="col m6">
         <div class="create-form-right">
           <div class="input-field">
             <input type="text" name="formname" id="formname">
@@ -85,11 +68,16 @@
           <a id="add-approver" href="#!" class="btn-floating waves-effect waves-block" style="margin: 0 auto;">
             <i class="material-icons">add</i>
           </a>
+          <div class="hide">
+            <input type="text" name="id" id="id">
+            <input type="text" name="filename" id="filename">
+            <input type="text" name="originalname" id="originalname">
+          </div>
         </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="submit" id="btn-submit-form" disabled class="modal-action modal-close waves-effect waves-green btn-flat">Submit</button>
+    <button type="submit" id="btn-submit-form" disabled class="modal-action modal-close waves-effect waves-green btn-flat start">Submit</button>
     <button type="reset" id="btn-reset-form" class="waves-effect waves-green btn-flat">Reset</button>
   </div>
   </form>

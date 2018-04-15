@@ -85,6 +85,7 @@ router.get('/', (req, res) => {
   Doc.find({})
     .sort({ date: 'desc' })
     .then((docs) => {
+      console.log(docs);
       res.render('docs/index', {
         docs,
       });
@@ -117,8 +118,20 @@ router.post('/upload', (req, res) => {
 
 router.post('/add', (req, res) => {
   console.log(req.body);
-  res.redirect('/docs');
-  const newDoc = {};
+  // res.redirect('/docs');
+  const newDoc = {
+    title: req.body.formname,
+    creator: '5acc70539ad81911f8790cda',
+    file: {
+      _id: req.body.id,
+      originalname: req.body.originalname,
+      filename: req.body.filename,
+    },
+  };
+
+  new Doc(newDoc).save().then((doc) => {
+    res.redirect('/docs');
+  });
 });
 
 router.delete('/image/:id', (req, res) => {

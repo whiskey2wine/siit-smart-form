@@ -5,9 +5,9 @@ previewNode.parentNode.removeChild(previewNode);
 
 let myDropzone;
 
-// Bind removeAllFiles function to reset button in modal
-const resetBtn = document.querySelector('#btn-reset-form');
-resetBtn.addEventListener('click', () => {
+// Bind removeAllFiles function to reset event in modal
+const formModal = document.querySelector('form[action="/docs/add"]');
+formModal.addEventListener('reset', () => {
   myDropzone.removeAllFiles(true);
 });
 
@@ -22,7 +22,7 @@ Dropzone.options.filePickers = {
   thumbnailMethod: 'contain',
   previewTemplate,
   previewsContainer: '#previews',
-  autoQueue: false,
+  // autoQueue: false,
   acceptedFiles: 'image/*',
   dictFileTooBig: 'File is too big ({{filesize}} MB). Max filesize: {{maxFilesize}} MB.',
   init() {
@@ -35,9 +35,6 @@ Dropzone.options.filePickers = {
     let delBtn;
 
     this.on('addedfile', function (file) {
-      const elemMatBox = document.querySelector('.materialboxed');
-      const instMatBox = M.Materialbox.init(elemMatBox);
-
       // Allow only 1 file
       if (this.files.length > 1) {
         this.removeFile(this.files[0]);
@@ -50,15 +47,16 @@ Dropzone.options.filePickers = {
       const typeNode = document.querySelector('[data-dz-type]');
       typeNode.innerHTML = file.type;
       // Bind enqueueFile() event to start button
-      file.previewElement.querySelector('.start').onclick = function (e) {
-        e.preventDefault();
-        myDropzone.enqueueFile(file);
-      };
+      // file.previewElement.querySelector('.start').onclick = function (e) {
+      //   e.preventDefault();
+      //   myDropzone.enqueueFile(file);
+      // };
     });
-    this.on('sending', (file) => {
-      // And disable the start button
-      file.previewElement.querySelector('.start').setAttribute('disabled', 'disabled');
-    });
+
+    // this.on('sending', (file) => {
+    //   // And disable the start button
+    //   file.previewElement.querySelector('.start').setAttribute('disabled', 'disabled');
+    // });
     this.on('removedfile', (file) => {
       // Add message when there is no file
       dropzone.appendChild(defaultMsg);

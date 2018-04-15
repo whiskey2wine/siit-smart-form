@@ -6026,8 +6026,8 @@ button.btn-floating {
 
 .materialboxed {
   display: block;
-  cursor: -webkit-zoom-in !important;
-  cursor: zoom-in !important;
+  cursor: -webkit-zoom-in;
+  cursor: zoom-in;
   position: relative;
   -webkit-transition: opacity .4s;
   transition: opacity .4s;
@@ -6035,7 +6035,7 @@ button.btn-floating {
 }
 
 .materialboxed:hover:not(.active) {
-  opacity: .8 !important;
+  opacity: .8;
 }
 
 .materialboxed.active {

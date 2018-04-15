@@ -4,7 +4,17 @@ const elemModal = document.querySelector('.modal');
 const instModal = M.Modal.init(elemModal, {
   opacity: 0.3,
   startingTop: '5%',
+  onCloseEnd() {
+    const formModal = document.querySelector('form[action="/docs/add"]');
+    formModal.reset();
+  },
 });
+
+const elemFAB = document.querySelector('.fixed-action-btn');
+const instFAB = M.FloatingActionButton.init(elemFAB);
+
+const elemMatBox = document.querySelector('.materialboxed');
+const instMatBox = M.Materialbox.init(elemMatBox);
 
 // Remove container class to increase spacing in smaller devices
 const responsiveContainer = () => {
@@ -57,7 +67,7 @@ window.onresize = () => responsiveContainer();
  */
 
 /* ------- /docs/ functions -------- */
-if (window.location.pathname === '/docs/') {
+if (window.location.pathname === '/docs') {
   const formname = document.querySelector('#formname');
   formname.onchange = (e) => {
     const inputIdVal = document.querySelector('input[name="id"]').value;

@@ -72,14 +72,6 @@ app.get('/', (req, res) => {
   });
 });
 
-/*
-continue here '026 The Express Router'
-create login and register
-  - route
-  - template
-  - function
-*/
-
 // Use routes
 app.use('/docs', docs);
 app.use('/users', users);

@@ -8,7 +8,7 @@ main {
   flex: 1 0 auto;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
 }
 
 .bg {
@@ -91,7 +91,8 @@ main {
 }
 
 .item-img {
-  height: 270px;
+  /* height: 270px; */
+  height: 25vh;
   object-fit: contain;
 }
 
@@ -304,3 +305,24 @@ li.search .search-wrapper i.material-icons {
 .dz-default.dz-message {
   white-space: pre-line;
 }
+
+#fab {
+  background-color: unset;
+  box-shadow: unset;
+}
+
+.fixed-action-btn ul {
+  bottom: 30px;
+}
+
+/* .fixed-action-btn.direction-left ul {
+  right: 40px;
+}
+
+.fab-li {
+  margin: unset !important;
+}
+
+.btn-floating {
+  border-radius: unset;
+} */

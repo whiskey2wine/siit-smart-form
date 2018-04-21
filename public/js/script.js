@@ -10,10 +10,13 @@ const instModal = M.Modal.init(elemModal, {
   },
 });
 
-const elemFAB = document.querySelector('.fixed-action-btn');
-const instFAB = M.FloatingActionButton.init(elemFAB);
+const elemFAB = document.querySelectorAll('.fixed-action-btn');
+const instFAB = M.FloatingActionButton.init(elemFAB, {
+  // hoverEnabled: false,
+  direction: 'top',
+});
 
-const elemMatBox = document.querySelector('.materialboxed');
+const elemMatBox = document.querySelectorAll('.materialboxed');
 const instMatBox = M.Materialbox.init(elemMatBox);
 
 // Remove container class to increase spacing in smaller devices

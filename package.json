@@ -4,7 +4,9 @@
   "description": "Web application for create and edit paper-based form.",
   "main": "server/app.js",
   "scripts": {
-    "start": "nodemon --inspect"
+    "start": "nodemon --inspect",
+    "mongo":
+      "mongod --directoryperdb --dbpath ~/Works/SIIT/online-form/mongo/data/db --logpath ~/Works/SIIT/online-form/mongo/log/mongo.log --logappend"
   },
   "author": "Jayakorn Karikan",
   "license": "ISC",

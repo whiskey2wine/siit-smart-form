@@ -1,0 +1,37 @@
+<div class="col s12 m3">
+  <div class="card">
+    <div class="card-image">
+      <img class="mx-auto item-img materialboxed" data-caption="{{title}}" src="docs/image/{{file.filename}}">
+    </div>
+    <div class="card-content blue-grey darken-1 white-text" style="padding: 10px 40px 10px 10px;">
+      <span class="truncate" title="{{title}}">{{title}}</span>
+      <div class="fixed-action-btn" style="position: absolute; bottom: 0; right: 0;">
+        <a class="btn-floating" id="fab">
+          <i class="large material-icons">more_vert</i>
+        </a>
+        <ul>
+          <li title="Delete">
+            <a class="btn-floating red">
+              <i class="material-icons">delete</i>
+            </a>
+          </li>
+          <li title="Download">
+            <a class="btn-floating yellow darken-1">
+              <i class="material-icons">file_download</i>
+            </a>
+          </li>
+          <li title="Share">
+            <a class="btn-floating green">
+              <i class="material-icons">person_add</i>
+            </a>
+          </li>
+          <li title="Preview">
+            <a id="enter${nowHaveItemCount}" class="btn-floating blue">
+              <i class="material-icons">visibility</i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

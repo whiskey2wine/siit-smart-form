@@ -4,8 +4,10 @@ const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 
 const app = express();
 const port = 3000;
@@ -48,8 +50,17 @@ app.use(methodOverride('_method'));
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 14 * 24 * 60 * 60,
+    autoRemove: 'interval',
+  }),
 }));
+
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Flash Middleware
 app.use(flash());

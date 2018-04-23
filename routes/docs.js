@@ -80,6 +80,19 @@ const upload = multer({
   },
 }).single('file-picker');
 
+/**
+ * Check Login Middleware
+ * Add to every route that need to be logged in
+ * Need to handle approver that doesn't have an account
+ */
+
+// const isLoggedIn = (req, res, next) => {
+//   if (req.isAuthenticated()) {
+//     return next();
+//   }
+//   res.redirect('/');
+// };
+
 const Doc = mongoose.model('docs');
 
 router.get('/', (req, res) => {

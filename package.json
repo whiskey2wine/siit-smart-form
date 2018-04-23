@@ -5,8 +5,7 @@
   "main": "server/app.js",
   "scripts": {
     "start": "nodemon --inspect",
-    "mongo":
-      "mongod --directoryperdb --dbpath ~/Works/SIIT/online-form/mongo/data/db --logpath ~/Works/SIIT/online-form/mongo/log/mongo.log --logappend"
+    "mongo": "mongod --directoryperdb --dbpath ~/Works/SIIT/online-form/mongo/data/db --logpath ~/Works/SIIT/online-form/mongo/log/mongo.log --logappend"
   },
   "author": "Jayakorn Karikan",
   "license": "ISC",
@@ -36,6 +35,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^2.0.1",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
@@ -48,6 +48,7 @@
     "multer-gridfs-storage": "^3.0.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^5.0.0",
     "validator": "^9.4.1"
   },
   "nodemonConfig": {

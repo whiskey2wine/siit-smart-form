@@ -2,16 +2,16 @@
   <div class="col m6 s12 mx-auto" style="float: unset;">
     <div class="z-depth-6 card-panel hoverable non-radius">
       <h4 class="center-align">Account Login</h4>
-      <form id="login-form" class="login-form">
+      <form id="login-form" class="login-form" action="/users/login" method="POST">
         <div class="input-field">
           <i class="material-icons prefix">mail_outline</i>
-          <input id="inputEmail" name="inputEmail" type="text" autocomplete="email" required>
-          <label for="inputEmail">Email</label>
+          <input id="username" name="username" type="text" required>
+          <label for="username">Email</label>
         </div>
         <div class="input-field">
           <i class="material-icons prefix">lock_outline</i>
-          <input id="inputPassword" name="inputPassword" type="password" autocomplete="current-password" required>
-          <label for="inputPassword">Password</label>
+          <input id="password" name="password" type="password" required>
+          <label for="password">Password</label>
         </div>
         <div class="input-field">
           <button id="btnSubmit" name="btnSubmit" type="submit" class="btn waves-effect waves-light non-radius">Login</button>

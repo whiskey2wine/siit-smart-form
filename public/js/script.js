@@ -33,6 +33,18 @@ const responsiveContainer = () => {
 };
 
 /**
+ * Double click on doc to enter edit-mode
+ * Continue this after finished login function
+ */
+const docs = document.querySelectorAll('.doc');
+docs.forEach((doc) => {
+  doc.addEventListener('dblclick', (e) => {
+    console.log(e);
+    console.log(e.currentTarget);
+  });
+});
+
+/**
  * Separate docs/edit from other function since some element might not appear on other page
  */
 if (window.location.pathname === '/docs/edit') {

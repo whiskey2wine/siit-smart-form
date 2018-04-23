@@ -42,9 +42,6 @@ app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-
 app.use(bodyParser.json()); // parse application/json
 
 // Method-override Middleware
-// override with the X-HTTP-Method-Override header in the request
-// app.use(methodOverride('X-HTTP-Method-Override'));
-// override with POST having ?_method=DELETE
 app.use(methodOverride('_method'));
 
 // Express session Middleware

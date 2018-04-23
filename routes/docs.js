@@ -97,6 +97,19 @@ router.get('/edit', (req, res) => {
   res.render('docs/edit');
 });
 
+router.delete('/:id', (req, res) => {
+  Doc.findOneAndRemove({
+    _id: req.params.id,
+  }).then((doc) => {
+    gfs.remove({ _id: doc.file.filename, root: 'uploads' }, (err, gridStore) => {
+      if (err) {
+        return res.status(404).json({ err });
+      }
+      res.redirect('/docs');
+    });
+  });
+});
+
 router.post('/upload', (req, res) => {
   upload(req, res, (err) => {
     if (err) {

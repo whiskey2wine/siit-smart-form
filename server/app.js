@@ -78,6 +78,7 @@ app.get('/', (req, res) => {
   res.render('users/login', {
     specialPage: true,
     title: 'Login',
+    user: req.user,
   });
 });
 

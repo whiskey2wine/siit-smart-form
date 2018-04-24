@@ -96,18 +96,21 @@ const upload = multer({
 const Doc = mongoose.model('docs');
 
 router.get('/', (req, res) => {
-  Doc.find({})
+  Doc.find({ creator: req.user.id })
     .sort({ date: 'desc' })
     .then((docs) => {
       console.log(docs);
       res.render('docs/index', {
         docs,
+        user: req.user,
       });
     });
 });
 
 router.get('/edit', (req, res) => {
-  res.render('docs/edit');
+  res.render('docs/edit', {
+    user: req.user,
+  });
 });
 
 router.delete('/:id', (req, res) => {
@@ -148,7 +151,7 @@ router.post('/add', (req, res) => {
   // res.redirect('/docs');
   const newDoc = {
     title: req.body.formname,
-    creator: '5acc70539ad81911f8790cda',
+    creator: req.user.id,
     file: {
       _id: req.body.id,
       originalname: req.body.originalname,

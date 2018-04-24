@@ -7,30 +7,33 @@
           <i class="material-icons">menu</i>
         </a>
         <ul class="right hide-on-med-and-down">
-          <li>
-            <a href="" id="nav-home">Home</a>
-          </li>
-          <li>
-            <a href="#create-form" id="nav-newF" class="modal-trigger">Add Form</a>
-          </li>
-          <li style="margin-right: 15px;">
-            <a href="" id="nav-Tut">Tutorial</a>
-          </li>
-          <li class="search">
-            <div class="search-wrapper">
-              <input class="search" placeholder="Search">
-              <i class="material-icons">search</i>
-            </div>
-          </li>
-          <li>
-            <a class="btn waves-effect waves-light" href="/users/logout">Logout</a>
-          </li>
-          <li>
-            <a href="/users/login">Login</a>
-          </li>
-          <li>
-            <a href="/users/register">Register</a>
-          </li>
+          {{#if user}}
+            <li>
+              <a href="" id="nav-home">Home</a>
+            </li>
+            <li>
+              <a href="#create-form" id="nav-newF" class="modal-trigger">Add Form</a>
+            </li>
+            <li style="margin-right: 15px;">
+              <a href="" id="nav-Tut">Tutorial</a>
+            </li>
+            <li class="search">
+              <div class="search-wrapper">
+                <input class="search" placeholder="Search">
+                <i class="material-icons">search</i>
+              </div>
+            </li>
+            <li>
+              <a class="btn waves-effect waves-light" href="/users/logout">Logout</a>
+            </li>
+          {{else}}
+            <li>
+              <a href="/users/login">Login</a>
+            </li>
+            <li>
+              <a href="/users/register">Register</a>
+            </li>
+          {{/if}}
         </ul>
         <ul class="sidenav" id="mobile-demo">
           <div class="search-wrapper">

@@ -306,13 +306,35 @@ li.search .search-wrapper i.material-icons {
   white-space: pre-line;
 }
 
-#fab {
-  background-color: unset;
-  box-shadow: unset;
+.fab {
+  background-color: unset !important;
+  box-shadow: unset !important;
 }
 
 .fixed-action-btn ul {
   bottom: 30px;
+}
+
+.selected-doc,
+.selected-doc .fab i {
+  background-color: #546e7a !important;
+  color: #fff !important;
+}
+
+/* .selected-doc > span {
+  color: #fff !important;
+} */
+
+#homepage .card,
+#homepage .card .card-content,
+#homepage .card .card-content .fab i {
+  /* border-radius: unset; */
+  color: #546e7a;
+}
+
+#homepage .card .card-content span {
+  cursor: default;
+  margin-left: 10px;
 }
 
 /* .fixed-action-btn.direction-left ul {

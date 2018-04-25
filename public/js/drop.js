@@ -13,7 +13,7 @@ formModal.addEventListener('reset', () => {
 
 Dropzone.options.filePickers = {
   paramName: 'file-picker', // The name that will be used to transfer the file
-  maxFilesize: 5, // MB
+  maxFilesize: 10, // MB
   maxFiles: 1,
   dictDefaultMessage:
     '<i class="material-icons" style="font-size: 48px; color: #b0bec5;">file_upload</i>\nDrag an image here to upload, or click to select one',

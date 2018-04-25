@@ -32,15 +32,42 @@ const responsiveContainer = () => {
   }
 };
 
+document.querySelector('main').addEventListener('click', (e) => {
+  document.querySelectorAll('.selected-doc').forEach((doc) => {
+    doc.classList.remove('selected-doc');
+  });
+});
+
+const getSiblings = function (elem) {
+  const siblings = [];
+  let sibling = elem.parentNode.firstChild;
+  for (; sibling; sibling = sibling.nextSibling) {
+    if (sibling.nodeType !== 1 || sibling === elem) continue;
+    siblings.push(sibling);
+  }
+  return siblings;
+};
 /**
  * Double click on doc to enter edit-mode
  * Continue this after finished login function
  */
 const docs = document.querySelectorAll('.doc');
 docs.forEach((doc) => {
-  doc.addEventListener('dblclick', (e) => {
+  doc.addEventListener('click', function (e) {
+    const card = document.getElementById(this.id);
+    // Get all siblings and remove selected-doc class
+    const siblings = getSiblings(card);
+    siblings.forEach((sibling) => {
+      sibling.firstElementChild.lastElementChild.classList.remove('selected-doc');
+    });
+    // Add selected-doc class to selected element
+    const cardContent = card.firstElementChild.lastElementChild;
+    cardContent.classList.add('selected-doc');
+    e.stopPropagation();
+  });
+  doc.addEventListener('dblclick', function (e) {
     console.log(e);
-    console.log(e.currentTarget);
+    console.log(this);
   });
 });
 

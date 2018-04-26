@@ -54,7 +54,6 @@ app.use(session({
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
     ttl: 14 * 24 * 60 * 60,
-    autoRemove: 'interval',
   }),
 }));
 
@@ -75,6 +74,9 @@ app.use((req, res, next) => {
 
 // Index Route
 app.get('/', (req, res) => {
+  if (req.user) {
+    return res.redirect('/docs');
+  }
   res.render('users/login', {
     specialPage: true,
     title: 'Login',

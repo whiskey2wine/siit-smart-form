@@ -96,6 +96,9 @@ const upload = multer({
 const Doc = mongoose.model('docs');
 
 router.get('/', (req, res) => {
+  if (!req.user) {
+    return res.redirect('/');
+  }
   Doc.find({ creator: req.user.id })
     .sort({ date: 'desc' })
     .then((docs) => {

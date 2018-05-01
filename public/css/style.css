@@ -238,7 +238,7 @@ input.search:focus + .material-icons {
 li.search .search-wrapper i.material-icons {
   position: absolute;
   top: 0;
-  right: 170px;
+  right: 135px;
   cursor: pointer;
 }
 

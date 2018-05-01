@@ -19,7 +19,9 @@ const instFAB = M.FloatingActionButton.init(elemFAB, {
 const elemMatBox = document.querySelectorAll('.materialboxed');
 const instMatBox = M.Materialbox.init(elemMatBox);
 
-// Remove container class to increase spacing in smaller devices
+/**
+ * Remove "container" class to increase spacing in smaller devices
+ */
 const responsiveContainer = () => {
   const width = window.innerWidth;
   const container = document.querySelector('main > div');
@@ -32,12 +34,18 @@ const responsiveContainer = () => {
   }
 };
 
+/**
+ * Remove highlight from previous selected card
+ */
 document.querySelector('main').addEventListener('click', (e) => {
   document.querySelectorAll('.selected-doc').forEach((doc) => {
     doc.classList.remove('selected-doc');
   });
 });
 
+/**
+ * Function: Get all siblings of element passing as param
+ */
 const getSiblings = function (elem) {
   const siblings = [];
   let sibling = elem.parentNode.firstChild;
@@ -47,12 +55,14 @@ const getSiblings = function (elem) {
   }
   return siblings;
 };
+
 /**
  * Double click on doc to enter edit-mode
  * Continue this after finished login function
  */
 const docs = document.querySelectorAll('.doc');
 docs.forEach((doc) => {
+  // Listener: Add highlight to selecting card
   doc.addEventListener('click', function (e) {
     const card = document.getElementById(this.id);
     // Get all siblings and remove selected-doc class
@@ -65,9 +75,9 @@ docs.forEach((doc) => {
     cardContent.classList.add('selected-doc');
     e.stopPropagation();
   });
+  // Listener: Handle double click on card
   doc.addEventListener('dblclick', function (e) {
-    console.log(e);
-    console.log(this);
+    window.location.href = `${window.location.origin}/docs/edit/${this.id}`;
   });
 });
 

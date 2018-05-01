@@ -110,10 +110,21 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/edit', (req, res) => {
-  res.render('docs/edit', {
-    user: req.user,
-  });
+router.get('/edit/:id', (req, res) => {
+  console.log(req.user);
+  console.log(req.params.id);
+  Doc.findOne({ creator: req.user.id, _id: req.params.id })
+    .then((doc) => {
+      console.log(doc);
+      res.render('docs/edit', {
+        user: req.user,
+        doc,
+      });
+    })
+    .catch((e) => {
+      console.log(e);
+      res.redirect('/');
+    });
 });
 
 router.delete('/:id', (req, res) => {

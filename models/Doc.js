@@ -40,12 +40,19 @@ const DocSchema = new Schema({
       default: '}',
     },
   },
+  formType: {
+    type: String,
+    required: true,
+  },
+  approvers: {
+    type: Array,
+  },
   obj: [
     {
       id: String,
       posX: Number,
       posY: Number,
-      users: Array,
+      approver: String,
       types: String,
       created: {
         type: Date,

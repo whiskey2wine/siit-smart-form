@@ -53,7 +53,7 @@ app.use(session({
   saveUninitialized: false,
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
-    ttl: 14 * 24 * 60 * 60,
+    ttl: 24 * 60 * 60,
   }),
 }));
 

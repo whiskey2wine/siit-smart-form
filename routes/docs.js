@@ -163,6 +163,10 @@ router.post('/upload', (req, res) => {
 router.post('/add', (req, res) => {
   console.log(req.body);
   // res.redirect('/docs');
+  const approvers = Object.entries(req.body)
+    .filter(val => val[0].substr(0, 4) === 'appr')
+    .map(val => val[1]);
+
   const newDoc = {
     title: req.body.formname,
     creator: req.user.id,
@@ -171,6 +175,8 @@ router.post('/add', (req, res) => {
       originalname: req.body.originalname,
       filename: req.body.filename,
     },
+    approvers,
+    formType: req.body.formType ? 'Survey' : 'Form',
   };
 
   new Doc(newDoc).save().then((doc) => {

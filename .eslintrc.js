@@ -12,8 +12,9 @@ module.exports = {
     'no-unused-vars': [
       1,
       {
-        vars: 'local',
+        // vars: 'local',
         args: 'none',
+        varsIgnorePattern: '^inst',
       },
     ],
     'no-param-reassign': [

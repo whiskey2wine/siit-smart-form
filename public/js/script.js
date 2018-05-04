@@ -1,5 +1,11 @@
-/* global M */
+/* global M Stretchy */
 // M.AutoInit();
+Stretchy.selectors.filter = '.foo';
+
+document.addEventListener('DOMContentLoaded', () => {
+  const elemNavs = document.querySelectorAll('.sidenav');
+  const instNavs = M.Sidenav.init(elemNavs);
+});
 
 const elemModal = document.querySelector('.modal');
 const instModal = M.Modal.init(elemModal, {
@@ -88,25 +94,103 @@ docs.forEach((doc) => {
   });
 });
 
+const stickyToolbar = () => {
+  // const sticky = document.getElementById('toolbar').offsetTop;
+  const toolbar = document.querySelector('#toolbar');
+  const edit = document.querySelector('#edit');
+  // const sticky = toolbar.offsetTop;
+
+  if (window.pageYOffset >= 65) {
+    toolbar.classList.add('sticky');
+    edit.classList.add('sticky-offset');
+  } else if (window.pageYOffset < 72) {
+    toolbar.classList.remove('sticky');
+    edit.classList.remove('sticky-offset');
+  }
+};
+
+const insertTextbox = (event) => {
+  const input = document.createElement('input');
+  input.setAttribute('type', 'text');
+  input.classList.add('browser-default');
+  input.classList.add('foo');
+  input.style.position = 'absolute';
+  input.style.left = `${event.pageX}px`;
+  input.style.top = `${event.pageY}px`;
+  input.style.minWidth = '150px';
+  input.style.zIndex = 100;
+  const edit = document.querySelector('#edit');
+  edit.appendChild(input);
+  console.dir(`x: ${event.pageX}, y: ${event.pageY}`);
+};
+
+const insertCheckbox = (event) => {
+  const input = document.createElement('input');
+  input.setAttribute('type', 'checkbox');
+  const label = document.createElement('label');
+  label.style.position = 'absolute';
+  label.style.left = `${event.pageX}px`;
+  label.style.top = `${event.pageY}px`;
+  label.style.zIndex = 100;
+  const span = document.createElement('span');
+  label.appendChild(input);
+  label.appendChild(span);
+  const edit = document.querySelector('#edit');
+  edit.appendChild(label);
+  console.dir(`x: ${event.pageX}, y: ${event.pageY}`);
+};
+
 /**
  * Separate docs/edit from other function since some element might not appear on other page
  */
 if (window.location.pathname.substr(0, 10) === '/docs/edit') {
-  const stickyToolbar = () => {
-    // const sticky = document.getElementById('toolbar').offsetTop;
-    const toolbar = document.querySelector('#toolbar');
-    const edit = document.querySelector('#edit');
-    // const sticky = toolbar.offsetTop;
-
-    if (window.pageYOffset >= 65) {
-      toolbar.classList.add('sticky');
-      edit.classList.add('sticky-offset');
-    } else if (window.pageYOffset < 72) {
-      toolbar.classList.remove('sticky');
-      edit.classList.remove('sticky-offset');
-    }
-  };
   window.onscroll = () => stickyToolbar();
+  const previewImg = document.querySelector('.preview-img');
+  const textbox = document.querySelector('#insertTextbox');
+  const checkbox = document.querySelector('#insertCheckbox');
+  // const hint = document.querySelector('#insertHint');
+  // const comment = document.querySelector('#insertComment');
+  previewImg.addEventListener('click', (e) => {
+    if (textbox.getAttribute('active')) {
+      insertTextbox(e);
+    } else if (checkbox.getAttribute('active')) {
+      insertCheckbox(e);
+    }
+  });
+
+  const buttons = Array.from(document.querySelector('.toolbar-inner').children);
+  buttons.forEach((el) => {
+    el.addEventListener('click', function () {
+      getSiblings(el).forEach((sibling) => {
+        sibling.classList.remove('blue-grey');
+        sibling.removeAttribute('active');
+      });
+      if (this.classList.contains('btn-flat')) {
+        this.classList.toggle('blue-grey');
+        if (this.getAttribute('active')) {
+          this.removeAttribute('active');
+        } else {
+          this.setAttribute('active', true);
+        }
+      }
+    });
+  });
+
+  // textbox.addEventListener('click', function () {
+  //   this.classList.add('blue-grey');
+  //   this.setAttribute('active', true);
+  // });
+
+  // checkbox.addEventListener('click', function () {
+  //   this.classList.add('blue-grey');
+  //   this.setAttribute('active', true);
+  // });
+
+  // document.querySelector('.preview-img').addEventListener('click', function (e) {
+  //   // console.dir(e);
+  //   console.dir(this);
+  //   insertTextbox(e);
+  // });
 }
 
 const randomString = (length) => {
@@ -199,19 +283,6 @@ document.querySelector('[name="formType"]').addEventListener('change', function 
 
 /* ------- End Create Form Modal -------- */
 // }
-
-document.querySelector('.preview-img').addEventListener('click', function (e) {
-  // console.dir(e);
-  console.dir(this);
-  const input = document.createElement('input');
-  input.style.position = 'absolute';
-  input.style.left = `${e.x}px`;
-  input.style.top = `${e.y}px`;
-  input.style.zIndex = 100;
-  const edit = document.querySelector('#edit');
-  edit.appendChild(input);
-  console.dir(`x: ${e.x}, y: ${e.y}`);
-});
 
 // $('.sidenav').sidenav();
 // $('select').formSelect();

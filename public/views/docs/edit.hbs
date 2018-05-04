@@ -2,16 +2,24 @@
   <div id="toolbar" class="white-text toolbar-container blue-grey lighten-1 z-depth-1">
     <div></div>
     <div class="toolbar-inner">
-      <div class="waves-effect waves-light btn-flat tooltipped" data-position="bottom" data-tooltip="Insert textbox">
+      <div class="waves-effect waves-light btn-flat tooltipped" id="insertTextbox" data-position="bottom" data-tooltip="Insert textbox">
         <i class="material-icons">text_fields</i>
       </div>
-      <div class="waves-effect waves-light btn-flat tooltipped" data-position="bottom" data-tooltip="Insert checkbox">
+      {{!-- <label for="insertTextbox">
+        <input type="radio" name="group1" id="insertTextbox">
+        <span><i class="material-icons">text_fields</i></span>
+      </label>
+      <label for="insertCheckbox">
+        <input type="radio" name="group1" id="insertCheckbox">
+        <span><i class="material-icons">check_box</i></span>
+      </label> --}}
+      <div class="waves-effect waves-light btn-flat tooltipped" id="insertCheckbox" data-position="bottom" data-tooltip="Insert checkbox">
         <i class="material-icons">check_box</i>
       </div>
-      <div class="waves-effect waves-light btn-flat tooltipped" data-position="bottom" data-tooltip="Insert hint">
+      <div class="waves-effect waves-light btn-flat tooltipped" id="insertHint" data-position="bottom" data-tooltip="Insert hint">
         <i class="material-icons">help</i>
       </div>
-      <div class="waves-effect waves-light btn-flat tooltipped" data-position="bottom" data-tooltip="Insert comment">
+      <div class="waves-effect waves-light btn-flat tooltipped" id="insertComment" data-position="bottom" data-tooltip="Insert comment">
         <i class="material-icons">insert_comment</i>
       </div>
       <div class="input-field valign-wrapper tooltipped" data-position="bottom" data-tooltip="Textbox length">

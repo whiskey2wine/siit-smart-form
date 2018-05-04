@@ -337,6 +337,10 @@ li.search .search-wrapper i.material-icons {
   margin-left: 10px;
 }
 
+span.truncate::after {
+  content: attr(title);
+}
+
 /* .fixed-action-btn.direction-left ul {
   right: 40px;
 }

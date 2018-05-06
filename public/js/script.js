@@ -53,8 +53,16 @@ const responsiveContainer = () => {
  * Remove highlight from previous selected card
  */
 document.querySelector('main').addEventListener('click', (e) => {
+  // Remove highlight from every card when click on main
   document.querySelectorAll('.selected-doc').forEach((doc) => {
     doc.classList.remove('selected-doc');
+  });
+  // Remove close button from element on edit page
+  document.querySelectorAll('.close').forEach((close) => {
+    // Don't remove close from element that is focusing
+    if (document.activeElement !== close.parentElement.firstElementChild) {
+      close.remove();
+    }
   });
 });
 
@@ -203,10 +211,10 @@ const insertElement = (event, type) => {
   const close = document.createElement('i');
   close.classList.add('material-icons', 'close');
   close.innerHTML = 'close';
-  close.addEventListener('click', function () {
+  close.addEventListener('click', function (e) {
     this.parentElement.remove();
   });
-  input.addEventListener('focus', function () {
+  input.addEventListener('focus', function (e) {
     getSiblings(this.parentElement).forEach((el) => {
       console.dir(el);
       if (el.tagName === 'LABEL') {
@@ -217,6 +225,7 @@ const insertElement = (event, type) => {
         });
       }
     });
+    e.stopPropagation();
     this.parentElement.appendChild(close);
   });
   // Create label element

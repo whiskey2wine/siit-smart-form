@@ -22,8 +22,8 @@
       <div class="waves-effect waves-light btn-flat tooltipped" id="insertComment" data-position="bottom" data-tooltip="Insert comment">
         <i class="material-icons">insert_comment</i>
       </div>
-      <div class="input-field valign-wrapper tooltipped" data-position="bottom" data-tooltip="Textbox length">
-        <input class="center" type="text" value="8" disabled>
+      <div class="input-field valign-wrapper tooltipped" id="textboxLength" data-position="bottom" data-tooltip="Textbox length">
+        <input class="center" type="text" value="8">
       </div>
       <div class="input-field valign-wrapper tooltipped" data-position="bottom" data-tooltip="Open delimeter">
         <input class="center" type="text" placeholder="${">
@@ -35,16 +35,22 @@
         <input class="center" type="text" placeholder="www.test.com?q=${e1}">
       </div>
       <div class="input-field valign-wrapper">
-        <select id="apprList" multiple>
-          <option value="" disabled selected>Choose approvers</option>
-          <option value="1">Option 1</option>
+        <select id="apprList">
+          {{!-- <option value="" disabled selected>Choose approvers</option> --}}
+          {{#each doc.approvers}}
+            <option value="{{this}}">{{this}}</option>
+            {{else}}
+
+          {{/each}}
+          {{!-- <option value="1">Option 1</option>
           <option value="2">Option 2</option>
-          <option value="3">Option 3</option>
+          <option value="3">Option 3</option> --}}
         </select>
       </div>
     </div>
     <div></div>
   </div>
-  <img class="preview-img" src="/docs/image/{{doc.file.filename}}">
-
+  <div class="imageBox mx-auto">
+    <img class="preview-img" src="/docs/image/{{doc.file.filename}}">
+  </div>
 </div>

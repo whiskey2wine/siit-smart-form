@@ -61,6 +61,7 @@ document.querySelector('main').addEventListener('click', (e) => {
 /**
  * Function: Get all siblings of element passing as param
  * Source: https://github.com/cferdinandi/getSiblings
+ * @param {Element} elem - Element that want to get siblings
  */
 const getSiblings = function (elem) {
   const siblings = [];
@@ -94,6 +95,9 @@ docs.forEach((doc) => {
   });
 });
 
+/**
+ * Function: Make toolbar stick to the top of page when scroll
+ */
 const stickyToolbar = () => {
   // const sticky = document.getElementById('toolbar').offsetTop;
   const toolbar = document.querySelector('#toolbar');
@@ -109,35 +113,134 @@ const stickyToolbar = () => {
   }
 };
 
-const insertTextbox = (event) => {
-  const input = document.createElement('input');
-  input.setAttribute('type', 'text');
-  input.classList.add('browser-default');
-  input.classList.add('foo');
-  input.style.position = 'absolute';
-  input.style.left = `${event.pageX}px`;
-  input.style.top = `${event.pageY}px`;
-  input.style.minWidth = '150px';
-  input.style.zIndex = 100;
-  const edit = document.querySelector('#edit');
-  edit.appendChild(input);
-  console.dir(`x: ${event.pageX}, y: ${event.pageY}`);
-};
+// Make the DIV element draggagle:
+function dragElement(elmnt) {
+  let pos1 = 0;
+  let pos2 = 0;
+  let pos3 = 0;
+  let pos4 = 0;
+  function elementDrag(e) {
+    const ev = e || window.event;
+    // calculate the new cursor position:
+    if (ev.clientX && ev.clientY) {
+      pos1 = pos3 - ev.clientX;
+      pos2 = pos4 - ev.clientY;
+      pos3 = ev.clientX;
+      pos4 = ev.clientY;
+    } else {
+      pos1 = pos3 - ev.targetTouches[0].clientX;
+      pos2 = pos4 - ev.targetTouches[0].clientY;
+      pos3 = ev.targetTouches[0].clientX;
+      pos4 = ev.targetTouches[0].clientY;
+      ev.preventDefault();
+    }
+    // set the element's new position:
+    elmnt.style.top = `${elmnt.offsetTop - pos2}px`;
+    elmnt.style.left = `${elmnt.offsetLeft - pos1}px`;
+  }
 
-const insertCheckbox = (event) => {
+  function closeDragElement() {
+    /* stop moving when mouse button is released: */
+    if ('ontouchstart' in window) {
+      document.ontouchend = null;
+      document.ontouchmove = null;
+    } else {
+      document.onmouseup = null;
+      document.onmousemove = null;
+    }
+  }
+
+  function dragMouseDown(e) {
+    const ev = e || window.event;
+    // get the mouse cursor position at startup:
+    if (ev.clientX && ev.clientY) {
+      pos3 = ev.clientX;
+      pos4 = ev.clientY;
+    } else {
+      pos3 = ev.targetTouches[0].clientX;
+      pos4 = ev.targetTouches[0].clientY;
+      ev.preventDefault();
+    }
+    if ('ontouchstart' in window) {
+      document.ontouchend = closeDragElement;
+      // call a function whenever the cursor moves:
+      document.ontouchmove = elementDrag;
+    } else {
+      document.onmouseup = closeDragElement;
+      // call a function whenever the cursor moves:
+      document.onmousemove = elementDrag;
+    }
+  }
+
+  // if (document.getElementById(`${elmnt.id}header`)) {
+  //   /* if present, the header is where you move the DIV from: */
+  //   document.getElementById(`${elmnt.id}header`).onmousedown = dragMouseDown;
+  // } else {
+  /* otherwise, move the DIV from anywhere inside the DIV: */
+  if ('ontouchstart' in window) {
+    elmnt.ontouchstart = dragMouseDown;
+  } else {
+    elmnt.onmousedown = dragMouseDown;
+  }
+  // }
+}
+document.ontouchmove = (e) => {
+  console.dir(e);
+};
+/**
+ * Add textbox to edit page when clicked on the preview image
+ * @param {Event} event  Click event from document image
+ * @param {String} type  Type of input
+ */
+const insertElement = (event, type) => {
+  // Create input element
   const input = document.createElement('input');
-  input.setAttribute('type', 'checkbox');
+  input.setAttribute('type', type);
+  if (type === 'text') {
+    input.classList.add('foo', 'browser-default');
+  }
+  // Create close button for each element
+  const close = document.createElement('i');
+  close.classList.add('material-icons', 'close');
+  close.innerHTML = 'close';
+  close.addEventListener('click', function () {
+    this.parentElement.remove();
+  });
+  input.addEventListener('focus', function () {
+    getSiblings(this.parentElement).forEach((el) => {
+      console.dir(el);
+      if (el.tagName === 'LABEL') {
+        Array.from(el.children).forEach((children) => {
+          if (children.tagName === 'I') {
+            children.remove();
+          }
+        });
+      }
+    });
+    this.parentElement.appendChild(close);
+  });
+  // Create label element
   const label = document.createElement('label');
-  label.style.position = 'absolute';
-  label.style.left = `${event.pageX}px`;
-  label.style.top = `${event.pageY}px`;
-  label.style.zIndex = 100;
+  label.classList.add('component');
+  Object.assign(label.style, {
+    left: `${event.layerX}px`,
+    top: `${event.layerY}px`,
+  });
+
   const span = document.createElement('span');
+
+  // Add each element into label (have to be in this order)
   label.appendChild(input);
   label.appendChild(span);
-  const edit = document.querySelector('#edit');
-  edit.appendChild(label);
-  console.dir(`x: ${event.pageX}, y: ${event.pageY}`);
+  // label.appendChild(close);
+
+  const imageBox = document.querySelector('.imageBox');
+  imageBox.appendChild(label);
+
+  const draggable = document.querySelectorAll('.component');
+  draggable.forEach((el) => {
+    dragElement(el);
+  });
 };
 
 /**
@@ -151,13 +254,17 @@ if (window.location.pathname.substr(0, 10) === '/docs/edit') {
   // const hint = document.querySelector('#insertHint');
   // const comment = document.querySelector('#insertComment');
   previewImg.addEventListener('click', (e) => {
+    console.dir(e);
     if (textbox.getAttribute('active')) {
-      insertTextbox(e);
+      insertElement(e, 'text');
     } else if (checkbox.getAttribute('active')) {
-      insertCheckbox(e);
+      insertElement(e, 'checkbox');
     }
   });
 
+  /**
+   * Add/Remove style and class from button in sticky toolbar
+   */
   const buttons = Array.from(document.querySelector('.toolbar-inner').children);
   buttons.forEach((el) => {
     el.addEventListener('click', function () {
@@ -175,22 +282,6 @@ if (window.location.pathname.substr(0, 10) === '/docs/edit') {
       }
     });
   });
-
-  // textbox.addEventListener('click', function () {
-  //   this.classList.add('blue-grey');
-  //   this.setAttribute('active', true);
-  // });
-
-  // checkbox.addEventListener('click', function () {
-  //   this.classList.add('blue-grey');
-  //   this.setAttribute('active', true);
-  // });
-
-  // document.querySelector('.preview-img').addEventListener('click', function (e) {
-  //   // console.dir(e);
-  //   console.dir(this);
-  //   insertTextbox(e);
-  // });
 }
 
 const randomString = (length) => {
@@ -232,7 +323,10 @@ formname.onchange = (e) => {
 /* ------- Start Create Form Modal -------- */
 const elemAddApprover = document.querySelector('#add-approver');
 
-// Delete approver function
+/**
+ * Delete approver from the list
+ * @param {Event} e
+ */
 const del = function (e) {
   e.preventDefault();
   const id = parseInt(e.currentTarget.id.substr(12));

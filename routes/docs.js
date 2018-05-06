@@ -102,7 +102,6 @@ router.get('/', (req, res) => {
   Doc.find({ creator: req.user.id })
     .sort({ date: 'desc' })
     .then((docs) => {
-      console.log(docs);
       res.render('docs/index', {
         docs,
         user: req.user,
@@ -111,11 +110,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/edit/:id', (req, res) => {
-  console.log(req.user);
-  console.log(req.params.id);
   Doc.findOne({ creator: req.user.id, _id: req.params.id })
     .then((doc) => {
-      console.log(doc);
       res.render('docs/edit', {
         user: req.user,
         doc,
@@ -148,7 +144,6 @@ router.post('/upload', (req, res) => {
       // res.render('docs/index', err);
       res.redirect('/docs');
     } else {
-      console.log(req.file);
       res.json({
         id: req.file.id,
         filename: req.file.filename,
@@ -161,8 +156,6 @@ router.post('/upload', (req, res) => {
 });
 
 router.post('/add', (req, res) => {
-  console.log(req.body);
-  // res.redirect('/docs');
   const approvers = Object.entries(req.body)
     .filter(val => val[0].substr(0, 4) === 'appr')
     .map(val => val[1]);
@@ -201,7 +194,6 @@ router.get('/image/:filename', (req, res) => {
         err: 'No file exists.',
       });
     }
-    console.log(file);
     // Allowed ext
     const filetypes = /jpg|jpeg|png|gif/;
     // Check ext

@@ -8,9 +8,10 @@ const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+require('dotenv').config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Load routes
 const docs = require('../routes/docs');
@@ -48,7 +49,7 @@ app.use(methodOverride('_method'));
 
 // Express session Middleware
 app.use(session({
-  secret: 'keyboard cat',
+  secret: process.env.SESS_SECRET || 'keyboard cat',
   resave: false,
   saveUninitialized: false,
   store: new MongoStore({

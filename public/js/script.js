@@ -64,6 +64,13 @@ document.querySelector('main').addEventListener('click', (e) => {
       close.remove();
     }
   });
+  // Remove resize-handle button from element on edit page
+  document.querySelectorAll('.resize-handle').forEach((handle) => {
+    // Don't remove resize-handle from element that is focusing
+    if (document.activeElement !== handle.parentElement.firstElementChild) {
+      handle.remove();
+    }
+  });
 });
 
 /**
@@ -192,9 +199,35 @@ function dragElement(elmnt) {
   }
   // }
 }
-document.ontouchmove = (e) => {
-  console.dir(e);
+
+const resizeHandler = (element) => {
+  console.dir(element);
 };
+
+const textboxLength = document.querySelector('#textboxLength input');
+textboxLength.addEventListener('keyup', function (e) {
+  const selected = document.querySelector('.selectedBox');
+  if (selected) {
+    selected.style.width = `${this.value}px`;
+    selected.style.minWidth = `${this.value}px`;
+  }
+});
+textboxLength.addEventListener('keydown', function (e) {
+  const keycode = e.which ? e.which : e.keyCode;
+  if (keycode === 38 || keycode === 40) {
+    e.preventDefault();
+  }
+  if (e.shiftKey && keycode === 38) {
+    this.value = parseInt(this.value) + 10;
+  } else if (e.shiftKey && keycode === 40) {
+    this.value = parseInt(this.value) - 10;
+  } else if (keycode === 38) {
+    this.value = parseInt(this.value) + 1;
+  } else if (keycode === 40) {
+    this.value = parseInt(this.value) - 1;
+  }
+});
+
 /**
  * Add textbox to edit page when clicked on the preview image
  * @param {Event} event  Click event from document image
@@ -214,20 +247,62 @@ const insertElement = (event, type) => {
   close.addEventListener('click', function (e) {
     this.parentElement.remove();
   });
+  // add handle for resize box
+  // const handle = document.createElement('i');
+  // handle.classList.add('material-icons', 'resize-handle');
+  // handle.innerHTML = 'drag_handle';
+  // handle.addEventListener('click', function (e) {
+  //   resizeHandler(this);
+  // });
+
   input.addEventListener('focus', function (e) {
+    input.classList.add('selectedBox');
+    textboxLength.value = input.offsetWidth;
+    // remove close button from siblings
     getSiblings(this.parentElement).forEach((el) => {
       console.dir(el);
       if (el.tagName === 'LABEL') {
         Array.from(el.children).forEach((children) => {
+          console.dir(children);
           if (children.tagName === 'I') {
             children.remove();
+          }
+          if (children.tagName === 'INPUT') {
+            children.classList.remove('selectedBox');
           }
         });
       }
     });
-    e.stopPropagation();
+    // add close button on target item
     this.parentElement.appendChild(close);
+
+    /**
+     * แก้ตรงนี้
+     * ตอนนี้ถ้ากดลูกศรซ้ายขวาตอนที่มีข้อความอยู่ cursor จะเลื่อนพร้อมกับกล่องขยับ
+     * ทำให้มันทำอย่างใดอย่างหนึ่ง
+     */
+    document.querySelector('.selectedBox').addEventListener('keydown', function (ev) {
+      const keycode = ev.which ? ev.which : ev.keyCode;
+      if (keycode === 38) {
+        let top = this.parentElement.offsetTop;
+        top -= 1;
+        this.parentElement.style.top = `${top}px`;
+      } else if (keycode === 39) {
+        let left = this.parentElement.offsetLeft;
+        left += 1;
+        this.parentElement.style.left = `${left}px`;
+      } else if (keycode === 40) {
+        let top = this.parentElement.offsetTop;
+        top += 1;
+        this.parentElement.style.top = `${top}px`;
+      } else if (keycode === 37) {
+        let left = this.parentElement.offsetLeft;
+        left -= 1;
+        this.parentElement.style.left = `${left}px`;
+      }
+    });
   });
+
   // Create label element
   const label = document.createElement('label');
   label.classList.add('component');

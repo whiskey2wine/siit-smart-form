@@ -228,6 +228,81 @@ textboxLength.addEventListener('keydown', function (e) {
   }
 });
 
+// const movePad = () => {
+//   const element = document.createElement('div');
+//   const up = document.createElement('i');
+//   const right = document.createElement('i');
+//   const down = document.createElement('i');
+//   const left = document.createElement('i');
+//   up.classList.add('material-icons');
+//   up.innerHTML = 'keyboard_arrow_up';
+//   right.classList.add('material-icons');
+//   right.innerHTML = 'keyboard_arrow_right';
+//   down.classList.add('material-icons');
+//   down.innerHTML = 'keyboard_arrow_down';
+//   left.classList.add('material-icons');
+//   left.innerHTML = 'keyboard_arrow_left';
+//   element.appendChild(up);
+//   element.appendChild(right);
+//   element.appendChild(down);
+//   element.appendChild(left);
+//   return element;
+// };
+const elmnt = document.createElement('div');
+elmnt.setAttribute('id', 'directionPad');
+const directionPad = `
+    <i class="material-icons">keyboard_arrow_up</i>
+    <i class="material-icons">keyboard_arrow_right</i>
+    <i class="material-icons">keyboard_arrow_down</i>
+    <i class="material-icons">keyboard_arrow_left</i>
+`;
+elmnt.innerHTML = directionPad;
+document.body.appendChild(elmnt);
+
+const someFunction = () => {
+  Array.from(elmnt.children).forEach((child, i) => {
+    if (i === 0) {
+      child.addEventListener('mousedown', (e) => {
+        const select = document.querySelector('.selectedBox');
+        if (select) {
+          let top = select.parentElement.offsetTop;
+          top -= 1;
+          select.parentElement.style.top = `${top}px`;
+        }
+      });
+    } else if (i === 1) {
+      child.addEventListener('mousedown', (e) => {
+        const select = document.querySelector('.selectedBox');
+        if (select) {
+          let left = select.parentElement.offsetLeft;
+          left += 1;
+          select.parentElement.style.left = `${left}px`;
+        }
+      });
+    } else if (i === 2) {
+      child.addEventListener('mousedown', (e) => {
+        const select = document.querySelector('.selectedBox');
+        if (select) {
+          let top = select.parentElement.offsetTop;
+          top += 1;
+          select.parentElement.style.top = `${top}px`;
+        }
+      });
+    } else if (i === 3) {
+      child.addEventListener('mousedown', (e) => {
+        const select = document.querySelector('.selectedBox');
+        if (select) {
+          let left = select.parentElement.offsetLeft;
+          left -= 1;
+          select.parentElement.style.left = `${left}px`;
+        }
+      });
+    }
+  });
+};
+
+someFunction();
+
 /**
  * Add textbox to edit page when clicked on the preview image
  * @param {Event} event  Click event from document image
@@ -276,31 +351,34 @@ const insertElement = (event, type) => {
     // add close button on target item
     this.parentElement.appendChild(close);
 
+    // const movePanel = movePad();
+    // this.parentElement.appendChild(movePanel);
+
     /**
      * แก้ตรงนี้
      * ตอนนี้ถ้ากดลูกศรซ้ายขวาตอนที่มีข้อความอยู่ cursor จะเลื่อนพร้อมกับกล่องขยับ
      * ทำให้มันทำอย่างใดอย่างหนึ่ง
      */
-    document.querySelector('.selectedBox').addEventListener('keydown', function (ev) {
-      const keycode = ev.which ? ev.which : ev.keyCode;
-      if (keycode === 38) {
-        let top = this.parentElement.offsetTop;
-        top -= 1;
-        this.parentElement.style.top = `${top}px`;
-      } else if (keycode === 39) {
-        let left = this.parentElement.offsetLeft;
-        left += 1;
-        this.parentElement.style.left = `${left}px`;
-      } else if (keycode === 40) {
-        let top = this.parentElement.offsetTop;
-        top += 1;
-        this.parentElement.style.top = `${top}px`;
-      } else if (keycode === 37) {
-        let left = this.parentElement.offsetLeft;
-        left -= 1;
-        this.parentElement.style.left = `${left}px`;
-      }
-    });
+    // document.querySelector('.selectedBox').addEventListener('keydown', function (ev) {
+    //   const keycode = ev.which ? ev.which : ev.keyCode;
+    //   if (keycode === 38) {
+    //     let top = this.parentElement.offsetTop;
+    //     top -= 1;
+    //     this.parentElement.style.top = `${top}px`;
+    //   } else if (keycode === 39) {
+    //     let left = this.parentElement.offsetLeft;
+    //     left += 1;
+    //     this.parentElement.style.left = `${left}px`;
+    //   } else if (keycode === 40) {
+    //     let top = this.parentElement.offsetTop;
+    //     top += 1;
+    //     this.parentElement.style.top = `${top}px`;
+    //   } else if (keycode === 37) {
+    //     let left = this.parentElement.offsetLeft;
+    //     left -= 1;
+    //     this.parentElement.style.left = `${left}px`;
+    //   }
+    // });
   });
 
   // Create label element

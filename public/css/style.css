@@ -395,3 +395,41 @@ span.truncate::after {
 .btn-floating {
   border-radius: unset;
 } */
+
+#directionPad {
+  position: fixed;
+  bottom: 10%;
+  right: 5%;
+}
+
+#directionPad i {
+  position: absolute;
+  background: #44b7e1;
+  border-radius: 50%;
+  font-size: 36px;
+  cursor: pointer;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+#directionPad i:nth-child(1) {
+  bottom: 50px;
+  right: 50px;
+}
+#directionPad i:nth-child(2) {
+  bottom: 10px;
+  right: 0px;
+}
+#directionPad i:nth-child(3) {
+  bottom: -30px;
+  right: 50px;
+}
+#directionPad i:nth-child(4) {
+  bottom: 10px;
+  right: 100px;
+}

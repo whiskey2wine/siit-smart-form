@@ -1,5 +1,4 @@
 /* global M Stretchy */
-// M.AutoInit();
 Stretchy.selectors.filter = '.foo';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -35,7 +34,7 @@ const elemMatBox = document.querySelectorAll('.materialboxed');
 const instMatBox = M.Materialbox.init(elemMatBox);
 
 /**
- * Remove "container" class to increase spacing in smaller devices
+ * Function: Remove "container" class to increase spacing in smaller devices
  */
 const responsiveContainer = () => {
   const width = window.innerWidth;
@@ -47,6 +46,23 @@ const responsiveContainer = () => {
     container.classList.add('container');
     // $('#container').addClass('container');
   }
+};
+window.onresize = () => responsiveContainer();
+
+/**
+ * Function: Get all siblings of element passing as param
+ * Source: https://github.com/cferdinandi/getSiblings
+ * @param {Element} elem - Element that want to get siblings
+ */
+const getSiblings = function (elem) {
+  const siblings = [];
+  let sibling = elem.parentNode.firstChild;
+  for (; sibling; sibling = sibling.nextSibling) {
+    if (sibling.nodeType === 1 && sibling !== elem) {
+      siblings.push(sibling);
+    }
+  }
+  return siblings;
 };
 
 /**
@@ -64,30 +80,7 @@ document.querySelector('main').addEventListener('click', (e) => {
       close.remove();
     }
   });
-  // Remove resize-handle button from element on edit page
-  document.querySelectorAll('.resize-handle').forEach((handle) => {
-    // Don't remove resize-handle from element that is focusing
-    if (document.activeElement !== handle.parentElement.firstElementChild) {
-      handle.remove();
-    }
-  });
 });
-
-/**
- * Function: Get all siblings of element passing as param
- * Source: https://github.com/cferdinandi/getSiblings
- * @param {Element} elem - Element that want to get siblings
- */
-const getSiblings = function (elem) {
-  const siblings = [];
-  let sibling = elem.parentNode.firstChild;
-  for (; sibling; sibling = sibling.nextSibling) {
-    if (sibling.nodeType === 1 && sibling !== elem) {
-      siblings.push(sibling);
-    }
-  }
-  return siblings;
-};
 
 const docs = document.querySelectorAll('.doc');
 docs.forEach((doc) => {
@@ -110,342 +103,6 @@ docs.forEach((doc) => {
   });
 });
 
-/**
- * Function: Make toolbar stick to the top of page when scroll
- */
-const stickyToolbar = () => {
-  // const sticky = document.getElementById('toolbar').offsetTop;
-  const toolbar = document.querySelector('#toolbar');
-  const edit = document.querySelector('#edit');
-  // const sticky = toolbar.offsetTop;
-
-  if (window.pageYOffset >= 65) {
-    toolbar.classList.add('sticky');
-    edit.classList.add('sticky-offset');
-  } else if (window.pageYOffset < 72) {
-    toolbar.classList.remove('sticky');
-    edit.classList.remove('sticky-offset');
-  }
-};
-
-// Make the DIV element draggagle:
-function dragElement(elmnt) {
-  let pos1 = 0;
-  let pos2 = 0;
-  let pos3 = 0;
-  let pos4 = 0;
-  function elementDrag(e) {
-    const ev = e || window.event;
-    // calculate the new cursor position:
-    if (ev.clientX && ev.clientY) {
-      pos1 = pos3 - ev.clientX;
-      pos2 = pos4 - ev.clientY;
-      pos3 = ev.clientX;
-      pos4 = ev.clientY;
-    } else {
-      pos1 = pos3 - ev.targetTouches[0].clientX;
-      pos2 = pos4 - ev.targetTouches[0].clientY;
-      pos3 = ev.targetTouches[0].clientX;
-      pos4 = ev.targetTouches[0].clientY;
-      ev.preventDefault();
-    }
-    // set the element's new position:
-    elmnt.style.top = `${elmnt.offsetTop - pos2}px`;
-    elmnt.style.left = `${elmnt.offsetLeft - pos1}px`;
-  }
-
-  function closeDragElement() {
-    /* stop moving when mouse button is released: */
-    if ('ontouchstart' in window) {
-      document.ontouchend = null;
-      document.ontouchmove = null;
-    } else {
-      document.onmouseup = null;
-      document.onmousemove = null;
-    }
-  }
-
-  function dragMouseDown(e) {
-    const ev = e || window.event;
-    // get the mouse cursor position at startup:
-    if (ev.clientX && ev.clientY) {
-      pos3 = ev.clientX;
-      pos4 = ev.clientY;
-    } else {
-      pos3 = ev.targetTouches[0].clientX;
-      pos4 = ev.targetTouches[0].clientY;
-      ev.preventDefault();
-    }
-    if ('ontouchstart' in window) {
-      document.ontouchend = closeDragElement;
-      // call a function whenever the cursor moves:
-      document.ontouchmove = elementDrag;
-    } else {
-      document.onmouseup = closeDragElement;
-      // call a function whenever the cursor moves:
-      document.onmousemove = elementDrag;
-    }
-  }
-
-  // if (document.getElementById(`${elmnt.id}header`)) {
-  //   /* if present, the header is where you move the DIV from: */
-  //   document.getElementById(`${elmnt.id}header`).onmousedown = dragMouseDown;
-  // } else {
-  /* otherwise, move the DIV from anywhere inside the DIV: */
-  if ('ontouchstart' in window) {
-    elmnt.ontouchstart = dragMouseDown;
-  } else {
-    elmnt.onmousedown = dragMouseDown;
-  }
-  // }
-}
-
-const resizeHandler = (element) => {
-  console.dir(element);
-};
-
-const textboxLength = document.querySelector('#textboxLength input');
-textboxLength.addEventListener('keyup', function (e) {
-  const selected = document.querySelector('.selectedBox');
-  if (selected) {
-    selected.style.width = `${this.value}px`;
-    selected.style.minWidth = `${this.value}px`;
-  }
-});
-textboxLength.addEventListener('keydown', function (e) {
-  const keycode = e.which ? e.which : e.keyCode;
-  if (keycode === 38 || keycode === 40) {
-    e.preventDefault();
-  }
-  if (e.shiftKey && keycode === 38) {
-    this.value = parseInt(this.value) + 10;
-  } else if (e.shiftKey && keycode === 40) {
-    this.value = parseInt(this.value) - 10;
-  } else if (keycode === 38) {
-    this.value = parseInt(this.value) + 1;
-  } else if (keycode === 40) {
-    this.value = parseInt(this.value) - 1;
-  }
-});
-
-// const movePad = () => {
-//   const element = document.createElement('div');
-//   const up = document.createElement('i');
-//   const right = document.createElement('i');
-//   const down = document.createElement('i');
-//   const left = document.createElement('i');
-//   up.classList.add('material-icons');
-//   up.innerHTML = 'keyboard_arrow_up';
-//   right.classList.add('material-icons');
-//   right.innerHTML = 'keyboard_arrow_right';
-//   down.classList.add('material-icons');
-//   down.innerHTML = 'keyboard_arrow_down';
-//   left.classList.add('material-icons');
-//   left.innerHTML = 'keyboard_arrow_left';
-//   element.appendChild(up);
-//   element.appendChild(right);
-//   element.appendChild(down);
-//   element.appendChild(left);
-//   return element;
-// };
-const elmnt = document.createElement('div');
-elmnt.setAttribute('id', 'directionPad');
-const directionPad = `
-    <i class="material-icons">keyboard_arrow_up</i>
-    <i class="material-icons">keyboard_arrow_right</i>
-    <i class="material-icons">keyboard_arrow_down</i>
-    <i class="material-icons">keyboard_arrow_left</i>
-`;
-elmnt.innerHTML = directionPad;
-document.body.appendChild(elmnt);
-
-const someFunction = () => {
-  Array.from(elmnt.children).forEach((child, i) => {
-    if (i === 0) {
-      child.addEventListener('mousedown', (e) => {
-        const select = document.querySelector('.selectedBox');
-        if (select) {
-          let top = select.parentElement.offsetTop;
-          top -= 1;
-          select.parentElement.style.top = `${top}px`;
-        }
-      });
-    } else if (i === 1) {
-      child.addEventListener('mousedown', (e) => {
-        const select = document.querySelector('.selectedBox');
-        if (select) {
-          let left = select.parentElement.offsetLeft;
-          left += 1;
-          select.parentElement.style.left = `${left}px`;
-        }
-      });
-    } else if (i === 2) {
-      child.addEventListener('mousedown', (e) => {
-        const select = document.querySelector('.selectedBox');
-        if (select) {
-          let top = select.parentElement.offsetTop;
-          top += 1;
-          select.parentElement.style.top = `${top}px`;
-        }
-      });
-    } else if (i === 3) {
-      child.addEventListener('mousedown', (e) => {
-        const select = document.querySelector('.selectedBox');
-        if (select) {
-          let left = select.parentElement.offsetLeft;
-          left -= 1;
-          select.parentElement.style.left = `${left}px`;
-        }
-      });
-    }
-  });
-};
-
-someFunction();
-
-/**
- * Add textbox to edit page when clicked on the preview image
- * @param {Event} event  Click event from document image
- * @param {String} type  Type of input
- */
-const insertElement = (event, type) => {
-  // Create input element
-  const input = document.createElement('input');
-  input.setAttribute('type', type);
-  if (type === 'text') {
-    input.classList.add('foo', 'browser-default');
-  }
-  // Create close button for each element
-  const close = document.createElement('i');
-  close.classList.add('material-icons', 'close');
-  close.innerHTML = 'close';
-  close.addEventListener('click', function (e) {
-    this.parentElement.remove();
-  });
-  // add handle for resize box
-  // const handle = document.createElement('i');
-  // handle.classList.add('material-icons', 'resize-handle');
-  // handle.innerHTML = 'drag_handle';
-  // handle.addEventListener('click', function (e) {
-  //   resizeHandler(this);
-  // });
-
-  input.addEventListener('focus', function (e) {
-    input.classList.add('selectedBox');
-    textboxLength.value = input.offsetWidth;
-    // remove close button from siblings
-    getSiblings(this.parentElement).forEach((el) => {
-      console.dir(el);
-      if (el.tagName === 'LABEL') {
-        Array.from(el.children).forEach((children) => {
-          console.dir(children);
-          if (children.tagName === 'I') {
-            children.remove();
-          }
-          if (children.tagName === 'INPUT') {
-            children.classList.remove('selectedBox');
-          }
-        });
-      }
-    });
-    // add close button on target item
-    this.parentElement.appendChild(close);
-
-    // const movePanel = movePad();
-    // this.parentElement.appendChild(movePanel);
-
-    /**
-     * แก้ตรงนี้
-     * ตอนนี้ถ้ากดลูกศรซ้ายขวาตอนที่มีข้อความอยู่ cursor จะเลื่อนพร้อมกับกล่องขยับ
-     * ทำให้มันทำอย่างใดอย่างหนึ่ง
-     */
-    // document.querySelector('.selectedBox').addEventListener('keydown', function (ev) {
-    //   const keycode = ev.which ? ev.which : ev.keyCode;
-    //   if (keycode === 38) {
-    //     let top = this.parentElement.offsetTop;
-    //     top -= 1;
-    //     this.parentElement.style.top = `${top}px`;
-    //   } else if (keycode === 39) {
-    //     let left = this.parentElement.offsetLeft;
-    //     left += 1;
-    //     this.parentElement.style.left = `${left}px`;
-    //   } else if (keycode === 40) {
-    //     let top = this.parentElement.offsetTop;
-    //     top += 1;
-    //     this.parentElement.style.top = `${top}px`;
-    //   } else if (keycode === 37) {
-    //     let left = this.parentElement.offsetLeft;
-    //     left -= 1;
-    //     this.parentElement.style.left = `${left}px`;
-    //   }
-    // });
-  });
-
-  // Create label element
-  const label = document.createElement('label');
-  label.classList.add('component');
-  Object.assign(label.style, {
-    left: `${event.layerX}px`,
-    top: `${event.layerY}px`,
-  });
-
-  const span = document.createElement('span');
-
-  // Add each element into label (have to be in this order)
-  label.appendChild(input);
-  label.appendChild(span);
-  // label.appendChild(close);
-
-  const imageBox = document.querySelector('.imageBox');
-  imageBox.appendChild(label);
-
-  const draggable = document.querySelectorAll('.component');
-  draggable.forEach((el) => {
-    dragElement(el);
-  });
-};
-
-/**
- * Separate docs/edit from other function since some element might not appear on other page
- */
-if (window.location.pathname.substr(0, 10) === '/docs/edit') {
-  window.onscroll = () => stickyToolbar();
-  const previewImg = document.querySelector('.preview-img');
-  const textbox = document.querySelector('#insertTextbox');
-  const checkbox = document.querySelector('#insertCheckbox');
-  // const hint = document.querySelector('#insertHint');
-  // const comment = document.querySelector('#insertComment');
-  previewImg.addEventListener('click', (e) => {
-    console.dir(e);
-    if (textbox.getAttribute('active')) {
-      insertElement(e, 'text');
-    } else if (checkbox.getAttribute('active')) {
-      insertElement(e, 'checkbox');
-    }
-  });
-
-  /**
-   * Add/Remove style and class from button in sticky toolbar
-   */
-  const buttons = Array.from(document.querySelector('.toolbar-inner').children);
-  buttons.forEach((el) => {
-    el.addEventListener('click', function () {
-      getSiblings(el).forEach((sibling) => {
-        sibling.classList.remove('blue-grey');
-        sibling.removeAttribute('active');
-      });
-      if (this.classList.contains('btn-flat')) {
-        this.classList.toggle('blue-grey');
-        if (this.getAttribute('active')) {
-          this.removeAttribute('active');
-        } else {
-          this.setAttribute('active', true);
-        }
-      }
-    });
-  });
-}
-
 const randomString = (length) => {
   let text = '';
   const possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -455,15 +112,11 @@ const randomString = (length) => {
   return text;
 };
 
-window.onresize = () => responsiveContainer();
-
 /**
  * Separate all modal function from other page for now
  * Remove if after implements form's data handling function
  */
-
 /* ------- /docs/ functions -------- */
-// if (window.location.pathname === '/docs') {
 const formname = document.querySelector('#formname');
 formname.onchange = (e) => {
   const inputIdVal = document.querySelector('input[name="id"]').value;
@@ -538,102 +191,3 @@ document.querySelector('[name="formType"]').addEventListener('change', function 
 });
 
 /* ------- End Create Form Modal -------- */
-// }
-
-// $('.sidenav').sidenav();
-// $('select').formSelect();
-// $('.fixed-action-btn').floatingActionButton();
-// // $('.fixed-action-btn').closeFAB();
-// $('.tooltipped').tooltip({ delay: 50 });
-// $('.modal').modal();
-
-// $('.fixed-action-btn.toolbar').openToolbar();
-// $('.fixed-action-btn.toolbar').closeToolbar();
-// $('#homePage').hide(); // Hide for test - remove when deploy
-
-// const initiate = () => {
-//   $.get(
-//     'server/fileHandler.php',
-//     (data) => {
-//       // console.log(data);
-//       const { length } = Object.keys(data);
-//       const toItems = 0;
-//       const item = 0;
-//       let nowHaveItemCount = 0;
-//       const homePageArray = [];
-
-//       for (let i = 0; i < length; i++) {
-//         if (i < 10) {
-//           $(`#Item0${i}`).html('');
-//         } else {
-//           $(`#Item${i}`).html('');
-//         }
-//       }
-
-//       $('#homePage').html(`
-//           <div id="holdItem" class="row">
-//             <!-- items fetched from jsonFile.json will be inserted here! -->
-//           </div>
-//         `);
-//       $('#preloader').remove();
-//       $('#holdItem').show();
-
-//       $.each(data, (i, subData) => {
-//         // console.log(data);
-//         // console.log(i);
-//         console.log(subData);
-//         console.log(nowHaveItemCount);
-//         if (nowHaveItemCount < 10) {
-//           $('#holdItem').append(`
-//           <div class="col s12 m4">
-//               <div class="card">
-//                 <div class="card-image">
-//                   <img class="mx-auto item-img" src="${subData.iPicLink}">
-//                 </div>
-//                 <div class="card-content blue-grey darken-1 white-text">
-//                   <span class="card-title">${subData.iName}</span>
-//                   <div class="fixed-action-btn" style="position: absolute; bottom: 17px;">
-//                     <a class="btn-floating btn-large red">
-//                       <i class="large material-icons">mode_edit</i>
-//                     </a>
-//                     <ul>
-//                       <li title="Delete">
-//                         <a class="btn-floating red">
-//                           <i class="material-icons">delete</i>
-//                         </a>
-//                       </li>
-//                       <li title="Download">
-//                         <a class="btn-floating yellow darken-1">
-//                           <i class="material-icons">file_download</i>
-//                         </a>
-//                       </li>
-//                       <li title="Share">
-//                         <a class="btn-floating green">
-//                           <i class="material-icons">person_add</i>
-//                         </a>
-//                       </li>
-//                       <li title="Preview">
-//                         <a id="enter${nowHaveItemCount}" class="btn-floating blue">
-//                           <i class="material-icons">visibility</i>
-//                         </a>
-//                       </li>
-//                     </ul>
-//                   </div>
-//                 </div>
-//                 </div>
-//             </div>
-//         `);
-//         } else {
-//         }
-
-//         homePageArray[nowHaveItemCount] = subData.iName;
-//         nowHaveItemCount++;
-//       });
-//     },
-//     'json',
-//   ).fail(() => {
-//     console.log("Error: file not found (invalid user's json), [fetching items]");
-//   });
-// };
-
-// IDEA: click on form's name on homepage to rename directly

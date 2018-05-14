@@ -173,7 +173,8 @@ router.post('/add', (req, res) => {
   };
 
   new Doc(newDoc).save().then((doc) => {
-    res.redirect('/docs');
+    console.log(doc);
+    res.redirect(`/docs/edit/${doc.id}`);
   });
 });
 

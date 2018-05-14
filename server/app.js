@@ -33,12 +33,12 @@ app.engine(
   exphbs({
     extname: '.hbs',
     defaultLayout: 'main',
-    layoutsDir: 'public/views/layouts/',
-    partialsDir: 'public/views/partials',
+    // layoutsDir: 'public/views/layouts/',
+    // partialsDir: 'public/views/partials',
   }),
 );
 app.set('view engine', '.hbs');
-app.set('views', 'public/views'); // change path of 'views' folder
+// app.set('views', 'public/views'); // change path of 'views' folder
 
 // Body parser Middleware
 app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
@@ -88,6 +88,13 @@ app.get('/', (req, res) => {
 // Use routes
 app.use('/docs', docs);
 app.use('/users', users);
+
+// Error handling page
+app.use((req, res, next) => {
+  res.status(404).render('page404', {
+    layout: false,
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);

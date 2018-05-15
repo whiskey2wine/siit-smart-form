@@ -42,7 +42,7 @@ function dragElement(elmnt) {
       pos2 = pos4 - ev.targetTouches[0].clientY;
       pos3 = ev.targetTouches[0].clientX;
       pos4 = ev.targetTouches[0].clientY;
-      ev.preventDefault();
+      // ev.preventDefault();
     }
     // set the element's new position:
     elmnt.style.top = `${elmnt.offsetTop - pos2}px`;
@@ -51,7 +51,7 @@ function dragElement(elmnt) {
 
   function closeDragElement() {
     /* stop moving when mouse button is released: */
-    if ('ontouchstart' in window) {
+    if ('ontouchend' in window) {
       document.ontouchend = null;
       document.ontouchmove = null;
     } else {
@@ -69,9 +69,9 @@ function dragElement(elmnt) {
     } else {
       pos3 = ev.targetTouches[0].clientX;
       pos4 = ev.targetTouches[0].clientY;
-      ev.preventDefault();
+      // ev.preventDefault();
     }
-    if ('ontouchstart' in window) {
+    if ('ontouchend' in window) {
       document.ontouchend = closeDragElement;
       // call a function whenever the cursor moves:
       document.ontouchmove = elementDrag;
@@ -182,7 +182,7 @@ const insertElement = (event, type) => {
   // Attached each function to arrow button
   Array.from(elmnt.children).forEach((child, i) => {
     if (i === 0) {
-      child.addEventListener('mousedown', (e) => {
+      child.addEventListener('click', (e) => {
         const select = document.querySelector('.selectedBox');
         if (select) {
           let top = select.parentElement.offsetTop;
@@ -191,7 +191,7 @@ const insertElement = (event, type) => {
         }
       });
     } else if (i === 1) {
-      child.addEventListener('mousedown', (e) => {
+      child.addEventListener('click', (e) => {
         const select = document.querySelector('.selectedBox');
         if (select) {
           let left = select.parentElement.offsetLeft;
@@ -200,7 +200,7 @@ const insertElement = (event, type) => {
         }
       });
     } else if (i === 2) {
-      child.addEventListener('mousedown', (e) => {
+      child.addEventListener('click', (e) => {
         const select = document.querySelector('.selectedBox');
         if (select) {
           let top = select.parentElement.offsetTop;
@@ -209,7 +209,7 @@ const insertElement = (event, type) => {
         }
       });
     } else if (i === 3) {
-      child.addEventListener('mousedown', (e) => {
+      child.addEventListener('click', (e) => {
         const select = document.querySelector('.selectedBox');
         if (select) {
           let left = select.parentElement.offsetLeft;

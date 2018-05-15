@@ -110,14 +110,52 @@ docs.forEach((doc) => {
   });
 });
 
-const randomString = (length) => {
+const randomStringg = (length) => {
   let text = '';
-  const possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghijklmnopqrstuvwxyz0123456789';
   for (let i = 0; i < length; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
   return text;
 };
+
+console.log(randomStringg(100));
+
+/**
+ * Generate a random string of a given length.
+ * @param {number} length length of string to generate (required)
+ * @param {string=} kind character set or sets to use for string generation (optional, default `aA#`)
+ * @returns {string} random string from selected charset
+ *
+ * @description Options:
+ *
+ *  - `a` for lowercase alphabets [a-z]
+ *  - `A` for uppercase alphabets [A-Z]
+ *  - `#` numbers [0-9]
+ *  - `!` special character as defined
+ *  - `*` all of the above
+ *
+ */
+const randomString = function (length, kind) {
+  let i;
+  let str = '';
+  let opts = kind || 'aA#';
+  let possibleChars = '';
+
+  if (opts.indexOf('*') > -1) opts = 'aA#!'; // use all possible charsets
+
+  // Collate charset to use
+  if (opts.indexOf('#') > -1) possibleChars += '0123456789';
+  if (opts.indexOf('a') > -1) possibleChars += 'abcdefghijklmnopqrstuvwxyz';
+  if (opts.indexOf('A') > -1) possibleChars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  if (opts.indexOf('!') > -1) possibleChars += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
+
+  for (i = 0; i < length; i++) {
+    str += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
+  }
+  return str;
+};
+console.log(randomString(100));
 
 /**
  * Separate all modal function from other page for now

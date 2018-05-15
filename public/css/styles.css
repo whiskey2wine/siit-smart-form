@@ -1,0 +1,281 @@
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column; }
+
+main {
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: center; }
+
+.bg {
+  background: url("/img/dustin-lee-19667-unsplash.jpg");
+  background-size: cover; }
+
+.mx-auto {
+  margin-right: auto !important;
+  margin-left: auto !important; }
+
+.alert {
+  position: relative;
+  padding: 0.75rem 1.25rem !important;
+  margin-top: 1rem;
+  border: 1px solid transparent; }
+
+.alert-danger {
+  border-color: #f93b51;
+  background-color: #f93b51;
+  color: white; }
+
+.alert-success {
+  border-color: #2dc45c;
+  background-color: #2dc45c;
+  color: white; }
+
+.alert-warning {
+  border-color: #fb8735;
+  background-color: #fb8735;
+  color: white; }
+
+.alert-info {
+  border-color: #44b7e1;
+  background-color: #44b7e1;
+  color: white; }
+
+.non-radius {
+  border-radius: 0; }
+
+.brand-logo {
+  padding-left: 10px !important; }
+
+.card-item {
+  margin: 20px;
+  padding: 0; }
+
+.item-img {
+  height: 25vh;
+  object-fit: contain; }
+
+.preview-img {
+  display: block;
+  width: 700px;
+  margin: 50px auto 50px auto;
+  border: 1px solid gray;
+  border-radius: 3px; }
+
+/* Edit Component */
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 70%;
+  max-width: 1280px; }
+
+.sticky-offset {
+  margin-top: 97px; }
+
+#edit > .card > .card-content {
+  padding: 5px 24px; }
+
+.toolbar-container {
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  padding: 0 24px;
+  z-index: 2; }
+
+@media screen and (width: 1024px) {
+  .brand-logo {
+    display: none !important; } }
+
+@media screen and (max-width: 1024px) {
+  .toolbar-inner {
+    grid-column: 1 / 4; }
+  .sticky {
+    width: 100%;
+    left: 0; } }
+
+@media screen and (min-width: 1280px) and (max-width: 1680px) {
+  .toolbar-inner {
+    grid-column: 1 / 4; } }
+
+.toolbar-inner {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr) 3fr 3fr;
+  grid-gap: 0.5em;
+  justify-items: center;
+  align-items: center; }
+  .toolbar-inner .input-field input {
+    border-bottom: unset; }
+
+.toolbar-inner > .btn-flat i {
+  font-size: 26px; }
+
+.toolbar-inner > .btn-flat {
+  padding: 0 5px;
+  color: #fff; }
+
+.toolbar-inner > div:hover {
+  background-color: #90a4ae; }
+
+.toolbar-inner > .input-field,
+.toolbar-inner > .input-field > input,
+.toolbar-inner > .input-field > .select-wrapper,
+.toolbar-inner > .input-field > .select-wrapper > input {
+  margin: 0;
+  width: 100%; }
+
+.toolbar-inner > .input-field > input[type='text']:focus,
+.toolbar-inner > .input-field > input[type='text']:hover,
+.toolbar-inner > .input-field > .select-wrapper:hover {
+  background-color: #90a4ae; }
+
+.toolbar-inner > .input-field > .select-wrapper > ul > li:nth-child(1) > span {
+  font-size: 15px; }
+
+.dropdown-content li > span > label {
+  top: -11px; }
+
+/* Search box - Navbar */
+.search-wrapper {
+  margin-top: 7px; }
+
+input.search {
+  display: block;
+  font-size: 16px;
+  font-weight: 300;
+  width: 100%;
+  height: 50px;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 45px 0 15px;
+  border: 0;
+  background-color: rgba(255, 255, 255, 0.1); }
+  input.search:focus {
+    background-color: #fff !important;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #444; }
+  input.search:hover {
+    background-color: rgba(255, 255, 255, 0.2); }
+  input.search:focus + .material-icons {
+    color: #444; }
+
+li.search .search-wrapper i.material-icons {
+  position: absolute;
+  top: 0;
+  right: 135px;
+  cursor: pointer; }
+
+/* Approver panel - create form */
+.file-preview {
+  display: block;
+  width: 200px;
+  margin: 0 auto; }
+
+.del-approver {
+  padding: 0 10px;
+  position: absolute;
+  top: 8px;
+  right: 0; }
+
+.dropzone {
+  margin: 0 auto;
+  width: 100%;
+  border: 2px #90a4ae dashed;
+  background-color: rgba(176, 190, 197, 0.2); }
+
+#previews {
+  /* Hide the delete button initially */
+  /* Hide the start and cancel buttons and show the delete button */ }
+  #previews .delete {
+    display: none; }
+  #previews .dz-success .start,
+  #previews .dz-success .cancel {
+    display: none; }
+  #previews .dz-success .delete {
+    display: block; }
+
+.dz-default.dz-message {
+  white-space: pre-line; }
+
+.fab {
+  background-color: unset !important;
+  box-shadow: unset !important; }
+
+.fixed-action-btn ul {
+  bottom: 30px; }
+
+.selected-doc,
+.selected-doc .fab i {
+  background-color: #546e7a !important;
+  color: #fff !important; }
+
+#homepage .card,
+#homepage .card .card-content .fab i {
+  color: #546e7a; }
+
+#homepage .card .card-content span {
+  cursor: default;
+  margin-left: 10px; }
+
+span.truncate::after {
+  content: attr(title); }
+
+.select-dropdown.dropdown-trigger {
+  color: #fff; }
+
+.close {
+  position: absolute;
+  right: -26px;
+  background-color: #f00;
+  color: #fff;
+  font-weight: bold; }
+
+.component {
+  position: absolute;
+  z-index: 1; }
+  .component input[type='text'] {
+    font-size: 16px;
+    width: 150px;
+    min-width: 150px; }
+
+.imageBox {
+  position: relative;
+  width: 700px; }
+
+#directionPad {
+  position: fixed;
+  bottom: 10%;
+  right: 5%; }
+  #directionPad i {
+    position: absolute;
+    background: #44b7e1;
+    border-radius: 50%;
+    font-size: 36px;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently supported by Chrome and Opera */ }
+  #directionPad i:nth-child(1) {
+    bottom: 50px;
+    right: 50px; }
+  #directionPad i:nth-child(2) {
+    bottom: 10px;
+    right: 0px; }
+  #directionPad i:nth-child(3) {
+    bottom: -30px;
+    right: 50px; }
+  #directionPad i:nth-child(4) {
+    bottom: 10px;
+    right: 100px; }

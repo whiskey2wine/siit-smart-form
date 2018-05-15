@@ -235,11 +235,20 @@ span.truncate::after {
 
 .component {
   position: absolute;
-  z-index: 1; }
+  z-index: 1;
+  touch-action: none; }
   .component input[type='text'] {
+    border: 1px solid #aaa;
+    border-radius: 0;
+    outline: none;
+    box-sizing: border-box;
     font-size: 16px;
     width: 150px;
-    min-width: 150px; }
+    min-width: 150px;
+    background-color: rgba(245, 245, 245, 0.5); }
+  .component input[type='text']:focus {
+    border-color: dodgerBlue;
+    box-shadow: 0 0 8px 0 dodgerBlue; }
 
 .imageBox {
   position: relative;

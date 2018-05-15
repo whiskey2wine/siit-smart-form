@@ -108,6 +108,11 @@ const insertElement = (event, type) => {
     input.classList.add('foo', 'browser-default');
   }
   // Create close button for each element
+  const move = document.createElement('i');
+  move.classList.add('material-icons', 'moveHandle');
+  move.innerHTML = 'open_with';
+
+  // Create close button for each element
   const close = document.createElement('i');
   close.classList.add('material-icons', 'close');
   close.innerHTML = 'close';
@@ -134,7 +139,8 @@ const insertElement = (event, type) => {
         });
       }
     });
-    // add close button on target item
+    // add move & close button on target item
+    this.parentElement.appendChild(move);
     this.parentElement.appendChild(close);
   });
 

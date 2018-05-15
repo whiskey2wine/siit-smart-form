@@ -80,6 +80,13 @@ document.querySelector('main').addEventListener('click', (e) => {
       close.remove();
     }
   });
+  // Remove move button from element on edit page
+  document.querySelectorAll('.moveHandle').forEach((move) => {
+    // Don't remove move from element that is focusing
+    if (document.activeElement !== move.parentElement.firstElementChild) {
+      move.remove();
+    }
+  });
 });
 
 const docs = document.querySelectorAll('.doc');

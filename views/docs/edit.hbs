@@ -25,7 +25,7 @@
       <div class="input-field valign-wrapper tooltipped" id="textboxLength" data-position="bottom" data-tooltip="Textbox length">
         <input class="center" id="length" type="text" value="8">
       </div>
-      <div class="input-field valign-wrapper tooltipped" data-position="bottom" data-tooltip="Open delimeter">
+      {{!-- <div class="input-field valign-wrapper tooltipped" data-position="bottom" data-tooltip="Open delimeter">
         <input class="center" type="text" placeholder="${">
       </div>
       <div class="input-field valign-wrapper tooltipped" data-position="bottom" data-tooltip="Close delimeter">
@@ -33,20 +33,20 @@
       </div>
       <div class="input-field valign-wrapper tooltipped" data-position="bottom" data-tooltip="Data retrieval url">
         <input class="center" type="text" placeholder="www.test.com?q=${e1}">
-      </div>
-      <div class="input-field valign-wrapper">
-        <select id="apprList">
-          {{!-- <option value="" disabled selected>Choose approvers</option> --}}
-          {{#each doc.approvers}}
-            <option value="{{this}}">{{this}}</option>
-            {{else}}
+      </div> --}}
+      {{!-- <div class="input-field valign-wrapper">
+        <select id="apprList"> --}}
+      {{!-- <option value="" disabled selected>Choose approvers</option> --}}
+      {{!-- {{#each doc.approvers}} --}}
+      {{!-- <option value="{{this}}">{{this}}</option> --}}
+      {{!-- {{else}} --}}
 
-          {{/each}}
-          {{!-- <option value="1">Option 1</option>
+      {{!-- {{/each}} --}}
+      {{!-- <option value="1">Option 1</option>
           <option value="2">Option 2</option>
           <option value="3">Option 3</option> --}}
-        </select>
-      </div>
+      {{!-- </select>
+      </div> --}}
     </div>
     <div></div>
   </div>

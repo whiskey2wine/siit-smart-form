@@ -226,13 +226,6 @@ span.truncate::after {
 .select-dropdown.dropdown-trigger {
   color: #fff; }
 
-.close {
-  position: absolute;
-  right: -26px;
-  background-color: #f00;
-  color: #fff;
-  font-weight: bold; }
-
 .component {
   position: absolute;
   z-index: 1;
@@ -249,6 +242,28 @@ span.truncate::after {
   .component input[type='text']:focus {
     border-color: dodgerBlue;
     box-shadow: 0 0 8px 0 dodgerBlue; }
+  .component input[type='checkbox'] + span + .moveHandle {
+    left: -42px; }
+  .component i {
+    position: absolute;
+    color: #fff;
+    font-size: 22px; }
+
+.close {
+  right: -26px;
+  background-color: #f00;
+  font-weight: bold; }
+  .close:hover {
+    cursor: pointer;
+    background-color: #ff5555; }
+
+.moveHandle {
+  left: -26px;
+  background-color: #90a4ae;
+  font-weight: normal; }
+  .moveHandle:hover {
+    cursor: move;
+    background-color: #aabbc47e; }
 
 .imageBox {
   position: relative;

@@ -310,14 +310,6 @@ span.truncate::after {
   color: #fff;
 }
 
-.close {
-  position: absolute;
-  right: -26px;
-  background-color: #f00;
-  color: #fff;
-  font-weight: bold;
-}
-
 .component {
   position: absolute;
   z-index: 1;
@@ -338,6 +330,36 @@ span.truncate::after {
   input[type='text']:focus {
     border-color: dodgerBlue;
     box-shadow: 0 0 8px 0 dodgerBlue;
+  }
+
+  input[type='checkbox'] + span + .moveHandle {
+    left: -42px;
+  }
+
+  i {
+    position: absolute;
+    color: #fff;
+    font-size: 22px;
+  }
+}
+
+.close {
+  right: -26px;
+  background-color: #f00;
+  font-weight: bold;
+  &:hover {
+    cursor: pointer;
+    background-color: rgb(255, 85, 85);
+  }
+}
+
+.moveHandle {
+  left: -26px;
+  background-color: #90a4ae;
+  font-weight: normal;
+  &:hover {
+    cursor: move;
+    background-color: #aabbc47e;
   }
 }
 

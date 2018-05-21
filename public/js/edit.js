@@ -6,15 +6,15 @@
 const stickyToolbar = () => {
   // const sticky = document.getElementById('toolbar').offsetTop;
   const toolbar = document.querySelector('#toolbar');
-  const edit = document.querySelector('#edit');
+  // const edit = document.querySelector('#edit');
   // const sticky = toolbar.offsetTop;
 
   if (window.pageYOffset >= 65) {
     toolbar.classList.add('sticky');
-    edit.classList.add('sticky-offset');
+    // edit.classList.add('sticky-offset');
   } else if (window.pageYOffset < 72) {
     toolbar.classList.remove('sticky');
-    edit.classList.remove('sticky-offset');
+    // edit.classList.remove('sticky-offset');
   }
 };
 
@@ -178,10 +178,10 @@ const insertElement = (event, type) => {
   const elmnt = document.createElement('div');
   elmnt.setAttribute('id', 'directionPad');
   const directionPad = `
-      <i class="material-icons">keyboard_arrow_up</i>
-      <i class="material-icons">keyboard_arrow_right</i>
-      <i class="material-icons">keyboard_arrow_down</i>
-      <i class="material-icons">keyboard_arrow_left</i>
+      <i class="material-icons blue-grey lighten-1">keyboard_arrow_up</i>
+      <i class="material-icons blue-grey lighten-1">keyboard_arrow_right</i>
+      <i class="material-icons blue-grey lighten-1">keyboard_arrow_down</i>
+      <i class="material-icons blue-grey lighten-1">keyboard_arrow_left</i>
   `;
   elmnt.innerHTML = directionPad;
   document.querySelector('#edit').appendChild(elmnt);

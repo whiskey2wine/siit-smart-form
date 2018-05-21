@@ -13,6 +13,7 @@
   box-sizing: $val;
 }
 
+$primary-color: #4a8bee;
 $danger-color: #f93b51;
 $success-color: #2dc45c;
 $warning-color: #fb8735;
@@ -92,6 +93,7 @@ main {
 .preview-img {
   display: block;
   width: 700px;
+  max-width: 100vw;
   margin: 50px auto 50px auto;
   border: 1px solid gray;
   border-radius: 3px;
@@ -99,15 +101,18 @@ main {
 
 /* Edit Component */
 
-.sticky {
-  position: fixed;
-  top: 0;
-  width: 70%;
-  max-width: 1280px;
-}
+// .sticky {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   // width: 70%;
+//   max-width: 1280px;
+// }
 
 .sticky-offset {
-  margin-top: 97px;
+  // margin-top: 97px;
+  width: 100vw;
 }
 
 #edit > .card > .card-content {
@@ -119,6 +124,10 @@ main {
   grid-template-columns: 1fr 4fr 1fr;
   padding: 0 24px;
   z-index: 2;
+  margin: 0 auto;
+  width: 800px;
+  position: sticky;
+  top: 0;
 }
 
 @media screen and (width: 1024px) {
@@ -128,55 +137,89 @@ main {
 }
 
 @media screen and (max-width: 1024px) {
-  .toolbar-inner {
-    grid-column: 1 / 4;
-  }
-  .sticky {
+  // .toolbar-inner {
+  //   grid-column: 1 / 4;
+  // }
+  .toolbar-container {
     width: 100%;
-    left: 0;
+    max-width: 1280px;
   }
+  // .toolbar-container,
+  // .sticky {
+  //   width: 100%;
+  //   left: 0;
+  // }
 }
 
-@media screen and (min-width: 1280px) and (max-width: 1680px) {
-  .toolbar-inner {
-    grid-column: 1 / 4;
-  }
-}
+// @media screen and (min-width: 1280px) and (max-width: 1680px) {
+//   .toolbar-inner {
+//     grid-column: 1 / 4;
+//   }
+// }
 
 .toolbar-inner {
   display: grid;
-  grid-template-columns: repeat(7, 1fr) 3fr 3fr;
+  // grid-template-columns: repeat(7, 1fr) 3fr 3fr;
+  grid-template-columns: repeat(5, 50px);
   grid-gap: 0.5em;
   justify-items: center;
   align-items: center;
+  justify-self: center;
 
-  .input-field {
+  div:hover {
+    background-color: #90a4ae;
+  }
+
+  @at-root .saveDoc .btn-flat,
+    & .btn-flat {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    padding: 5px;
+    border-radius: 0;
+
+    i {
+      vertical-align: middle;
+      font-size: 26px;
+      color: #fff;
+    }
+  }
+
+  .input-field,
+  .input-field * {
+    margin: 0 !important;
+    width: 100%;
+
     input {
       border-bottom: unset;
+      // margin-bottom: 0;
     }
   }
 }
 
-.toolbar-inner > .btn-flat i {
-  font-size: 26px;
+.saveDoc {
+  .btn-flat {
+    &:hover {
+      background-color: #80cbc4 !important;
+    }
+    span {
+      font-weight: 500;
+      font-size: 16px;
+      color: #fff;
+    }
+    i {
+      font-size: 16px;
+    }
+  }
 }
 
-.toolbar-inner > .btn-flat {
-  padding: 0 5px;
-  color: #fff;
-}
-
-.toolbar-inner > div:hover {
-  background-color: #90a4ae;
-}
-
-.toolbar-inner > .input-field,
-.toolbar-inner > .input-field > input,
-.toolbar-inner > .input-field > .select-wrapper,
-.toolbar-inner > .input-field > .select-wrapper > input {
-  margin: 0;
-  width: 100%;
-}
+// .toolbar-inner > .input-field,
+// .toolbar-inner > .input-field > input,
+// .toolbar-inner > .input-field > .select-wrapper,
+// .toolbar-inner > .input-field > .select-wrapper > input {
+//   margin: 0;
+//   width: 100%;
+// }
 
 .toolbar-inner > .input-field > input[type='text']:focus,
 .toolbar-inner > .input-field > input[type='text']:hover,
@@ -366,6 +409,7 @@ span.truncate::after {
 .imageBox {
   position: relative;
   width: 700px;
+  max-width: 100vw;
 }
 
 #directionPad {
@@ -375,11 +419,12 @@ span.truncate::after {
 
   i {
     position: absolute;
-    background: #44b7e1;
+    // background: #44b7e1;
     border-radius: 50%;
     font-size: 36px;
     cursor: pointer;
     @include user-select(none);
+    color: #fff;
   }
 
   i:nth-child(1) {
@@ -388,7 +433,7 @@ span.truncate::after {
   }
   i:nth-child(2) {
     bottom: 10px;
-    right: 0px;
+    right: 10px;
   }
   i:nth-child(3) {
     bottom: -30px;
@@ -396,6 +441,6 @@ span.truncate::after {
   }
   i:nth-child(4) {
     bottom: 10px;
-    right: 100px;
+    right: 90px;
   }
 }

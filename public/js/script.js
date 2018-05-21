@@ -38,15 +38,19 @@ const instMatBox = M.Materialbox.init(elemMatBox);
  */
 const responsiveContainer = () => {
   const width = window.innerWidth;
-  const container = document.querySelector('main > div');
-  if (width <= 768) {
+  const container = document.querySelector('#container');
+  const edit = document.querySelector('#edit');
+  if (width <= 1024) {
     container.classList.remove('container');
+    edit.classList.add('sticky-offset');
     // $('#container').removeClass('container');
   } else {
     container.classList.add('container');
+    edit.classList.remove('sticky-offset');
     // $('#container').addClass('container');
   }
 };
+window.onload = () => responsiveContainer();
 window.onresize = () => responsiveContainer();
 
 /**

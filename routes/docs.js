@@ -28,7 +28,8 @@ conn.once('open', () => {
 const storage = GridFsStorage({
   // url: 'mongodb://whiskey2wine:bacon007@ds253889.mlab.com:53889/online-form',
   // url: 'mongodb://localhost/online-form',
-  url: 'mongodb://35.197.153.201:27017/online-form',
+  url:
+    'mongodb+srv://jkarikan:bacon007@siit-smart-form-pprj7.mongodb.net/test?retryWrites=true/online-form',
   file: (req, file) =>
     new Promise((resolve, reject) => {
       crypto.randomBytes(16, (err, buf) => {

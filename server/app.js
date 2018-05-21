@@ -21,7 +21,7 @@ const users = require('../routes/users');
 mongoose
   // .connect('mongodb://whiskey2wine:bacon007@ds253889.mlab.com:53889/online-form')
   // .connect('mongodb://localhost/online-form')
-  .connect('mongodb+srv://jkarikan:bacon007@siit-smart-form-pprj7.mongodb.net/test?retryWrites=true/online-form')
+  .connect('mongodb+srv://jkarikan:bacon007@siit-smart-form-pprj7.mongodb.net/online-form?retryWrites=true')
   .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err));
 

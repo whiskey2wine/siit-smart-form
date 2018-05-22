@@ -1,4 +1,5 @@
 /* global M Stretchy */
+// @ts-check
 Stretchy.selectors.filter = '.foo';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -85,7 +86,7 @@ document.querySelector('main').addEventListener('click', (e) => {
     }
   });
   // Remove move button from element on edit page
-  document.querySelectorAll('.moveHandle').forEach((move) => {
+  document.querySelectorAll('.move-handle').forEach((move) => {
     // Don't remove move from element that is focusing
     if (document.activeElement !== move.parentElement.firstElementChild) {
       move.remove();
@@ -128,7 +129,7 @@ console.log(randomStringg(100));
 /**
  * Generate a random string of a given length.
  * @param {number} length length of string to generate (required)
- * @param {string=} kind character set or sets to use for string generation (optional, default `aA#`)
+ * @param {string=} kind character sets to use for string generation (optional, default: `aA#`)
  * @returns {string} random string from selected charset
  *
  * @description Options:

@@ -109,7 +109,7 @@ const insertElement = (event, type) => {
   }
   // Create close button for each element
   const move = document.createElement('i');
-  move.classList.add('material-icons', 'moveHandle');
+  move.classList.add('material-icons', 'move-handle');
   move.innerHTML = 'open_with';
 
   // Create close button for each element
@@ -159,7 +159,7 @@ const insertElement = (event, type) => {
   label.appendChild(span);
   // label.appendChild(close);
 
-  const imageBox = document.querySelector('.imageBox');
+  const imageBox = document.querySelector('.image-box');
   imageBox.appendChild(label);
 
   const draggable = document.querySelectorAll('.component');

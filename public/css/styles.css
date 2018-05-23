@@ -356,6 +356,8 @@ main {
   background-color: #90a4ae;
   font-weight: normal;
   left: -26px;
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
 }
 
 .move-handle:hover {

@@ -392,6 +392,7 @@ main {
   background-color: #90a4ae;
   font-weight: normal;
   left: -26px;
+  touch-action: manipulation;
 
   &:hover {
     background-color: rgba(170, 187, 196, 0.494);

@@ -70,7 +70,7 @@ function dragElement(elmnt) {
     } else {
       pos3 = ev.targetTouches[0].clientX;
       pos4 = ev.targetTouches[0].clientY;
-      // ev.preventDefault();
+      ev.preventDefault();
     }
     if ('ontouchend' in window) {
       document.ontouchend = closeDragElement;

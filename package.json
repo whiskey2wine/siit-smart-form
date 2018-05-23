@@ -29,6 +29,9 @@
     "prettier-eslint": "^8.8.1",
     "sass-lint": "^1.12.1",
     "style-loader": "^0.20.3",
+    "stylelint": "^9.2.1",
+    "stylelint-config-sass-guidelines": "^5.0.0",
+    "stylelint-scss": "^3.1.0",
     "webpack": "^4.3.0",
     "webpack-cli": "^2.0.13",
     "webpack-dev-server": "^3.1.1"

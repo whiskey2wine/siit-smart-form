@@ -36,25 +36,25 @@ main {
 .alert-danger {
   background-color: $danger-color;
   border-color: $danger-color;
-  color: white;
+  color: #fff;
 }
 
 .alert-success {
   background-color: $success-color;
   border-color: $success-color;
-  color: white;
+  color: #fff;
 }
 
 .alert-warning {
   background-color: $warning-color;
   border-color: $warning-color;
-  color: white;
+  color: #fff;
 }
 
 .alert-info {
   background-color: $info-color;
   border-color: $info-color;
-  color: white;
+  color: #fff;
 }
 
 .non-radius {
@@ -156,7 +156,7 @@ main {
   }
 
   @at-root .save-doc .btn-flat,
-    & .btn-flat {
+  & .btn-flat {
     border-radius: 0;
     height: 100%;
     padding: 5px;
@@ -174,11 +174,10 @@ main {
   .input-field * {
     margin: 0 !important;
     width: 100%;
+  }
 
-    input {
-      border-bottom: unset;
-      // margin-bottom: 0;
-    }
+  * input {
+    border-bottom: unset !important;
   }
 }
 
@@ -214,49 +213,48 @@ main {
   background-color: #90a4ae;
 }
 
-.toolbar-inner > .input-field > .select-wrapper > ul > li:nth-child(1) > span {
-  font-size: 15px;
-}
+// .toolbar-inner > .input-field > .select-wrapper > ul > li:nth-child(1) > span {
+//   font-size: 15px;
+// }
 
-.dropdown-content li > span > label {
-  top: -11px;
-}
+// .dropdown-content li > span > label {
+//   top: -11px;
+// }
 
 /* Search box - Navbar */
 .search-wrapper {
   margin-top: 7px;
-}
 
-input.search {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 0;
-  box-sizing: border-box;
-  display: block;
-  font-size: 16px;
-  font-weight: 300;
-  height: 50px;
-  margin: 0;
-  padding: 0 45px 0 15px;
-  width: 100%;
-
-  &:focus {
-    -webkit-box-shadow: none;
-    background-color: #fff !important;
+  .search-input {
+    background-color: rgba(255, 255, 255, 0.1);
     border: 0;
-    box-shadow: none;
-    color: #444;
-  }
+    box-sizing: border-box;
+    display: block;
+    font-size: 16px;
+    font-weight: 300;
+    height: 50px;
+    margin: 0;
+    padding: 0 45px 0 15px;
+    width: 100%;
 
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
+    &:focus {
+      background-color: #fff !important;
+      border: 0;
+      box-shadow: none;
+      color: #444;
+    }
 
-  &:focus + .material-icons {
-    color: #444;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    &:focus + .material-icons {
+      color: #444;
+    }
   }
 }
 
-li.search .search-wrapper i.material-icons {
+.search .search-wrapper .material-icons {
   cursor: pointer;
   position: absolute;
   right: 135px;
@@ -322,18 +320,20 @@ li.search .search-wrapper i.material-icons {
   color: #fff !important;
 }
 
-#homepage .card,
-#homepage .card .card-content .fab i {
-  color: #546e7a;
-}
+#homepage {
+  .card,
+  .card-content i {
+    color: #546e7a;
+  }
 
-#homepage .card .card-content span {
-  cursor: default;
-  margin-left: 10px;
-}
+  .card-content span {
+    cursor: default;
+    margin-left: 10px;
+  }
 
-span.truncate::after {
-  content: attr(title);
+  .card-content .truncate::after {
+    content: attr(title);
+  }
 }
 
 .select-dropdown.dropdown-trigger {
@@ -359,11 +359,11 @@ span.truncate::after {
   }
 
   input[type='text']:focus {
-    border-color: dodgerBlue;
-    box-shadow: 0 0 8px 0 dodgerBlue;
+    border-color: #1e90ff;
+    box-shadow: 0 0 8px 0 #1e90ff;
   }
 
-  input[type='checkbox'] + span + .move-handle {
+  input[type='checkbox'] ~ .move-handle {
     left: -42px;
   }
 

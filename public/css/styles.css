@@ -41,25 +41,25 @@ main {
 .alert-danger {
   background-color: #f93b51;
   border-color: #f93b51;
-  color: white;
+  color: #fff;
 }
 
 .alert-success {
   background-color: #2dc45c;
   border-color: #2dc45c;
-  color: white;
+  color: #fff;
 }
 
 .alert-warning {
   background-color: #fb8735;
   border-color: #fb8735;
-  color: white;
+  color: #fff;
 }
 
 .alert-info {
   background-color: #44b7e1;
   border-color: #44b7e1;
-  color: white;
+  color: #fff;
 }
 
 .non-radius {
@@ -160,9 +160,8 @@ main {
   width: 100%;
 }
 
-.toolbar-inner .input-field input,
-.toolbar-inner .input-field * input {
-  border-bottom: unset;
+.toolbar-inner * input {
+  border-bottom: unset !important;
 }
 
 .save-doc .btn-flat:hover {
@@ -185,20 +184,12 @@ main {
   background-color: #90a4ae;
 }
 
-.toolbar-inner > .input-field > .select-wrapper > ul > li:nth-child(1) > span {
-  font-size: 15px;
-}
-
-.dropdown-content li > span > label {
-  top: -11px;
-}
-
 /* Search box - Navbar */
 .search-wrapper {
   margin-top: 7px;
 }
 
-input.search {
+.search-wrapper .search-input {
   background-color: rgba(255, 255, 255, 0.1);
   border: 0;
   -webkit-box-sizing: border-box;
@@ -212,23 +203,23 @@ input.search {
   width: 100%;
 }
 
-input.search:focus {
-  -webkit-box-shadow: none;
+.search-wrapper .search-input:focus {
   background-color: #fff !important;
   border: 0;
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
   color: #444;
 }
 
-input.search:hover {
+.search-wrapper .search-input:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-input.search:focus + .material-icons {
+.search-wrapper .search-input:focus + .material-icons {
   color: #444;
 }
 
-li.search .search-wrapper i.material-icons {
+.search .search-wrapper .material-icons {
   cursor: pointer;
   position: absolute;
   right: 135px;
@@ -295,16 +286,16 @@ li.search .search-wrapper i.material-icons {
 }
 
 #homepage .card,
-#homepage .card .card-content .fab i {
+#homepage .card-content i {
   color: #546e7a;
 }
 
-#homepage .card .card-content span {
+#homepage .card-content span {
   cursor: default;
   margin-left: 10px;
 }
 
-span.truncate::after {
+#homepage .card-content .truncate::after {
   content: attr(title);
 }
 
@@ -332,12 +323,12 @@ span.truncate::after {
 }
 
 .component input[type='text']:focus {
-  border-color: dodgerBlue;
-  -webkit-box-shadow: 0 0 8px 0 dodgerBlue;
-          box-shadow: 0 0 8px 0 dodgerBlue;
+  border-color: #1e90ff;
+  -webkit-box-shadow: 0 0 8px 0 #1e90ff;
+          box-shadow: 0 0 8px 0 #1e90ff;
 }
 
-.component input[type='checkbox'] + span + .move-handle {
+.component input[type='checkbox'] ~ .move-handle {
   left: -42px;
 }
 

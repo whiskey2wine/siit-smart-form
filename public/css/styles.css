@@ -383,6 +383,8 @@ main {
   position: absolute;
   -ms-touch-action: none;
       touch-action: none;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;

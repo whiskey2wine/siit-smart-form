@@ -418,6 +418,7 @@ main {
     font-size: 36px;
     position: absolute;
     touch-action: none;
+    -webkit-touch-callout: none; /* iOS Safari */
     user-select: none;
   }
 

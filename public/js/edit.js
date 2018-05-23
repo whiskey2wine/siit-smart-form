@@ -42,7 +42,7 @@ function dragElement(elmnt) {
       pos2 = pos4 - ev.targetTouches[0].clientY;
       pos3 = ev.targetTouches[0].clientX;
       pos4 = ev.targetTouches[0].clientY;
-      ev.preventDefault();
+      // ev.preventDefault();
     }
     // set the element's new position:
     elmnt.style.top = `${elmnt.offsetTop - pos2}px`;

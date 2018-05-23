@@ -381,10 +381,8 @@ main {
   cursor: pointer;
   font-size: 36px;
   position: absolute;
-  -ms-touch-action: none;
-      touch-action: none;
-  -webkit-touch-callout: none;
-  /* iOS Safari */
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;

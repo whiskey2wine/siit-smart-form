@@ -42,7 +42,7 @@ function dragElement(elmnt) {
       pos2 = pos4 - ev.targetTouches[0].clientY;
       pos3 = ev.targetTouches[0].clientX;
       pos4 = ev.targetTouches[0].clientY;
-      // ev.preventDefault();
+      ev.preventDefault();
     }
     // set the element's new position:
     elmnt.style.top = `${elmnt.offsetTop - pos2}px`;
@@ -61,6 +61,7 @@ function dragElement(elmnt) {
   }
 
   function dragMouseDown(e) {
+    console.log(e);
     const ev = e || window.event;
     // get the mouse cursor position at startup:
     if (ev.clientX && ev.clientY) {
@@ -89,8 +90,8 @@ function dragElement(elmnt) {
   // } else {
   /* otherwise, move the DIV from anywhere inside the DIV: */
   if ('ontouchstart' in window) {
-    elmnt.ontouchstart = dragMouseDown;
-    // elmnt.addEventListener('touchstart', () => dragMouseDown);
+    // elmnt.ontouchstart = dragMouseDown;
+    elmnt.addEventListener('touchstart', evt => dragMouseDown(evt), { passive: false });
   } else {
     elmnt.onmousedown = dragMouseDown;
   }

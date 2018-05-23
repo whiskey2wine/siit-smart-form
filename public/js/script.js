@@ -110,9 +110,15 @@ docs.forEach((doc) => {
     e.stopPropagation();
   });
   // Listener: Handle double click on card
-  doc.addEventListener('dblclick', function (e) {
-    window.location.href = `${window.location.origin}/docs/edit/${this.id}`;
-  });
+  if ('ontouchstart' in window) {
+    doc.addEventListener('click', function (e) {
+      window.location.href = `${window.location.origin}/docs/edit/${this.id}`;
+    });
+  } else {
+    doc.addEventListener('dblclick', function (e) {
+      window.location.href = `${window.location.origin}/docs/edit/${this.id}`;
+    });
+  }
 });
 
 const randomStringg = (length) => {

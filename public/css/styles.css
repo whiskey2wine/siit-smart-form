@@ -261,6 +261,10 @@ main {
   bottom: 30px;
 }
 
+.btn-floating:not(.fab) i {
+  color: #fff !important;
+}
+
 .selected-doc {
   background-color: #546e7a !important;
   color: #fff !important;

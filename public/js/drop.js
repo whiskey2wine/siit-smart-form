@@ -10,10 +10,10 @@ let myDropzone;
 const formModal = document.querySelector('form[action="/docs/add"]');
 formModal.addEventListener('reset', () => {
   myDropzone.removeAllFiles(true);
-  document.querySelectorAll('.approver-holder input, .approver-holder a').forEach((el) => {
-    el.removeAttribute('disabled');
-  });
-  document.querySelector('#add-approver').removeAttribute('disabled');
+  // document.querySelectorAll('.approver-holder input, .approver-holder a').forEach((el) => {
+  //   el.removeAttribute('disabled');
+  // });
+  // document.querySelector('#add-approver').removeAttribute('disabled');
 });
 
 Dropzone.options.filePickers = {

@@ -42,7 +42,7 @@ const DocSchema = new Schema({
   },
   formType: {
     type: String,
-    required: true,
+    // required: true,
   },
   approvers: {
     type: Array,

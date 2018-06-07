@@ -310,8 +310,16 @@ main {
   box-shadow: unset !important;
 }
 
-.fixed-action-btn ul {
-  bottom: 30px;
+.fixed-action-btn {
+  ul {
+    bottom: 30px;
+  }
+}
+
+.btn-floating:not(.fab) {
+  i {
+    color: #fff !important;
+  }
 }
 
 .selected-doc {

@@ -11,9 +11,10 @@ const elemModal = document.querySelector('.modal');
 const instModal = M.Modal.init(elemModal, {
   opacity: 0.3,
   startingTop: '5%',
-  onCloseEnd() {
+  onOpenStart() {
     const formModal = document.querySelector('form[action="/docs/add"]');
     formModal.reset();
+    document.querySelector('input[name="formname"]').value = '';
   },
 });
 
@@ -41,14 +42,16 @@ const responsiveContainer = () => {
   const width = window.innerWidth;
   const container = document.querySelector('#container');
   const edit = document.querySelector('#edit');
-  if (width <= 1024) {
-    container.classList.remove('container');
-    edit.classList.add('sticky-offset');
-    // $('#container').removeClass('container');
-  } else {
-    container.classList.add('container');
-    edit.classList.remove('sticky-offset');
-    // $('#container').addClass('container');
+  if (edit) {
+    if (width <= 1024) {
+      container.classList.remove('container');
+      edit.classList.add('sticky-offset');
+      // $('#container').removeClass('container');
+    } else {
+      container.classList.add('container');
+      edit.classList.remove('sticky-offset');
+      // $('#container').addClass('container');
+    }
   }
 };
 window.onload = () => responsiveContainer();
@@ -174,76 +177,82 @@ console.log(randomString(100));
  */
 /* ------- /docs/ functions -------- */
 const formname = document.querySelector('#formname');
+formname.addEventListener('keyup', function () {
+  document.querySelector('input[name="title"]').setAttribute('value', this.value);
+});
 formname.onchange = (e) => {
   const inputIdVal = document.querySelector('input[name="id"]').value;
   const inputFilenameVal = document.querySelector('input[name="filename"]').value;
   const inputOriginalnameVal = document.querySelector('input[name="originalname"]').value;
+  const title = document.querySelector('input[name="title"]').value;
   console.log(inputIdVal);
   console.log(inputFilenameVal);
   console.log(inputOriginalnameVal);
+  console.log(title);
   if (
     e.target.value.trim() !== '' &&
     inputIdVal.trim() !== '' &&
     inputFilenameVal.trim() !== '' &&
-    inputOriginalnameVal.trim() !== ''
+    inputOriginalnameVal.trim() !== '' &&
+    title.trim() !== ''
   ) {
     document.querySelector('#btn-submit-form').removeAttribute('disabled');
   }
 };
 
 /* ------- Start Create Form Modal -------- */
-const elemAddApprover = document.querySelector('#add-approver');
+// const elemAddApprover = document.querySelector('#add-approver');
 
 /**
  * Delete approver from the list
  * @param {Event} e
  */
-const del = function (e) {
-  e.preventDefault();
-  const id = parseInt(e.currentTarget.id.substr(12));
-  const last = parseInt(elemAddApprover.previousElementSibling.getAttribute('id').substr(15));
-  for (let i = id; i < last; i++) {
-    const nextId = i + 1;
-    const nextVal = document.querySelector(`#appr${nextId}`).value;
-    document.querySelector(`#appr${i}`).value = nextVal;
-  }
-  const removeElem = document.querySelector(`#approver-holder${last}`);
-  elemAddApprover.parentElement.removeChild(removeElem);
-};
+// const del = function (e) {
+//   e.preventDefault();
+//   const id = parseInt(e.currentTarget.id.substr(12));
+//   const last = parseInt(elemAddApprover.previousElementSibling.getAttribute('id').substr(15));
+//   for (let i = id; i < last; i++) {
+//     const nextId = i + 1;
+//     const nextVal = document.querySelector(`#appr${nextId}`).value;
+//     document.querySelector(`#appr${i}`).value = nextVal;
+//   }
+//   const removeElem = document.querySelector(`#approver-holder${last}`);
+//   elemAddApprover.parentElement.removeChild(removeElem);
+// };
 
 // Init add approver button
-(function addApprover() {
-  elemAddApprover.addEventListener('click', function () {
-    const i = parseInt(this.previousElementSibling.getAttribute('id').substr(15)) + 1;
-    const newNode = document.createElement('div');
-    newNode.setAttribute('id', `approver-holder${i}`);
-    newNode.setAttribute('class', 'approver-holder input-field');
-    newNode.innerHTML = `
-    <input type="text" name="appr${i}" id="appr${i}">
-    <label for="appr${i}">Approver ${i}</label>
-    <a id="del-approver${i}" href="#!" class="btn-flat waves-effect waves-light center del-approver"><i class="material-icons">close</i></a>
-    `;
-    this.parentNode.insertBefore(newNode, this);
+// (function addApprover() {
+//   elemAddApprover.addEventListener('click', function () {
+//     const i = parseInt(this.previousElementSibling.getAttribute('id').substr(15)) + 1;
+//     const newNode = document.createElement('div');
+//     newNode.setAttribute('id', `approver-holder${i}`);
+//     newNode.setAttribute('class', 'approver-holder input-field');
+//     newNode.innerHTML = `
+//     <input type="text" name="appr${i}" id="appr${i}">
+//     <label for="appr${i}">Approver ${i}</label>
+//     <a id="del-approver${i}" href="#!" class="btn-flat waves-effect waves-light center del-approver"><i class="material-icons">close</i></a>
+//     `;
+//     this.parentNode.insertBefore(newNode, this);
 
-    // Bind delete function to button
-    document.querySelectorAll('.del-approver').forEach((el) => {
-      el.addEventListener('click', del);
-    });
-  });
-}());
+//     // Bind delete function to button
+//     document.querySelectorAll('.del-approver').forEach((el) => {
+//       el.addEventListener('click', del);
+//     });
+//   });
+// }());
 
-document.querySelector('[name="formType"]').addEventListener('change', function () {
-  if (this.checked) {
-    document.querySelectorAll('.approver-holder input, .approver-holder a').forEach((el) => {
-      el.setAttribute('disabled', true);
-    });
-    elemAddApprover.setAttribute('disabled', true);
-  } else {
-    document.querySelectorAll('.approver-holder input, .approver-holder a').forEach((el) => {
-      el.removeAttribute('disabled');
-    });
-    elemAddApprover.removeAttribute('disabled');
-  }
-});
+// document.querySelector('[name="formType"]').addEventListener('change', function () {
+//   if (this.checked) {
+//     document.querySelectorAll('.approver-holder input, .approver-holder a').forEach((el) => {
+//       el.setAttribute('disabled', true);
+//     });
+//     elemAddApprover.setAttribute('disabled', true);
+//   } else {
+//     document.querySelectorAll('.approver-holder input, .approver-holder a').forEach((el) => {
+//       el.removeAttribute('disabled');
+//     });
+//     elemAddApprover.removeAttribute('disabled');
+//   }
+// });
 
 /* ------- End Create Form Modal -------- */

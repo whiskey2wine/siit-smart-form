@@ -3,7 +3,11 @@
   <div class="modal-content">
     <h4>Create new form</h4>
     <div class="create-form-container row">
-      <div class="create-form-left col m6">
+      <div class="create-form-left">
+        <div class="input-field">
+          <input type="text" name="formname" id="formname">
+          <label for="formname">Form name</label>
+        </div>
         <form action="/docs/upload" method="post" class="dropzone" id="file-pickers">
           <div class="striped" id="previews">
             <div id="template">
@@ -18,8 +22,6 @@
                   <span class="truncate">Type: <strong data-dz-type></strong></span>
                 </div>
               </div>
-              {{!-- <div>
-              </div> --}}
               <div>
                 <strong class="red-text truncate" data-dz-errormessage></strong>
                 <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -27,10 +29,6 @@
                 </div>
               </div>
               <div>
-                {{!-- <button class="btn waves-effect waves-light alert-info start">
-                  <i class="material-icons right">file_upload</i>
-                  <span>Start</span>
-                </button> --}}
                 <button data-dz-remove class="btn waves-effect waves-light alert-warning cancel">
                   <i class="material-icons right">cancel</i>
                   <span>Cancel</span>
@@ -53,39 +51,20 @@
               </div>
             </div>
           </div>
+        </form>
       </div>
-      </form>
-      <form action="/docs/add" method="post" class="col m6">
-        <div class="create-form-right">
-          <div class="input-field">
-            <input type="text" name="formname" id="formname">
-            <label for="formname">Form name</label>
-          </div>
-          <div class="switch">
-            <label>
-              Form
-              <input name="formType" id="formType" type="checkbox">
-              <span class="lever"></span> Survey
-            </label>
-          </div>
-          <div id="approver-holder1" class="approver-holder input-field">
-            <input type="text" name="appr1" id="appr1">
-            <label for="appr1">Approver 1</label>
-          </div>
-          <a id="add-approver" href="#!" class="btn-floating waves-effect waves-block" style="margin: 0 auto;">
-            <i class="material-icons">add</i>
-          </a>
-          <div class="hide">
-            <input type="text" name="id" id="id">
-            <input type="text" name="filename" id="filename">
-            <input type="text" name="originalname" id="originalname">
-          </div>
-        </div>
     </div>
   </div>
-  <div class="modal-footer">
-    <button type="submit" id="btn-submit-form" disabled class="modal-action modal-close waves-effect waves-green btn-flat start">Submit</button>
-    <button data-dz-remove type="reset" id="btn-reset-form" class="waves-effect waves-green btn-flat">Reset</button>
-  </div>
+  <form action="/docs/add" method="post" class="col m6">
+    <div class="hide">
+      <input type="text" name="id" id="id">
+      <input type="text" name="filename" id="filename">
+      <input type="text" name="originalname" id="originalname">
+      <input type="text" name="title" id="title">
+    </div>
+    <div class="modal-footer">
+      <button type="submit" id="btn-submit-form" disabled class="modal-action modal-close waves-effect waves-green btn-flat start">Submit</button>
+      <button data-dz-remove type="reset" id="btn-reset-form" class="waves-effect waves-green btn-flat">Reset</button>
+    </div>
   </form>
 </div>

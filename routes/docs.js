@@ -28,7 +28,8 @@ conn.once('open', () => {
 const storage = GridFsStorage({
   // url: 'mongodb://whiskey2wine:bacon007@ds253889.mlab.com:53889/online-form',
   // url: 'mongodb://localhost/online-form',
-  url: 'mongodb://35.198.231.158/online-form',
+  // url: 'mongodb://35.198.231.158/online-form',
+  url: `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@35.187.255.48/online-form`,
   file: (req, file) =>
     new Promise((resolve, reject) => {
       crypto.randomBytes(16, (err, buf) => {
@@ -157,20 +158,20 @@ router.post('/upload', (req, res) => {
 });
 
 router.post('/add', (req, res) => {
-  const approvers = Object.entries(req.body)
-    .filter(val => val[0].substr(0, 4) === 'appr')
-    .map(val => val[1]);
+  // const approvers = Object.entries(req.body)
+  //   .filter(val => val[0].substr(0, 4) === 'appr')
+  //   .map(val => val[1]);
 
   const newDoc = {
-    title: req.body.formname,
+    title: req.body.title,
     creator: req.user.id,
     file: {
       _id: req.body.id,
       originalname: req.body.originalname,
       filename: req.body.filename,
     },
-    approvers,
-    formType: req.body.formType ? 'Survey' : 'Form',
+    // approvers,
+    // formType: req.body.formType ? 'Survey' : 'Form',
   };
 
   new Doc(newDoc).save().then((doc) => {

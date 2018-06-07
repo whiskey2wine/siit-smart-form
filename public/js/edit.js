@@ -76,7 +76,6 @@ function dragElement(elmnt) {
       document.ontouchend = closeDragElement;
       // call a function whenever the cursor moves:
       document.ontouchmove = elementDrag;
-      // document.addEventListener('touchmove', () => elementDrag, { passive: false });
     } else {
       document.onmouseup = closeDragElement;
       // call a function whenever the cursor moves:

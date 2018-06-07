@@ -343,10 +343,18 @@ main {
   color: #fff;
 }
 
+// label::before {
+//   content: 'Test';
+// }
+
 .component {
   position: absolute;
   touch-action: none;
   z-index: 1;
+
+  &::before {
+    content: '1';
+  }
 
   input[type='text'] {
     background-color: rgba(245, 245, 245, 0.5);

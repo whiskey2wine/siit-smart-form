@@ -1,24 +1,13 @@
 body {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
   min-height: 100vh;
 }
 
 main {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 0 auto;
-          flex: 1 0 auto;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex: 1 0 auto;
+  justify-content: center;
 }
 
 .bg {
@@ -77,8 +66,7 @@ main {
 
 .item-img {
   height: 25vh;
-  -o-object-fit: contain;
-     object-fit: contain;
+  object-fit: contain;
 }
 
 .preview-img {
@@ -103,7 +91,6 @@ main {
   grid-template-columns: 1fr 4fr 1fr;
   margin: 0 auto;
   padding: 0 24px;
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   width: 800px;
@@ -124,9 +111,7 @@ main {
 }
 
 .toolbar-inner {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   display: grid;
   grid-gap: 0.5em;
   grid-template-columns: repeat(5, 50px);
@@ -192,8 +177,7 @@ main {
 .search-wrapper .search-input {
   background-color: rgba(255, 255, 255, 0.1);
   border: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   display: block;
   font-size: 16px;
   font-weight: 300;
@@ -206,8 +190,7 @@ main {
 .search-wrapper .search-input:focus {
   background-color: #fff !important;
   border: 0;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   color: #444;
 }
 
@@ -271,8 +254,7 @@ main {
 
 .fab {
   background-color: unset !important;
-  -webkit-box-shadow: unset !important;
-          box-shadow: unset !important;
+  box-shadow: unset !important;
 }
 
 .fixed-action-btn ul {
@@ -308,17 +290,19 @@ main {
 
 .component {
   position: absolute;
-  -ms-touch-action: none;
-      touch-action: none;
+  touch-action: none;
   z-index: 1;
+}
+
+.component::before {
+  content: '1';
 }
 
 .component input[type='text'] {
   background-color: rgba(245, 245, 245, 0.5);
   border: 1px solid #aaa;
   border-radius: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   font-size: 16px;
   min-width: 150px;
   outline: none;
@@ -327,8 +311,7 @@ main {
 
 .component input[type='text']:focus {
   border-color: #1e90ff;
-  -webkit-box-shadow: 0 0 8px 0 #1e90ff;
-          box-shadow: 0 0 8px 0 #1e90ff;
+  box-shadow: 0 0 8px 0 #1e90ff;
 }
 
 .component input[type='checkbox'] ~ .move-handle {
@@ -356,8 +339,7 @@ main {
   background-color: #90a4ae;
   font-weight: normal;
   left: -26px;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
+  touch-action: manipulation;
 }
 
 .move-handle:hover {
@@ -383,12 +365,8 @@ main {
   cursor: pointer;
   font-size: 36px;
   position: absolute;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  touch-action: manipulation;
+  user-select: none;
 }
 
 #directionPad i:nth-child(1) {

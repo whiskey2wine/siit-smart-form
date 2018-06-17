@@ -1,4 +1,4 @@
-/* global M Stretchy */
+/* global M Stretchy QRCode */
 // @ts-check
 Stretchy.selectors.filter = '.foo';
 
@@ -7,15 +7,75 @@ document.addEventListener('DOMContentLoaded', () => {
   const instNavs = M.Sidenav.init(elemNavs);
 });
 
-const elemModal = document.querySelector('.modal');
+const elemModal = document.querySelectorAll('#create-form');
 const instModal = M.Modal.init(elemModal, {
-  opacity: 0.3,
+  opacity: 0.4,
   startingTop: '5%',
-  onOpenStart() {
+  onCloseEnd() {
     const formModal = document.querySelector('form[action="/docs/add"]');
     formModal.reset();
     document.querySelector('input[name="formname"]').value = '';
   },
+});
+
+const elemTabs = document.querySelectorAll('.tabs');
+const instTabs = M.Tabs.init(elemTabs);
+
+const settingModal = document.querySelector('#setting-modal');
+const instSettingModal = M.Modal.init(settingModal, {
+  opacity: 0.4,
+  startingTop: '5%',
+  onOpenStart() {
+    const fillingUrl = window.location.href.replace('edit', 'filling');
+    document.querySelector('#url-holder').value = fillingUrl;
+    QRCode.toString(fillingUrl, (error, string) => {
+      if (error) console.error(error);
+      const urlQR = document.querySelector('.url-qr');
+      urlQR.innerHTML = string;
+      const child = urlQR.firstElementChild;
+      // child.style.cssText = 'width: 164px; height: 164px;';
+      child.classList.add('materialboxed');
+      child.style.display = 'block';
+      child.setAttribute('shape-rendering', 'crispEdges');
+      child.setAttribute('width', '164');
+      child.setAttribute('height', '164');
+      M.Materialbox.init(child, {
+        onOpenStart(el) {
+          el.removeAttribute('width');
+          el.removeAttribute('height');
+          el.setAttribute('width', '');
+          // el.style.width = '';
+        },
+        onOpenEnd(el) {
+          el.style.width = '';
+        },
+        onCloseEnd(el) {
+          el.setAttribute('width', '164');
+          el.setAttribute('height', '164');
+        },
+      });
+    });
+    // QRCode.toDataURL(
+    //   fillingUrl,
+    //   {
+    //     type: 'image/jpeg',
+    //     rendererOpts: {
+    //       quality: 1,
+    //     },
+    //   },
+    //   (error, url) => {
+    //     if (error) console.error(error);
+
+    //     document.querySelector('#url-qr').src = url;
+    //     console.log('success!');
+    //   },
+    // );
+  },
+});
+
+const elemChips = document.querySelectorAll('.chips');
+const instChips = M.Chips.init(elemChips, {
+  placeholder: 'Enter a name',
 });
 
 const elemFAB = document.querySelectorAll('.fixed-action-btn');
@@ -33,7 +93,11 @@ const elemSelect = document.querySelectorAll('select');
 const instSelect = M.FormSelect.init(elemSelect);
 
 const elemMatBox = document.querySelectorAll('.materialboxed');
-const instMatBox = M.Materialbox.init(elemMatBox);
+const instMatBox = M.Materialbox.init(elemMatBox, {
+  onOpenStart() {
+    console.log(this);
+  },
+});
 
 /**
  * Function: Remove "container" class to increase spacing in smaller devices
@@ -82,7 +146,7 @@ document.querySelector('main').addEventListener('click', (e) => {
     doc.classList.remove('selected-doc');
   });
   // Remove close button from element on edit page
-  document.querySelectorAll('.close').forEach((close) => {
+  document.querySelectorAll('.close-handle').forEach((close) => {
     // Don't remove close from element that is focusing
     if (document.activeElement !== close.parentElement.firstElementChild) {
       close.remove();

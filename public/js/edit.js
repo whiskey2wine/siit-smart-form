@@ -1,4 +1,21 @@
-/* global getSiblings */
+/* global M getSiblings */
+
+document.querySelector('#show-chip').addEventListener('click', () => {
+  const elem = document.querySelector('#approvers');
+  const instance = M.Chips.getInstance(elem);
+  console.log(instance.chipsData);
+});
+
+document.querySelector('#update-indi').addEventListener('click', () => {
+  const elem = document.querySelector('#setting-tab');
+  const inst = M.Tabs.getInstance(elem);
+  console.log(inst.index);
+  console.dir(elem);
+  console.dir(inst);
+  // inst.updateTabIndicator();
+  console.log(inst._calcLeftPos(elem));
+  console.log(inst._calcRightPos(elem));
+});
 
 /**
  * Function: Make toolbar stick to the top of page when scroll
@@ -19,6 +36,29 @@ const stickyToolbar = () => {
 };
 
 window.onscroll = () => stickyToolbar();
+
+// Copy URL in setting modal
+const urlHolder = document.querySelector('#url-holder');
+const btnUrlCopy = document.querySelector('#url-copy-btn');
+const copyUrl = () => {
+  document.execCommand('copy');
+  document.querySelector('#url-copy-btn').innerHTML = 'Copied!';
+};
+
+btnUrlCopy.addEventListener('click', () => {
+  urlHolder.select();
+  copyUrl();
+});
+
+urlHolder.addEventListener('focus', function (e) {
+  this.select();
+  this.addEventListener('mouseup', (ev) => {
+    if (this.dataset.triggered) return;
+    this.dataset.triggered = true;
+    copyUrl();
+    ev.preventDefault();
+  });
+});
 
 /**
  * Function: Make the DIV element draggable
@@ -97,15 +137,19 @@ function dragElement(elmnt) {
   // }
 }
 
+let count = 0;
 /**
  * Add textbox to edit page when clicked on the preview image
  * @param {Event} event  Click event from document image
  * @param {String} type  Type of input
  */
 const insertElement = (event, type) => {
+  count += 1;
+  console.log(count);
   // Create input element
   const input = document.createElement('input');
   input.setAttribute('type', type);
+  input.setAttribute('id', `component${count}`);
   if (type === 'text') {
     input.classList.add('foo', 'browser-default');
   }
@@ -116,7 +160,7 @@ const insertElement = (event, type) => {
 
   // Create close button for each element
   const close = document.createElement('i');
-  close.classList.add('material-icons', 'close');
+  close.classList.add('material-icons', 'close-handle');
   close.innerHTML = 'close';
   close.addEventListener('click', function (e) {
     this.parentElement.remove();
@@ -149,6 +193,7 @@ const insertElement = (event, type) => {
   // Create label element
   const label = document.createElement('label');
   label.classList.add('component');
+  label.setAttribute('for', `component${count}`);
   Object.assign(label.style, {
     left: `${event.layerX}px`,
     top: `${event.layerY}px`,

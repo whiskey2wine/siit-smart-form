@@ -1,20 +1,57 @@
-/* global M getSiblings */
+/* global M getSiblings QRCode instChips */
 
-document.querySelector('#show-chip').addEventListener('click', () => {
-  const elem = document.querySelector('#approvers');
-  const instance = M.Chips.getInstance(elem);
-  console.log(instance.chipsData);
+function createQRCode(fillingUrl) {
+  QRCode.toString(fillingUrl, (error, string) => {
+    if (error) console.error(error);
+    const urlQR = document.querySelector('.url-qr');
+    urlQR.innerHTML = string;
+    const child = urlQR.firstElementChild;
+    // child.style.cssText = 'width: 164px; height: 164px;';
+    child.classList.add('materialboxed');
+    child.style.display = 'block';
+    child.setAttribute('shape-rendering', 'crispEdges');
+    child.setAttribute('width', '164');
+    child.setAttribute('height', '164');
+    M.Materialbox.init(child, {
+      onOpenStart(el) {
+        el.removeAttribute('width');
+        el.removeAttribute('height');
+        el.setAttribute('width', '');
+        // el.style.width = '';
+      },
+      onOpenEnd(el) {
+        el.style.width = '';
+      },
+      onCloseEnd(el) {
+        el.setAttribute('width', '164');
+        el.setAttribute('height', '164');
+      },
+    });
+  });
+}
+
+const settingModal = document.querySelector('#setting-modal');
+const instSettingModal = M.Modal.init(settingModal, {
+  opacity: 0.4,
+  startingTop: '5%',
+  onOpenStart() {
+    const fillingUrl = window.location.href.replace('edit', 'filling');
+    document.querySelector('#url-holder').value = fillingUrl;
+    createQRCode(fillingUrl);
+  },
 });
 
-document.querySelector('#update-indi').addEventListener('click', () => {
-  const elem = document.querySelector('#setting-tab');
-  const inst = M.Tabs.getInstance(elem);
-  console.log(inst.index);
-  console.dir(elem);
-  console.dir(inst);
-  // inst.updateTabIndicator();
-  console.log(inst._calcLeftPos(elem));
-  console.log(inst._calcRightPos(elem));
+document.getElementById('formType').addEventListener('change', function () {
+  const els = document.querySelectorAll('.basic-setting .settings *:not(#formType)');
+  if (this.checked) {
+    els.forEach((el) => {
+      el.removeAttribute('disabled');
+    });
+  } else {
+    els.forEach((el) => {
+      el.setAttribute('disabled', 'disabled');
+    });
+  }
 });
 
 /**
@@ -149,10 +186,79 @@ const insertElement = (event, type) => {
   // Create input element
   const input = document.createElement('input');
   input.setAttribute('type', type);
-  input.setAttribute('id', `component${count}`);
+  input.classList.add(`component${count}`);
+
+  const formType = document.querySelector('#formType');
+  const destination = document.querySelector('#comp-holder');
+  const compHolder = document.createElement('div');
+  compHolder.classList.add('comp-holder', 'hover');
+  const no = document.createElement('span');
+  no.innerHTML = `${count}`;
+  compHolder.appendChild(no);
   if (type === 'text') {
-    input.classList.add('foo', 'browser-default');
+    input.classList.add('browser-default', 'foo');
+
+    const val = document.createElement('input');
+    val.type = 'text';
+    if (!formType.checked) {
+      val.setAttribute('disabled', 'disabled');
+    }
+    val.classList.add(`component${count}`, 'browser-default');
+    val.value = input.value;
+    val.addEventListener('keyup', function () {
+      input.value = this.value;
+    });
+    compHolder.appendChild(val);
+
+    input.addEventListener('keyup', function () {
+      val.value = this.value;
+    });
+
+    const placeholder = document.createElement('input');
+    placeholder.type = 'text';
+    if (!formType.checked) {
+      placeholder.setAttribute('disabled', 'disabled');
+    }
+    placeholder.classList.add(input.classList.item(0), 'browser-default');
+    placeholder.value = input.placeholder;
+    placeholder.addEventListener('keyup', function () {
+      input.placeholder = this.value;
+    });
+    compHolder.appendChild(placeholder);
+  } else if (type === 'checkbox') {
+    const status = [true, false];
+    const checked = document.createElement('select');
+    if (!formType.checked) {
+      checked.setAttribute('disabled', 'disabled');
+    }
+    checked.classList.add('browser-default');
+    status.forEach((stat) => {
+      const opt = document.createElement('option');
+      opt.value = stat;
+      opt.innerHTML = stat.toString().replace(/\b\w/g, l => l.toUpperCase());
+      checked.appendChild(opt);
+    });
+    compHolder.appendChild(checked);
+    const dash = document.createElement('span');
+    dash.innerHTML = '-';
+    compHolder.appendChild(dash);
   }
+
+  const select = document.createElement('select');
+  if (!formType.checked) {
+    select.setAttribute('disabled', 'disabled');
+  }
+  select.classList.add('browser-default', 'approver');
+  instChips.chipsData.forEach((data) => {
+    const option = document.createElement('option');
+    option.value = data.tag;
+    option.innerHTML = data.tag;
+    select.appendChild(option);
+  });
+
+  compHolder.appendChild(select);
+  destination.appendChild(compHolder);
+
   // Create close button for each element
   const move = document.createElement('i');
   move.classList.add('material-icons', 'move-handle');

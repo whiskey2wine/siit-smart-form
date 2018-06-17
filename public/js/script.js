@@ -21,61 +21,33 @@ const instModal = M.Modal.init(elemModal, {
 const elemTabs = document.querySelectorAll('.tabs');
 const instTabs = M.Tabs.init(elemTabs);
 
-const settingModal = document.querySelector('#setting-modal');
-const instSettingModal = M.Modal.init(settingModal, {
-  opacity: 0.4,
-  startingTop: '5%',
-  onOpenStart() {
-    const fillingUrl = window.location.href.replace('edit', 'filling');
-    document.querySelector('#url-holder').value = fillingUrl;
-    QRCode.toString(fillingUrl, (error, string) => {
-      if (error) console.error(error);
-      const urlQR = document.querySelector('.url-qr');
-      urlQR.innerHTML = string;
-      const child = urlQR.firstElementChild;
-      // child.style.cssText = 'width: 164px; height: 164px;';
-      child.classList.add('materialboxed');
-      child.style.display = 'block';
-      child.setAttribute('shape-rendering', 'crispEdges');
-      child.setAttribute('width', '164');
-      child.setAttribute('height', '164');
-      M.Materialbox.init(child, {
-        onOpenStart(el) {
-          el.removeAttribute('width');
-          el.removeAttribute('height');
-          el.setAttribute('width', '');
-          // el.style.width = '';
-        },
-        onOpenEnd(el) {
-          el.style.width = '';
-        },
-        onCloseEnd(el) {
-          el.setAttribute('width', '164');
-          el.setAttribute('height', '164');
-        },
-      });
-    });
-    // QRCode.toDataURL(
-    //   fillingUrl,
-    //   {
-    //     type: 'image/jpeg',
-    //     rendererOpts: {
-    //       quality: 1,
-    //     },
-    //   },
-    //   (error, url) => {
-    //     if (error) console.error(error);
+function addOption(chip) {
+  const selects = document.querySelectorAll('.approver');
+  selects.forEach((select) => {
+    while (select.firstChild) {
+      select.removeChild(select.firstChild);
+    }
+    for (let i = 0; i < chip.chipsData.length; i++) {
+      const option = document.createElement('option');
+      option.value = chip.chipsData[i].tag;
+      option.innerHTML = chip.chipsData[i].tag;
+      select.appendChild(option);
+    }
+  });
+}
 
-    //     document.querySelector('#url-qr').src = url;
-    //     console.log('success!');
-    //   },
-    // );
-  },
-});
-
-const elemChips = document.querySelectorAll('.chips');
+const elemChips = document.querySelector('#approvers');
 const instChips = M.Chips.init(elemChips, {
   placeholder: 'Enter a name',
+  secondaryPlaceholder: 'add name',
+  limit: 5,
+  minLength: 1,
+  onChipAdd() {
+    addOption(this);
+  },
+  onChipDelete() {
+    addOption(this);
+  },
 });
 
 const elemFAB = document.querySelectorAll('.fixed-action-btn');

@@ -194,14 +194,6 @@ main {
   }
 }
 
-.settings {
-  margin-top: 1rem;
-
-  span {
-    font-weight: 600;
-  }
-}
-
 .save-doc,
 .setting-doc {
   .btn-flat {
@@ -247,6 +239,49 @@ main {
       height: 2rem;
       margin-bottom: 0;
     }
+  }
+}
+
+.settings {
+  margin-top: 1rem;
+
+  span {
+    font-weight: 600;
+  }
+}
+
+// #comp-holder {
+//   span {
+//     // display: block;
+//     font-weight: unset;
+//   }
+// }
+
+.comp-holder {
+  display: grid;
+  grid-gap: 2px;
+  grid-template-columns: 35px 2fr 2fr 1fr;
+  margin: 2px 0;
+
+  span {
+    background-color: rgba(235, 235, 235, 0.705);
+    border-bottom: 1px solid #fff;
+    border-right: 1px solid #fff;
+    border-top: 1px solid #fff;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  span:first-child {
+    border-left: 1px solid #fff;
+  }
+
+  select {
+    height: unset;
+  }
+
+  &.hover:hover {
+    box-shadow: 1px 1px 3px 0 #ccc;
   }
 }
 
@@ -336,6 +371,10 @@ main {
   display: grid;
   justify-content: center;
 }
+
+// .chips .chips-class {
+//   width: 100% !important;
+// }
 
 #approvers {
   margin-top: 0;

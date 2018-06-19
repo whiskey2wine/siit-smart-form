@@ -1,44 +1,11 @@
-/* global M getSiblings QRCode instChips */
+/* global createQRCode getSiblings instChips */
 
-function createQRCode(fillingUrl) {
-  QRCode.toString(fillingUrl, (error, string) => {
-    if (error) console.error(error);
-    const urlQR = document.querySelector('.url-qr');
-    urlQR.innerHTML = string;
-    const child = urlQR.firstElementChild;
-    // child.style.cssText = 'width: 164px; height: 164px;';
-    child.classList.add('materialboxed');
-    child.style.display = 'block';
-    child.setAttribute('shape-rendering', 'crispEdges');
-    child.setAttribute('width', '164');
-    child.setAttribute('height', '164');
-    M.Materialbox.init(child, {
-      onOpenStart(el) {
-        el.removeAttribute('width');
-        el.removeAttribute('height');
-        el.setAttribute('width', '');
-        // el.style.width = '';
-      },
-      onOpenEnd(el) {
-        el.style.width = '';
-      },
-      onCloseEnd(el) {
-        el.setAttribute('width', '164');
-        el.setAttribute('height', '164');
-      },
-    });
-  });
-}
-
-const settingModal = document.querySelector('#setting-modal');
-const instSettingModal = M.Modal.init(settingModal, {
-  opacity: 0.4,
-  startingTop: '5%',
-  onOpenStart() {
-    const fillingUrl = window.location.href.replace('edit', 'filling');
-    document.querySelector('#url-holder').value = fillingUrl;
-    createQRCode(fillingUrl);
-  },
+document.querySelector('#url-appr').addEventListener('change', function () {
+  const fillingUrl = `${window.location.origin}${window.location.pathname}/${
+    this.selectedOptions[0].value
+  }`.replace('edit', 'filling');
+  document.querySelector('#url-holder').value = fillingUrl;
+  createQRCode(fillingUrl);
 });
 
 document.getElementById('formType').addEventListener('change', function () {
@@ -226,6 +193,8 @@ const insertElement = (event, type) => {
     });
     compHolder.appendChild(placeholder);
   } else if (type === 'checkbox') {
+    input.classList.add('filled-in');
+
     const status = [true, false];
     const checked = document.createElement('select');
     if (!formType.checked) {
@@ -299,7 +268,7 @@ const insertElement = (event, type) => {
   // Create label element
   const label = document.createElement('label');
   label.classList.add('component');
-  label.setAttribute('for', `component${count}`);
+  // label.setAttribute('for', `component${count}`);
   Object.assign(label.style, {
     left: `${event.layerX}px`,
     top: `${event.layerY}px`,

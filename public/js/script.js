@@ -7,6 +7,36 @@ document.addEventListener('DOMContentLoaded', () => {
   const instNavs = M.Sidenav.init(elemNavs);
 });
 
+function createQRCode(fillingUrl) {
+  QRCode.toString(fillingUrl, (error, string) => {
+    if (error) console.error(error);
+    const urlQR = document.querySelector('.url-qr');
+    urlQR.innerHTML = string;
+    const child = urlQR.firstElementChild;
+    // child.style.cssText = 'width: 164px; height: 164px;';
+    child.classList.add('materialboxed');
+    child.style.display = 'block';
+    child.setAttribute('shape-rendering', 'crispEdges');
+    child.setAttribute('width', '164');
+    child.setAttribute('height', '164');
+    M.Materialbox.init(child, {
+      onOpenStart(el) {
+        el.removeAttribute('width');
+        el.removeAttribute('height');
+        el.setAttribute('width', '');
+        // el.style.width = '';
+      },
+      onOpenEnd(el) {
+        el.style.width = '';
+      },
+      onCloseEnd(el) {
+        el.setAttribute('width', '164');
+        el.setAttribute('height', '164');
+      },
+    });
+  });
+}
+
 const elemModal = document.querySelectorAll('#create-form');
 const instModal = M.Modal.init(elemModal, {
   opacity: 0.4,
@@ -18,8 +48,11 @@ const instModal = M.Modal.init(elemModal, {
   },
 });
 
-const elemTabs = document.querySelectorAll('.tabs');
-const instTabs = M.Tabs.init(elemTabs);
+const settingModal = document.querySelector('#setting-modal');
+const instSettingModal = M.Modal.init(settingModal, {
+  opacity: 0.4,
+  startingTop: '5%',
+});
 
 function addOption(chip) {
   const selects = document.querySelectorAll('.approver');
@@ -47,6 +80,42 @@ const instChips = M.Chips.init(elemChips, {
   },
   onChipDelete() {
     addOption(this);
+  },
+});
+
+const elemTabs = document.querySelectorAll('.tabs');
+const instTabs = M.Tabs.init(elemTabs, {
+  onShow(newContent) {
+    if (newContent.id === 'share-setting') {
+      const formType = document.getElementById('formType');
+      const urlAppr = document.querySelector('#url-appr');
+      while (urlAppr.firstChild) {
+        urlAppr.removeChild(urlAppr.firstChild);
+      }
+      if (formType.checked) {
+        for (let i = 0; i < instChips.chipsData.length; i++) {
+          const option = document.createElement('option');
+          option.value = instChips.chipsData[i].tag;
+          option.innerHTML = instChips.chipsData[i].tag;
+          urlAppr.appendChild(option);
+        }
+        urlAppr.removeAttribute('disabled');
+      } else {
+        const option = document.createElement('option');
+        option.value = 'survey';
+        option.innerHTML = 'Survey';
+        urlAppr.appendChild(option);
+        urlAppr.setAttribute('disabled', 'disabled');
+      }
+
+      let fillingUrl = `${window.location.origin}${window.location.pathname}/`.replace(
+        'edit',
+        'filling',
+      );
+      fillingUrl += encodeURIComponent(urlAppr.selectedOptions[0].value);
+      document.querySelector('#url-holder').value = fillingUrl;
+      createQRCode(fillingUrl);
+    }
   },
 });
 
@@ -266,7 +335,8 @@ formname.onchange = (e) => {
 //     newNode.innerHTML = `
 //     <input type="text" name="appr${i}" id="appr${i}">
 //     <label for="appr${i}">Approver ${i}</label>
-//     <a id="del-approver${i}" href="#!" class="btn-flat waves-effect waves-light center del-approver"><i class="material-icons">close</i></a>
+// <a id="del-approver${i}" href="#!" class="btn-flat waves-effect waves-light center del-approver">
+//      <i class="material-icons">close</i></a>
 //     `;
 //     this.parentNode.insertBefore(newNode, this);
 

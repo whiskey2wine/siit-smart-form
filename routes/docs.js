@@ -125,6 +125,29 @@ router.get('/edit/:id', (req, res) => {
     });
 });
 
+router.put('/save/:id', (req, res) => {
+  console.log(req);
+  Doc.findOneAndUpdate(
+    { _id: req.params.id },
+    {
+      $set: {
+        formType: req.body.formType,
+        approvers: req.body.approvers,
+        obj: req.body.obj,
+      },
+    },
+    {
+      new: true,
+    },
+    (err, doc) => {
+      if (err) {
+        console.error(err);
+      }
+      res.send(doc);
+    },
+  );
+});
+
 router.delete('/:id', (req, res) => {
   Doc.findOneAndRemove({
     _id: req.params.id,

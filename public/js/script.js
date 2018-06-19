@@ -71,10 +71,14 @@ function addOption(chip) {
 
 const elemChips = document.querySelector('#approvers');
 const instChips = M.Chips.init(elemChips, {
+  data: [
+    {
+      tag: 'Person1',
+    },
+  ],
   placeholder: 'Enter a name',
   secondaryPlaceholder: 'add name',
   limit: 5,
-  minLength: 1,
   onChipAdd() {
     addOption(this);
   },
@@ -238,7 +242,7 @@ const randomStringg = (length) => {
   return text;
 };
 
-console.log(randomStringg(100));
+// console.log(randomStringg(100));
 
 /**
  * Generate a random string of a given length.
@@ -274,7 +278,7 @@ const randomString = function (length, kind) {
   }
   return str;
 };
-console.log(randomString(100));
+// console.log(randomString(100));
 
 /**
  * Separate all modal function from other page for now

@@ -1,5 +1,7 @@
 /* global createQRCode getSiblings instChips */
 
+// todo: fetch ไปเอา details มาสร้าง component ตอนเข้ามาหน้า edit
+
 document.querySelector('#url-appr').addEventListener('change', function () {
   const fillingUrl = `${window.location.origin}${window.location.pathname}/${
     this.selectedOptions[0].value
@@ -73,6 +75,10 @@ function dragElement(elmnt) {
   let pos2 = 0;
   let pos3 = 0;
   let pos4 = 0;
+
+  // set comp-holder data-x|y
+  const comp = document.querySelector(`#comp-holder [data-component="${elmnt.dataset.component}"]`);
+
   function elementDrag(e) {
     const ev = e || window.event;
     // calculate the new cursor position:
@@ -89,8 +95,13 @@ function dragElement(elmnt) {
       // ev.preventDefault();
     }
     // set the element's new position:
-    elmnt.style.top = `${elmnt.offsetTop - pos2}px`;
-    elmnt.style.left = `${elmnt.offsetLeft - pos1}px`;
+    const top = elmnt.offsetTop - pos2;
+    const left = elmnt.offsetLeft - pos1;
+    elmnt.style.top = `${top}px`;
+    elmnt.style.left = `${left}px`;
+
+    comp.setAttribute('data-x', left);
+    comp.setAttribute('data-y', top);
   }
 
   function closeDragElement() {
@@ -141,26 +152,45 @@ function dragElement(elmnt) {
   // }
 }
 
-let count = 0;
 /**
- * Add textbox to edit page when clicked on the preview image
+ * Function: Insert 'data-component' to element's attribute
+ * @param {String} container selector of element's parent (eg. `'#id'`)
+ * @param {Element} el element to insert attribute
+ * @returns {Number}
+ */
+function numberComponent(container, el) {
+  const components = document.querySelectorAll(`${container} [data-component]`);
+  console.dir(components);
+  if (components.length === 0) {
+    el.setAttribute('data-component', 1);
+  } else {
+    const last = components[components.length - 1];
+    const num = parseInt(last.dataset.component) + 1;
+    el.setAttribute('data-component', num);
+    return num;
+  }
+  return 1;
+}
+
+/**
+ * Function: Add textbox to edit page when clicked on the preview image
  * @param {Event} event  Click event from document image
  * @param {String} type  Type of input
  */
 const insertElement = (event, type) => {
-  count += 1;
-  console.log(count);
   // Create input element
   const input = document.createElement('input');
   input.setAttribute('type', type);
-  input.classList.add(`component${count}`);
+  // numberComponent(input);
+  // input.classList.add(`component${count}`);
 
   const formType = document.querySelector('#formType');
   const destination = document.querySelector('#comp-holder');
   const compHolder = document.createElement('div');
   compHolder.classList.add('comp-holder', 'hover');
+  const num = numberComponent('#comp-holder', compHolder);
   const no = document.createElement('span');
-  no.innerHTML = `${count}`;
+  no.innerHTML = `${num}`;
   compHolder.appendChild(no);
   if (type === 'text') {
     input.classList.add('browser-default', 'foo');
@@ -170,7 +200,7 @@ const insertElement = (event, type) => {
     if (!formType.checked) {
       val.setAttribute('disabled', 'disabled');
     }
-    val.classList.add(`component${count}`, 'browser-default');
+    val.classList.add('browser-default');
     val.value = input.value;
     val.addEventListener('keyup', function () {
       input.value = this.value;
@@ -186,7 +216,7 @@ const insertElement = (event, type) => {
     if (!formType.checked) {
       placeholder.setAttribute('disabled', 'disabled');
     }
-    placeholder.classList.add(input.classList.item(0), 'browser-default');
+    placeholder.classList.add('browser-default');
     placeholder.value = input.placeholder;
     placeholder.addEventListener('keyup', function () {
       input.placeholder = this.value;
@@ -204,10 +234,31 @@ const insertElement = (event, type) => {
     status.forEach((stat) => {
       const opt = document.createElement('option');
       opt.value = stat;
-      opt.innerHTML = stat.toString().replace(/\b\w/g, l => l.toUpperCase());
+      // opt.innerHTML = stat.toString().replace(/\b\w/g, l => l.toUpperCase());
+      opt.innerHTML = stat;
       checked.appendChild(opt);
     });
+
+    checked.selectedIndex = 1;
+
+    checked.addEventListener('change', function () {
+      if (this.value === 'true') {
+        input.checked = true;
+      } else {
+        input.checked = false;
+      }
+    });
+
     compHolder.appendChild(checked);
+
+    input.addEventListener('change', function () {
+      if (this.checked) {
+        checked.selectedIndex = 0;
+      } else {
+        checked.selectedIndex = 1;
+      }
+    });
+
     const dash = document.createElement('span');
     dash.innerHTML = '-';
     compHolder.appendChild(dash);
@@ -226,6 +277,9 @@ const insertElement = (event, type) => {
   });
 
   compHolder.appendChild(select);
+  compHolder.setAttribute('data-x', event.layerX);
+  compHolder.setAttribute('data-Y', event.layerY);
+  compHolder.setAttribute('data-type', type);
   destination.appendChild(compHolder);
 
   // Create close button for each element
@@ -238,7 +292,21 @@ const insertElement = (event, type) => {
   close.classList.add('material-icons', 'close-handle');
   close.innerHTML = 'close';
   close.addEventListener('click', function (e) {
-    this.parentElement.remove();
+    const current = this.parentElement.getAttribute('data-component');
+    document.querySelectorAll(`[data-component="${current}"]`).forEach((el) => {
+      el.remove();
+    });
+
+    const containers = ['#comp-holder', '.image-box'];
+    containers.forEach((container) => {
+      const components = document.querySelectorAll(`${container} [data-component]`);
+      components.forEach((component, i) => {
+        component.setAttribute('data-component', i + 1);
+        if (container === '#comp-holder') {
+          component.firstElementChild.innerHTML = i + 1;
+        }
+      });
+    });
   });
 
   const textboxLength = document.querySelector('#textboxLength input');
@@ -267,7 +335,8 @@ const insertElement = (event, type) => {
 
   // Create label element
   const label = document.createElement('label');
-  label.classList.add('component');
+  numberComponent('.image-box', label);
+  label.classList.add('components');
   // label.setAttribute('for', `component${count}`);
   Object.assign(label.style, {
     left: `${event.layerX}px`,
@@ -284,7 +353,7 @@ const insertElement = (event, type) => {
   const imageBox = document.querySelector('.image-box');
   imageBox.appendChild(label);
 
-  const draggable = document.querySelectorAll('.component');
+  const draggable = document.querySelectorAll('.components');
   draggable.forEach((el) => {
     dragElement(el);
   });
@@ -383,7 +452,7 @@ const checkbox = document.querySelector('#insertCheckbox');
 // const hint = document.querySelector('#insertHint');
 // const comment = document.querySelector('#insertComment');
 previewImg.addEventListener('click', (e) => {
-  console.dir(e);
+  // console.dir(e);
   if (textbox.getAttribute('active')) {
     insertElement(e, 'text');
   } else if (checkbox.getAttribute('active')) {
@@ -410,4 +479,51 @@ buttons.forEach((el) => {
       }
     }
   });
+});
+
+const saveDocBtn = document.querySelector('#save-doc');
+saveDocBtn.addEventListener('click', () => {
+  const formType = document.querySelector('#formType').checked === true ? 'form' : 'survey';
+  const approvers = formType === 'survey' ? 'survey' : instChips.chipsData.map(data => data.tag);
+  console.log(formType);
+  console.log(approvers);
+
+  const components = Array.from(document.querySelectorAll('.comp-holder.hover'));
+  const output = components.map((comp) => {
+    const obj = {};
+    obj.approver = formType === 'survey' ? 'survey' : comp.lastElementChild.value;
+    obj.no = comp.dataset.component;
+    obj.placeholder = comp.dataset.type === 'text' ? comp.children[2].value : undefined;
+    obj.position = {
+      x: comp.dataset.x,
+      y: comp.dataset.y,
+    };
+    obj.types = comp.dataset.type;
+    obj.value = comp.children[1].value;
+    return obj;
+  });
+
+  const content = {
+    formType,
+    approvers,
+    obj: output,
+  };
+
+  const id = window.location.pathname.match('([a-z0-9])+$')[0];
+  fetch(`${window.location.origin}/docs/save/${id}`, {
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(content),
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(new Error('something went wrong!'));
+    })
+    .then(data => console.log('data is', data))
+    .catch(error => console.log('error is', error));
+  // console.log(output);
 });

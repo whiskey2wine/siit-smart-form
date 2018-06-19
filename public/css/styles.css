@@ -384,19 +384,19 @@ main {
   cursor: pointer;
 }
 
-.component {
+.components {
   position: absolute;
   -ms-touch-action: none;
       touch-action: none;
   z-index: 1;
 }
 
-.component::before {
+.components::before {
   content: counter(box-counter);
   counter-increment: box-counter;
 }
 
-.component input[type='text'] {
+.components input[type='text'] {
   background-color: rgba(245, 245, 245, 0.5);
   border: 1px solid #aaa;
   border-radius: 0;
@@ -408,17 +408,17 @@ main {
   width: 150px;
 }
 
-.component input[type='text']:focus {
+.components input[type='text']:focus {
   border-color: #1e90ff;
   -webkit-box-shadow: 0 0 8px 0 #1e90ff;
           box-shadow: 0 0 8px 0 #1e90ff;
 }
 
-.component input[type='checkbox'] ~ .move-handle {
+.components input[type='checkbox'] ~ .move-handle {
   left: -42px;
 }
 
-.component i {
+.components i {
   color: #fff;
   font-size: 22px;
   position: absolute;

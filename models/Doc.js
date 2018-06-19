@@ -42,18 +42,21 @@ const DocSchema = new Schema({
   },
   formType: {
     type: String,
-    // required: true,
   },
   approvers: {
-    type: Array,
+    type: Array, // all approvers in the document
   },
   obj: [
     {
-      id: String,
-      posX: Number,
-      posY: Number,
-      approver: String,
+      approver: String, // selected approver for each component
+      no: Number,
+      placeholder: String,
+      position: {
+        x: Number,
+        y: Number,
+      },
       types: String,
+      value: String,
       created: {
         type: Date,
         default: Date.now,

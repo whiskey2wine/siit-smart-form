@@ -112,7 +112,6 @@ router.get('/', (req, res) => {
 });
 
 router.get('/edit/:id', (req, res) => {
-  console.log(req);
   Doc.findOne({ creator: req.user.id, _id: req.params.id })
     .then((doc) => {
       res.render('docs/edit', {

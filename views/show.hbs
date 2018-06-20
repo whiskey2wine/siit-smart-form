@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="/css/libs/materialize-icons/material-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/libs/materialize.css">
+  <link rel="icon" href="/img/icon-tu.gif">
+  <script src="/js/libs/materialize.js"></script>
+  <title>Presentation</title>
+</head>
+
+<body>
+  <div class="container">
+    <h4>Survey Result</h4>
+    <table class="striped">
+      <thead>
+        <tr>
+          <th style="font-size: 18px;">บุคลากร SIIT</th>
+          <th style="font-size: 18px;">ความน่าสนใจ</th>
+          <th style="font-size: 18px;">ผลงานที่ชอบ</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each data}}
+          <tr>
+            <td style="font-size: 16px;">{{this.siit}}</td>
+            <td style="font-size: 16px;">{{this.interest}}</td>
+            <td style="font-size: 16px;">{{this.best}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</body>
+
+<script>
+  setInterval(() => {
+    window.location.reload();
+  }, 5000);
+</script>
+
+</html>

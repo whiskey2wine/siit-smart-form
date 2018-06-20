@@ -5,7 +5,8 @@
   "main": "server/app.js",
   "scripts": {
     "start": "nodemon --inspect",
-    "mongo": "mongod --directoryperdb --dbpath ~/Works/SIIT/online-form/mongo/data/db --logpath ~/Works/SIIT/online-form/mongo/log/mongo.log --logappend",
+    "mongo":
+      "mongod --directoryperdb --dbpath ~/Works/SIIT/online-form/mongo/data/db --logpath ~/Works/SIIT/online-form/mongo/log/mongo.log --logappend",
     "scss": "node-sass --watch public/scss -o public/css"
   },
   "author": "Jayakorn Karikan",
@@ -64,6 +65,7 @@
     "validator": "^10.3.0"
   },
   "nodemonConfig": {
-    "ext": "js,json,css,hbs"
+    "ext": "js,json,css,hbs",
+    "ignore": ["data.json"]
   }
 }

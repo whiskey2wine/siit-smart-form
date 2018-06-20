@@ -9,6 +9,7 @@ const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
@@ -85,6 +86,56 @@ app.get('/', (req, res) => {
     specialPage: true,
     title: 'Login',
     user: req.user,
+  });
+});
+
+// Presentation
+app.get('/present', (req, res) => {
+  const q = req.query;
+  console.log(q);
+  const num1 = q.c1 === 'true' ? 'ใช่' : 'ไม่ใช่';
+  let num2;
+  if (q.c5 === 'true') {
+    num2 = 'น่าสนใจมาก';
+  } else if (q.c4 === 'true') {
+    num2 = 'พอใช้';
+  } else {
+    num2 = 'ไม่น่าสนใจ';
+  }
+  const num3 = q.c6;
+  console.log(num1);
+  console.log(num2);
+  console.log(num3);
+
+  fs.readFile(path.resolve(__dirname, '../data.json'), 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    const file = JSON.parse(data);
+    if (num1 && num2 && num3) {
+      file.push({
+        siit: num1,
+        interest: num2,
+        best: num3,
+      });
+    }
+    const json = JSON.stringify(file);
+
+    fs.writeFile(path.resolve(__dirname, '../data.json'), json, (error) => {
+      if (error) throw error;
+      console.log('The file has been saved!');
+    });
+    res.json(file);
+  });
+});
+
+app.get('/show', (req, res) => {
+  fs.readFile(path.resolve(__dirname, '../data.json'), 'utf8', (err, data) => {
+    if (err) throw err;
+    res.render('show', {
+      layout: false,
+      data: JSON.parse(data),
+    });
   });
 });
 

@@ -125,6 +125,7 @@ router.get('/edit/:id', (req, res) => {
       res.redirect('/');
     });
 });
+
 // http://localhost:3000/docs/filling/5b2a4c44e456300d4b0631b0/survey
 router.get('/filling/:id/:appr', (req, res) => {
   Doc.findOne({ _id: req.params.id })
@@ -170,6 +171,7 @@ router.put('/save/:id', (req, res) => {
         formType: req.body.formType,
         approvers: req.body.approvers,
         obj: req.body.obj,
+        url: req.body.url,
       },
     },
     {

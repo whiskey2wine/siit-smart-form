@@ -373,11 +373,6 @@ const insertElement = (obj, event) => {
       this.parentElement.appendChild(move);
       this.parentElement.appendChild(close);
     });
-
-    const draggable = document.querySelectorAll('.components');
-    draggable.forEach((el) => {
-      dragElement(el);
-    });
   }
 
   // Create label element
@@ -407,6 +402,12 @@ const insertElement = (obj, event) => {
   const imageBox = document.querySelector('.image-box');
   imageBox.appendChild(label);
 
+  if (window.location.pathname.includes('edit')) {
+    const draggable = document.querySelectorAll('.components');
+    draggable.forEach((el) => {
+      dragElement(el);
+    });
+  }
 };
 
 (function getDoc() {
@@ -423,6 +424,8 @@ const insertElement = (obj, event) => {
     .then((data) => {
       console.log(data);
       data.approvers.forEach(appr => instChips.addChip({ tag: appr }));
+      const saveBtn = document.querySelector('#save-doc');
+      saveBtn.setAttribute('data-url', data.url);
 
       const formType = document.querySelector('#formType');
       formType.checked = data.formType === 'form';
@@ -436,89 +439,91 @@ const insertElement = (obj, event) => {
 /**
  * Init function for each button in directionPad
  */
-(function moveTextbox() {
-  /**
-   * Create 4 directional pad
-   */
-  const elmnt = document.createElement('div');
-  elmnt.setAttribute('id', 'directionPad');
-  const directionPad = `
+if (window.location.pathname.includes('edit')) {
+  (function moveTextbox() {
+    /**
+     * Create 4 directional pad
+     */
+    const elmnt = document.createElement('div');
+    elmnt.setAttribute('id', 'directionPad');
+    const directionPad = `
       <i class="material-icons blue-grey lighten-1">keyboard_arrow_up</i>
       <i class="material-icons blue-grey lighten-1">keyboard_arrow_right</i>
       <i class="material-icons blue-grey lighten-1">keyboard_arrow_down</i>
       <i class="material-icons blue-grey lighten-1">keyboard_arrow_left</i>
   `;
-  elmnt.innerHTML = directionPad;
-  document.querySelector('#edit').appendChild(elmnt);
-  // Attached each function to arrow button
-  Array.from(elmnt.children).forEach((child, i) => {
-    if (i === 0) {
-      child.addEventListener('click', (e) => {
-        const select = document.querySelector('.selectedBox');
-        if (select) {
-          let top = select.parentElement.offsetTop;
-          top -= 1;
-          select.parentElement.style.top = `${top}px`;
+    elmnt.innerHTML = directionPad;
+    document.querySelector('#edit').appendChild(elmnt);
+    // Attached each function to arrow button
+    Array.from(elmnt.children).forEach((child, i) => {
+      if (i === 0) {
+        child.addEventListener('click', (e) => {
+          const select = document.querySelector('.selectedBox');
+          if (select) {
+            let top = select.parentElement.offsetTop;
+            top -= 1;
+            select.parentElement.style.top = `${top}px`;
+          }
+        });
+      } else if (i === 1) {
+        child.addEventListener('click', (e) => {
+          const select = document.querySelector('.selectedBox');
+          if (select) {
+            let left = select.parentElement.offsetLeft;
+            left += 1;
+            select.parentElement.style.left = `${left}px`;
+          }
+        });
+      } else if (i === 2) {
+        child.addEventListener('click', (e) => {
+          const select = document.querySelector('.selectedBox');
+          if (select) {
+            let top = select.parentElement.offsetTop;
+            top += 1;
+            select.parentElement.style.top = `${top}px`;
+          }
+        });
+      } else if (i === 3) {
+        child.addEventListener('click', (e) => {
+          const select = document.querySelector('.selectedBox');
+          if (select) {
+            let left = select.parentElement.offsetLeft;
+            left -= 1;
+            select.parentElement.style.left = `${left}px`;
+          }
+        });
+      }
+    });
+  }());
+
+  (function initTextboxLength() {
+    const textboxLength = document.querySelector('#textboxLength input');
+    if (textboxLength) {
+      textboxLength.addEventListener('keyup', function (e) {
+        const selected = document.querySelector('.selectedBox');
+        if (selected) {
+          selected.style.width = `${this.value}px`;
+          selected.style.minWidth = `${this.value}px`;
         }
       });
-    } else if (i === 1) {
-      child.addEventListener('click', (e) => {
-        const select = document.querySelector('.selectedBox');
-        if (select) {
-          let left = select.parentElement.offsetLeft;
-          left += 1;
-          select.parentElement.style.left = `${left}px`;
+      textboxLength.addEventListener('keydown', function (e) {
+        const keycode = e.which ? e.which : e.keyCode;
+        if (keycode === 38 || keycode === 40) {
+          e.preventDefault();
         }
-      });
-    } else if (i === 2) {
-      child.addEventListener('click', (e) => {
-        const select = document.querySelector('.selectedBox');
-        if (select) {
-          let top = select.parentElement.offsetTop;
-          top += 1;
-          select.parentElement.style.top = `${top}px`;
-        }
-      });
-    } else if (i === 3) {
-      child.addEventListener('click', (e) => {
-        const select = document.querySelector('.selectedBox');
-        if (select) {
-          let left = select.parentElement.offsetLeft;
-          left -= 1;
-          select.parentElement.style.left = `${left}px`;
+        if (e.shiftKey && keycode === 38) {
+          this.value = parseInt(this.value) + 10;
+        } else if (e.shiftKey && keycode === 40) {
+          this.value = parseInt(this.value) - 10;
+        } else if (keycode === 38) {
+          this.value = parseInt(this.value) + 1;
+        } else if (keycode === 40) {
+          this.value = parseInt(this.value) - 1;
         }
       });
     }
-  });
-}());
-
-(function initTextboxLength() {
-  const textboxLength = document.querySelector('#textboxLength input');
-  if (textboxLength) {
-    textboxLength.addEventListener('keyup', function (e) {
-      const selected = document.querySelector('.selectedBox');
-      if (selected) {
-        selected.style.width = `${this.value}px`;
-        selected.style.minWidth = `${this.value}px`;
-      }
-    });
-    textboxLength.addEventListener('keydown', function (e) {
-      const keycode = e.which ? e.which : e.keyCode;
-      if (keycode === 38 || keycode === 40) {
-        e.preventDefault();
-      }
-      if (e.shiftKey && keycode === 38) {
-        this.value = parseInt(this.value) + 10;
-      } else if (e.shiftKey && keycode === 40) {
-        this.value = parseInt(this.value) - 10;
-      } else if (keycode === 38) {
-        this.value = parseInt(this.value) + 1;
-      } else if (keycode === 40) {
-        this.value = parseInt(this.value) - 1;
-      }
-    });
-  }
-}());
+  }());
+}
 
 const previewImg = document.querySelector('.preview-img');
 const textbox = document.querySelector('#insertTextbox');
@@ -558,32 +563,63 @@ buttons.forEach((el) => {
 const saveDocBtn = document.querySelector('#save-doc');
 saveDocBtn.addEventListener('click', () => {
   const formType = document.querySelector('#formType').checked === true ? 'form' : 'survey';
-  // const approvers = instChips.chipsData.map(data => data.tag);
-  const approvers = formType === 'survey' ? 'survey' : instChips.chipsData.map(data => data.tag);
-  console.log(formType);
-  console.log(approvers);
+  if (window.location.pathname.includes('edit') || formType === 'form') {
+    // const approvers = instChips.chipsData.map(data => data.tag);
+    const approvers = formType === 'survey' ? 'survey' : instChips.chipsData.map(data => data.tag);
+    const url = document.querySelector('#api-url').value;
+    console.log(url);
+    console.log(formType);
+    console.log(approvers);
 
-  const components = Array.from(document.querySelectorAll('.comp-holder.hover'));
-  const output = components.map((comp) => {
-    const obj = {};
-    obj.approver = formType === 'survey' ? 'survey' : comp.lastElementChild.value;
-    obj.no = comp.dataset.component;
-    obj.placeholder = comp.dataset.type === 'text' ? comp.children[2].value : undefined;
-    obj.position = {
-      x: comp.dataset.x,
-      y: comp.dataset.y,
+    const components = Array.from(document.querySelectorAll('.comp-holder.hover'));
+    const output = components.map((comp) => {
+      const obj = {};
+      obj.approver = formType === 'survey' ? 'survey' : comp.lastElementChild.value;
+      obj.no = comp.dataset.component;
+      obj.placeholder = comp.dataset.type === 'text' ? comp.children[2].value : undefined;
+      obj.position = {
+        x: comp.dataset.x,
+        y: comp.dataset.y,
+      };
+      obj.types = comp.dataset.type;
+      obj.value = comp.children[1].value;
+      return obj;
+    });
+
+    const content = {
+      formType,
+      approvers,
+      url,
+      obj: output,
     };
-    obj.types = comp.dataset.type;
-    obj.value = comp.children[1].value;
-    return obj;
-  });
 
-  const content = {
-    formType,
-    approvers,
-    obj: output,
-  };
+    saveDoc(content);
+  } else {
+    const { url } = document.querySelector('#save-doc').dataset;
+    const re = /({)([a-z0-9])\w+(})/gi;
+    console.log(url);
+    const arr = url.match(re);
+    let newUrl = url;
+    arr.forEach((c) => {
+      const selector = `data-component="${c.match(/([0-9])/)[0]}"`;
+      const el = document.querySelector(`.comp-holder.hover[${selector}]`);
+      newUrl = newUrl.replace(c, el.children[1].value);
+    });
 
-  saveDoc(content);
+    fetch(newUrl)
+      .then((res) => {
+        console.log(res);
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(new Error('something went wrong!'));
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch(err => console.error(err));
+    console.log(newUrl);
+    console.log(arr);
+  }
   // console.log(output);
 });

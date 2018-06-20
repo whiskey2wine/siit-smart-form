@@ -1,5 +1,6 @@
 // @ts-check
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
@@ -30,6 +31,8 @@ mongoose
 
 // Static folder
 app.use(express.static(path.join(__dirname, '../public')));
+
+app.use(cors());
 
 // Handlebars Middleware
 app.engine(

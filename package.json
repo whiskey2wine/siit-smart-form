@@ -5,8 +5,7 @@
   "main": "server/app.js",
   "scripts": {
     "start": "nodemon --inspect",
-    "mongo":
-      "mongod --directoryperdb --dbpath ~/Works/SIIT/online-form/mongo/data/db --logpath ~/Works/SIIT/online-form/mongo/log/mongo.log --logappend",
+    "mongo": "mongod --directoryperdb --dbpath ~/Works/SIIT/online-form/mongo/data/db --logpath ~/Works/SIIT/online-form/mongo/log/mongo.log --logappend",
     "scss": "node-sass --watch public/scss -o public/css"
   },
   "author": "Jayakorn Karikan",
@@ -47,6 +46,7 @@
     "body-parser": "^1.18.3",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^2.0.1",
+    "cors": "^2.8.4",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
@@ -66,6 +66,8 @@
   },
   "nodemonConfig": {
     "ext": "js,json,css,hbs",
-    "ignore": ["data.json"]
+    "ignore": [
+      "data.json"
+    ]
   }
 }

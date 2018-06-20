@@ -3,7 +3,9 @@
 // todo: fetch ไปเอา details มาสร้าง component ตอนเข้ามาหน้า edit
 // fetch(`${window.location.}`)
 
-const id = window.location.pathname.match('([a-z0-9])+$')[0];
+// const id = window.location.pathname.match('([a-z0-9])\w{23,}')[0];
+const reg = /([a-z0-9])\w{23,}/gi;
+const id = reg.exec(window.location.pathname)[0];
 
 function saveDoc(content) {
   fetch(`${window.location.origin}/docs/save/${id}`, {
@@ -320,56 +322,63 @@ const insertElement = (obj, event) => {
   compHolder.setAttribute('data-type', type);
   destination.appendChild(compHolder);
 
-  // Create close button for each element
-  const move = document.createElement('i');
-  move.classList.add('material-icons', 'move-handle');
-  move.innerHTML = 'open_with';
+  if (window.location.pathname.includes('edit')) {
+    // Create close button for each element
+    const move = document.createElement('i');
+    move.classList.add('material-icons', 'move-handle');
+    move.innerHTML = 'open_with';
 
-  // Create close button for each element
-  const close = document.createElement('i');
-  close.classList.add('material-icons', 'close-handle');
-  close.innerHTML = 'close';
-  close.addEventListener('click', function (e) {
-    const current = this.parentElement.getAttribute('data-component');
-    document.querySelectorAll(`[data-component="${current}"]`).forEach((el) => {
-      el.remove();
-    });
-
-    const containers = ['#comp-holder', '.image-box'];
-    containers.forEach((container) => {
-      const components = document.querySelectorAll(`${container} [data-component]`);
-      components.forEach((component, i) => {
-        component.setAttribute('data-component', i + 1);
-        if (container === '#comp-holder') {
-          component.firstElementChild.innerHTML = i + 1;
-        }
+    // Create close button for each element
+    const close = document.createElement('i');
+    close.classList.add('material-icons', 'close-handle');
+    close.innerHTML = 'close';
+    close.addEventListener('click', function (e) {
+      const current = this.parentElement.getAttribute('data-component');
+      document.querySelectorAll(`[data-component="${current}"]`).forEach((el) => {
+        el.remove();
       });
-    });
-  });
 
-  const textboxLength = document.querySelector('#textboxLength input');
-  input.addEventListener('focus', function (e) {
-    input.classList.add('selectedBox');
-    textboxLength.value = input.offsetWidth;
-    // remove close button from siblings
-    getSiblings(this.parentElement).forEach((el) => {
-      console.dir(el);
-      if (el.tagName === 'LABEL') {
-        Array.from(el.children).forEach((children) => {
-          console.dir(children);
-          if (children.tagName === 'I') {
-            children.remove();
-          }
-          if (children.tagName === 'INPUT') {
-            children.classList.remove('selectedBox');
+      const containers = ['#comp-holder', '.image-box'];
+      containers.forEach((container) => {
+        const components = document.querySelectorAll(`${container} [data-component]`);
+        components.forEach((component, i) => {
+          component.setAttribute('data-component', i + 1);
+          if (container === '#comp-holder') {
+            component.firstElementChild.innerHTML = i + 1;
           }
         });
-      }
+      });
     });
-    // add move & close button on target item
-    this.parentElement.appendChild(move);
-    this.parentElement.appendChild(close);
-  });
+
+    const textboxLength = document.querySelector('#textboxLength input');
+    input.addEventListener('focus', function (e) {
+      input.classList.add('selectedBox');
+      textboxLength.value = input.offsetWidth;
+      // remove close button from siblings
+      getSiblings(this.parentElement).forEach((el) => {
+        console.dir(el);
+        if (el.tagName === 'LABEL') {
+          Array.from(el.children).forEach((children) => {
+            console.dir(children);
+            if (children.tagName === 'I') {
+              children.remove();
+            }
+            if (children.tagName === 'INPUT') {
+              children.classList.remove('selectedBox');
+            }
+          });
+        }
+      });
+      // add move & close button on target item
+      this.parentElement.appendChild(move);
+      this.parentElement.appendChild(close);
+    });
+
+    const draggable = document.querySelectorAll('.components');
+    draggable.forEach((el) => {
+      dragElement(el);
+    });
+  }
 
   // Create label element
   const label = document.createElement('label');
@@ -398,10 +407,6 @@ const insertElement = (obj, event) => {
   const imageBox = document.querySelector('.image-box');
   imageBox.appendChild(label);
 
-  const draggable = document.querySelectorAll('.components');
-  draggable.forEach((el) => {
-    dragElement(el);
-  });
 };
 
 (function getDoc() {
@@ -553,7 +558,8 @@ buttons.forEach((el) => {
 const saveDocBtn = document.querySelector('#save-doc');
 saveDocBtn.addEventListener('click', () => {
   const formType = document.querySelector('#formType').checked === true ? 'form' : 'survey';
-  const approvers = instChips.chipsData.map(data => data.tag);
+  // const approvers = instChips.chipsData.map(data => data.tag);
+  const approvers = formType === 'survey' ? 'survey' : instChips.chipsData.map(data => data.tag);
   console.log(formType);
   console.log(approvers);
 

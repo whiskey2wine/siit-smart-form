@@ -117,6 +117,7 @@ router.get('/edit/:id', (req, res) => {
       res.render('docs/edit', {
         user: req.user,
         doc,
+        edit: true,
       });
     })
     .catch((e) => {
@@ -124,10 +125,28 @@ router.get('/edit/:id', (req, res) => {
       res.redirect('/');
     });
 });
+// http://localhost:3000/docs/filling/5b2a4c44e456300d4b0631b0/survey
+router.get('/filling/:id/:appr', (req, res) => {
+  Doc.findOne({ _id: req.params.id })
+    .then((doc) => {
+      if (doc.approvers.includes(req.params.appr)) {
+        res.render('docs/edit', {
+          doc,
+        });
+      } else {
+        res.redirect('/');
+      }
+    })
+    .catch((e) => {
+      console.error(e);
+      res.redirect('/');
+    });
+});
 
 router.get('/get/:id', (req, res) => {
-  Doc.findOne({ creator: req.user.id, _id: req.params.id })
+  Doc.findOne({ _id: req.params.id })
     .then((doc) => {
+      console.log(doc);
       res.json({
         approvers: doc.approvers,
         delimiter: doc.delimiter,

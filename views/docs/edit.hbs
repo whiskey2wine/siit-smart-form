@@ -1,11 +1,12 @@
 <div id="edit" name="edit">
-  <div id="toolbar" class="white-text toolbar-container blue-grey lighten-1 z-depth-1">
+  <div id="toolbar" class="white-text toolbar-container {{#if edit}}blue-grey lighten-1 z-depth-1{{/if}}">
     <div></div>
     <div class="toolbar-inner">
-      <div class="waves-effect waves-light btn-flat tooltipped" id="insertTextbox" data-position="bottom" data-tooltip="Insert textbox">
-        <i class="material-icons">text_fields</i>
-      </div>
-      {{!-- <label for="insertTextbox">
+      {{#if edit}}
+        <div class="waves-effect waves-light btn-flat tooltipped" id="insertTextbox" data-position="bottom" data-tooltip="Insert textbox">
+          <i class="material-icons">text_fields</i>
+        </div>
+        {{!-- <label for="insertTextbox">
         <input type="radio" name="group1" id="insertTextbox">
         <span><i class="material-icons">text_fields</i></span>
       </label>
@@ -13,19 +14,19 @@
         <input type="radio" name="group1" id="insertCheckbox">
         <span><i class="material-icons">check_box</i></span>
       </label> --}}
-      <div class="waves-effect waves-light btn-flat tooltipped" id="insertCheckbox" data-position="bottom" data-tooltip="Insert checkbox">
-        <i class="material-icons">check_box</i>
-      </div>
-      <div class="waves-effect waves-light btn-flat tooltipped" id="insertHint" data-position="bottom" data-tooltip="Insert hint">
-        <i class="material-icons">help</i>
-      </div>
-      <div class="waves-effect waves-light btn-flat tooltipped" id="insertComment" data-position="bottom" data-tooltip="Insert comment">
-        <i class="material-icons">insert_comment</i>
-      </div>
-      <div class="input-field valign-wrapper tooltipped" id="textboxLength" data-position="bottom" data-tooltip="Textbox length">
-        <input class="center" id="length" type="text" value="8">
-      </div>
-      {{!-- <div class="input-field valign-wrapper tooltipped" data-position="bottom" data-tooltip="Open delimeter">
+        <div class="waves-effect waves-light btn-flat tooltipped" id="insertCheckbox" data-position="bottom" data-tooltip="Insert checkbox">
+          <i class="material-icons">check_box</i>
+        </div>
+        <div class="waves-effect waves-light btn-flat tooltipped" id="insertHint" data-position="bottom" data-tooltip="Insert hint">
+          <i class="material-icons">help</i>
+        </div>
+        <div class="waves-effect waves-light btn-flat tooltipped" id="insertComment" data-position="bottom" data-tooltip="Insert comment">
+          <i class="material-icons">insert_comment</i>
+        </div>
+        <div class="input-field valign-wrapper tooltipped" id="textboxLength" data-position="bottom" data-tooltip="Textbox length">
+          <input class="center" id="length" type="text" value="8">
+        </div>
+        {{!-- <div class="input-field valign-wrapper tooltipped" data-position="bottom" data-tooltip="Open delimeter">
         <input class="center" type="text" placeholder="${">
       </div>
       <div class="input-field valign-wrapper tooltipped" data-position="bottom" data-tooltip="Close delimeter">
@@ -34,27 +35,30 @@
       <div class="input-field valign-wrapper tooltipped" data-position="bottom" data-tooltip="Data retrieval url">
         <input class="center" type="text" placeholder="www.test.com?q=${e1}">
       </div> --}}
-      {{!-- <div class="input-field valign-wrapper">
+        {{!-- <div class="input-field valign-wrapper">
         <select id="apprList"> --}}
-      {{!-- <option value="" disabled selected>Choose approvers</option> --}}
-      {{!-- {{#each doc.approvers}} --}}
-      {{!-- <option value="{{this}}">{{this}}</option> --}}
-      {{!-- {{else}} --}}
+        {{!-- <option value="" disabled selected>Choose approvers</option> --}}
+        {{!-- {{#each doc.approvers}} --}}
+        {{!-- <option value="{{this}}">{{this}}</option> --}}
+        {{!-- {{else}} --}}
 
-      {{!-- {{/each}} --}}
-      {{!-- <option value="1">Option 1</option>
+        {{!-- {{/each}} --}}
+        {{!-- <option value="1">Option 1</option>
           <option value="2">Option 2</option>
           <option value="3">Option 3</option> --}}
-      {{!-- </select>
+        {{!-- </select>
       </div> --}}
+      {{/if}}
     </div>
     <div class="setting-doc">
-      <a href="#setting-modal" class="waves-effect waves-light btn-flat modal-trigger" id="setting-doc">
-        {{!-- <span>Setting</span> --}}
-        <i class="material-icons">settings</i>
-      </a>
+      {{#if edit}}
+        <a href="#setting-modal" class="waves-effect waves-light btn-flat modal-trigger" id="setting-doc">
+          {{!-- <span>Setting</span> --}}
+          <i class="material-icons">settings</i>
+        </a>
+      {{/if}}
     </div>
-    <div class="save-doc">
+    <div class="save-doc {{#unless edit}}z-depth-1{{/unless}}">
       <div class="waves-effect waves-light btn-flat teal lighten-2" id="save-doc">
         <span>Save</span>{{!-- <i class="material-icons">save</i> --}}
       </div>

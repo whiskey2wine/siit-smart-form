@@ -112,6 +112,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/edit/:id', (req, res) => {
+  console.log(req);
   Doc.findOne({ creator: req.user.id, _id: req.params.id })
     .then((doc) => {
       res.render('docs/edit', {
@@ -125,10 +126,27 @@ router.get('/edit/:id', (req, res) => {
     });
 });
 
+router.get('/get/:id', (req, res) => {
+  Doc.findOne({ creator: req.user.id, _id: req.params.id })
+    .then((doc) => {
+      res.json({
+        approvers: doc.approvers,
+        delimiter: doc.delimiter,
+        formType: doc.formType,
+        obj: doc.obj,
+        title: doc.title,
+        url: doc.url,
+      });
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
 router.put('/save/:id', (req, res) => {
   console.log(req);
   Doc.findOneAndUpdate(
-    { _id: req.params.id },
+    { creator: req.user.id, _id: req.params.id },
     {
       $set: {
         formType: req.body.formType,

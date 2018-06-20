@@ -1,6 +1,28 @@
 /* global createQRCode getSiblings instChips */
 
 // todo: fetch ไปเอา details มาสร้าง component ตอนเข้ามาหน้า edit
+// fetch(`${window.location.}`)
+
+const id = window.location.pathname.match('([a-z0-9])+$')[0];
+
+function saveDoc(content) {
+  fetch(`${window.location.origin}/docs/save/${id}`, {
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(content),
+    credentials: 'same-origin',
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(new Error('something went wrong!'));
+    })
+    .then(data => console.log('data is', data))
+    .catch(error => console.log('error is', error));
+}
 
 document.querySelector('#url-appr').addEventListener('change', function () {
   const fillingUrl = `${window.location.origin}${window.location.pathname}/${
@@ -158,10 +180,12 @@ function dragElement(elmnt) {
  * @param {Element} el element to insert attribute
  * @returns {Number}
  */
-function numberComponent(container, el) {
+function numberComponent(container, el, no) {
   const components = document.querySelectorAll(`${container} [data-component]`);
-  console.dir(components);
-  if (components.length === 0) {
+  if (no) {
+    el.setAttribute('data-component', no);
+    return no;
+  } else if (components.length === 0) {
     el.setAttribute('data-component', 1);
   } else {
     const last = components[components.length - 1];
@@ -174,10 +198,11 @@ function numberComponent(container, el) {
 
 /**
  * Function: Add textbox to edit page when clicked on the preview image
- * @param {Event} event  Click event from document image
- * @param {String} type  Type of input
+ * @param {(String|Object)} type Type of input or Object
+ * @param {Event=} event  Click event from document image
  */
-const insertElement = (event, type) => {
+const insertElement = (obj, event) => {
+  const type = typeof obj === 'string' ? obj : obj.types;
   // Create input element
   const input = document.createElement('input');
   input.setAttribute('type', type);
@@ -188,12 +213,16 @@ const insertElement = (event, type) => {
   const destination = document.querySelector('#comp-holder');
   const compHolder = document.createElement('div');
   compHolder.classList.add('comp-holder', 'hover');
-  const num = numberComponent('#comp-holder', compHolder);
+  const num = numberComponent('#comp-holder', compHolder, obj.no);
   const no = document.createElement('span');
   no.innerHTML = `${num}`;
   compHolder.appendChild(no);
   if (type === 'text') {
     input.classList.add('browser-default', 'foo');
+    if (obj.value !== undefined) {
+      input.value = obj.value;
+      input.placeholder = obj.placeholder;
+    }
 
     const val = document.createElement('input');
     val.type = 'text';
@@ -240,6 +269,10 @@ const insertElement = (event, type) => {
     });
 
     checked.selectedIndex = 1;
+    if (obj.value) {
+      input.checked = obj.value === 'true';
+      checked.selectedIndex = obj.value === 'true' ? 0 : 1;
+    }
 
     checked.addEventListener('change', function () {
       if (this.value === 'true') {
@@ -277,8 +310,13 @@ const insertElement = (event, type) => {
   });
 
   compHolder.appendChild(select);
-  compHolder.setAttribute('data-x', event.layerX);
-  compHolder.setAttribute('data-Y', event.layerY);
+  if (event) {
+    compHolder.setAttribute('data-x', event.layerX);
+    compHolder.setAttribute('data-y', event.layerY);
+  } else {
+    compHolder.setAttribute('data-x', obj.position.x);
+    compHolder.setAttribute('data-y', obj.position.y);
+  }
   compHolder.setAttribute('data-type', type);
   destination.appendChild(compHolder);
 
@@ -335,13 +373,20 @@ const insertElement = (event, type) => {
 
   // Create label element
   const label = document.createElement('label');
-  numberComponent('.image-box', label);
+  numberComponent('.image-box', label, obj.no);
   label.classList.add('components');
   // label.setAttribute('for', `component${count}`);
-  Object.assign(label.style, {
-    left: `${event.layerX}px`,
-    top: `${event.layerY}px`,
-  });
+  if (event) {
+    Object.assign(label.style, {
+      left: `${event.layerX}px`,
+      top: `${event.layerY}px`,
+    });
+  } else {
+    Object.assign(label.style, {
+      left: `${obj.position.x}px`,
+      top: `${obj.position.y}px`,
+    });
+  }
 
   const span = document.createElement('span');
 
@@ -358,6 +403,30 @@ const insertElement = (event, type) => {
     dragElement(el);
   });
 };
+
+(function getDoc() {
+  fetch(`${window.location.origin}/docs/get/${id}`, {
+    method: 'get',
+    credentials: 'same-origin',
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(new Error('something went wrong!'));
+    })
+    .then((data) => {
+      console.log(data);
+      data.approvers.forEach(appr => instChips.addChip({ tag: appr }));
+
+      const formType = document.querySelector('#formType');
+      formType.checked = data.formType === 'form';
+      data.obj.forEach((obj) => {
+        insertElement(obj);
+      });
+    })
+    .catch(err => console.error(err));
+}());
 
 /**
  * Init function for each button in directionPad
@@ -454,9 +523,9 @@ const checkbox = document.querySelector('#insertCheckbox');
 previewImg.addEventListener('click', (e) => {
   // console.dir(e);
   if (textbox.getAttribute('active')) {
-    insertElement(e, 'text');
+    insertElement('text', e);
   } else if (checkbox.getAttribute('active')) {
-    insertElement(e, 'checkbox');
+    insertElement('checkbox', e);
   }
 });
 
@@ -484,7 +553,7 @@ buttons.forEach((el) => {
 const saveDocBtn = document.querySelector('#save-doc');
 saveDocBtn.addEventListener('click', () => {
   const formType = document.querySelector('#formType').checked === true ? 'form' : 'survey';
-  const approvers = formType === 'survey' ? 'survey' : instChips.chipsData.map(data => data.tag);
+  const approvers = instChips.chipsData.map(data => data.tag);
   console.log(formType);
   console.log(approvers);
 
@@ -509,21 +578,6 @@ saveDocBtn.addEventListener('click', () => {
     obj: output,
   };
 
-  const id = window.location.pathname.match('([a-z0-9])+$')[0];
-  fetch(`${window.location.origin}/docs/save/${id}`, {
-    method: 'put',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(content),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(new Error('something went wrong!'));
-    })
-    .then(data => console.log('data is', data))
-    .catch(error => console.log('error is', error));
+  saveDoc(content);
   // console.log(output);
 });

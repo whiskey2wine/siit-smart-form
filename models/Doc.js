@@ -30,7 +30,7 @@ const DocSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  delimeter: {
+  delimiter: {
     open: {
       type: String,
       default: '${',
@@ -39,6 +39,9 @@ const DocSchema = new Schema({
       type: String,
       default: '}',
     },
+  },
+  url: {
+    type: String,
   },
   formType: {
     type: String,

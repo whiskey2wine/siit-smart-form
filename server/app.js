@@ -133,6 +133,7 @@ app.get('/present', (req, res) => {
       // res.render('thanks', { layout: false });
       res.redirect('/thanks');
     } else {
+      console.log('no');
       res.json(file);
     }
   });

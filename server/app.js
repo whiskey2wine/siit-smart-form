@@ -131,11 +131,11 @@ app.get('/present', (req, res) => {
     if (num1 && num2 && num3) {
       console.log('yeah');
       // res.render('thanks', { layout: false });
-      res.redirect('/thanks');
-    } else {
-      console.log('no');
-      res.json(file);
+      return res.redirect('/thanks');
     }
+
+    console.log('no');
+    return res.json(file);
   });
 });
 

@@ -610,12 +610,9 @@ saveDocBtn.addEventListener('click', () => {
       .then((res) => {
         console.log(res);
         if (res.ok) {
-          return res.json();
+          console.log('Success!');
         }
         return Promise.reject(new Error('something went wrong!'));
-      })
-      .then((data) => {
-        console.log(data);
       })
       .catch(err => console.error(err));
     console.log(newUrl);

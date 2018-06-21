@@ -129,14 +129,8 @@ app.get('/present', (req, res) => {
       if (error) throw error;
       console.log('The file has been saved!');
     });
-    if (num1 && num2 && num3) {
-      console.log('yeah');
-      // res.render('thanks', { layout: false });
-      return res.redirect('/thanks');
-    }
 
-    console.log('no');
-    return res.json(file);
+    res.json(file);
   });
 });
 

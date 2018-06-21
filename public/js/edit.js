@@ -610,6 +610,7 @@ saveDocBtn.addEventListener('click', () => {
       .then((res) => {
         console.log(res);
         if (res.ok) {
+          window.location = `${window.location.origin}/thanks`;
           return console.log('Success!');
         }
         return Promise.reject(new Error('something went wrong!'));

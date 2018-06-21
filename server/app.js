@@ -109,7 +109,6 @@ app.get('/present', (req, res) => {
   console.log(num1);
   console.log(num2);
   console.log(num3);
-  res.redirect('/thanks');
 
   fs.readFile(path.resolve(__dirname, '../data.json'), 'utf8', (err, data) => {
     if (err) {

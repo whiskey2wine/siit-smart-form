@@ -130,7 +130,8 @@ app.get('/present', (req, res) => {
     });
     if (num1 && num2 && num3) {
       console.log('yeah');
-      res.render('thanks', { layout: false });
+      // res.render('thanks', { layout: false });
+      res.redirect('/thanks');
     } else {
       res.json(file);
     }

@@ -129,6 +129,7 @@ app.get('/present', (req, res) => {
       console.log('The file has been saved!');
     });
     if (num1 && num2 && num3) {
+      console.log('yeah');
       res.render('thanks', { layout: false });
     } else {
       res.json(file);
